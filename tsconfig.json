@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-native",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@rn-toolkit/theming": ["packages/theming/src"],
+      "@rn-toolkit/sdui": ["packages/sdui/src"],
+      "@rn-toolkit/deeplink": ["packages/deeplink/src"],
+      "@rn-toolkit/testing": ["packages/testing/src"],
+      "@rn-toolkit/primitives": ["packages/primitives/src"]
+    }
+  },
+  "exclude": ["node_modules", "**/node_modules", "dist", "**/dist"]
+}

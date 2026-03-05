@@ -1,0 +1,31 @@
+{
+  "name": "@rn-toolkit/theming",
+  "version": "0.1.0",
+  "description": "Scope-based theming system for React Native",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0"
+  },
+  "devDependencies": {
+    "@testing-library/react-native": "^12.4.3",
+    "@types/react": "^18.2.48",
+    "react": "18.2.0",
+    "react-native": "0.73.4",
+    "react-test-renderer": "18.2.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "react-native",
+    "theming",
+    "dark-mode",
+    "design-system"
+  ],
+  "license": "MIT"
+}
