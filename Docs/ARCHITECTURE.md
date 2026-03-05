@@ -54,8 +54,14 @@
  ├──▶ 🔐 @rn-toolkit/security (for schema validation)
  └──▶ 🎨 @rn-toolkit/theming
 
-🔑 @rn-toolkit/auth
+🔑 @rn-toolkit/auth (Firebase Authentication)
  └──▶ 🔐 @rn-toolkit/security (for secure token storage)
+
+🔔 @rn-toolkit/notifications (Firebase FCM)
+ └──▶ 🔗 @rn-toolkit/deeplink (for notification deep links)
+
+📊 @rn-toolkit/analytics (Firebase Analytics)
+ └──▶ (standalone)
 
 🔗 @rn-toolkit/deeplink
  └──▶ (standalone, optional theming integration)
@@ -67,8 +73,39 @@
  ├──▶ 🎨 @rn-toolkit/theming (for theme snapshots)
  └──▶ 🧩 @rn-toolkit/primitives (for component testing)
 
+⚡ @rn-toolkit/performance
+ └──▶ (standalone, dev-only)
+
 🌍 @rn-toolkit/i18n
  └──▶ (standalone)
+```
+
+---
+
+## 🔥 Firebase Integration
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                       FIREBASE SERVICES                              │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐    │
+│   │  Authentication │  │  Cloud Messaging│  │    Analytics    │    │
+│   │                 │  │      (FCM)      │  │                 │    │
+│   └────────┬────────┘  └────────┬────────┘  └────────┬────────┘    │
+│            │                    │                    │              │
+│            ▼                    ▼                    ▼              │
+│   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐    │
+│   │ @rn-toolkit/    │  │ @rn-toolkit/    │  │ @rn-toolkit/    │    │
+│   │     auth        │  │  notifications  │  │   analytics     │    │
+│   └─────────────────┘  └─────────────────┘  └─────────────────┘    │
+│                                                                     │
+│   • Social login        • Push notifications   • Event tracking    │
+│   • Email/Phone auth    • Local notifications  • Screen views      │
+│   • 2FA support         • Deep link handling   • User properties   │
+│   • Session mgmt        • Badge updates        • Conversions       │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -441,8 +478,11 @@ export type { ThemeTokens, ColorTokens } from './types';
 | testing | 35 | 0 | ✅ |
 | primitives | 60 | 16 | ✅ |
 | sdui | 31 | 2 | ✅ |
-| security | - | - | 🚧 |
-| auth | - | - | 📋 |
+| security | 99 | 1 | ✅ |
+| auth | - | - | 📋 Firebase |
+| notifications | - | - | 📋 Firebase |
+| analytics | - | - | 📋 Firebase |
+| performance | - | - | 📋 |
 | i18n | - | - | 📋 |
 | deeplink | - | - | 📋 |
-| **Total** | **137** | **18** | |
+| **Total** | **236** | **19** | |

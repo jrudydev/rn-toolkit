@@ -22,7 +22,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React Native](https://img.shields.io/badge/React_Native-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
-[![Tests](https://img.shields.io/badge/Tests-137%20passing-brightgreen)](./packages)
+[![Tests](https://img.shields.io/badge/Tests-236%20passing-brightgreen)](./packages)
 
 </div>
 
@@ -65,10 +65,13 @@ npm test
 | 🧩 `@rn-toolkit/primitives` | Theme-aware UI components | ✅ Ready | 🆓 Free |
 | 🧪 `@rn-toolkit/testing` | Basic test utilities & snapshots | ✅ Ready | 🆓 Free |
 | 📡 `@rn-toolkit/sdui` | Server-Driven UI engine | ✅ Ready | 💎 Paid |
-| 🔐 `@rn-toolkit/security` | Secure storage & validation | 🚧 Building | 💎 Paid |
+| 🔐 `@rn-toolkit/security` | Secure storage & validation | ✅ Ready | 💎 Paid |
 | 🔑 `@rn-toolkit/auth` | Firebase authentication | 📋 Planned | 💎 Paid |
-| 🔗 `@rn-toolkit/deeplink` | Type-safe navigation | 📋 Planned | 💎 Paid |
+| 🔔 `@rn-toolkit/notifications` | Firebase push notifications | 📋 Planned | 💎 Paid |
+| 📊 `@rn-toolkit/analytics` | Firebase analytics & metrics | 📋 Planned | 💎 Paid |
+| 🔗 `@rn-toolkit/deeplink` | Type-safe navigation + badging | 📋 Planned | 💎 Paid |
 | 🌍 `@rn-toolkit/i18n` | Localization & accessibility | 📋 Planned | 🆓 Free |
+| ⚡ `@rn-toolkit/performance` | Memory leak detection | 📋 Planned | 🆓 Free |
 | 🔬 `@rn-toolkit/testing/dsl` | Declarative test DSL | 📋 Planned | 💎 Paid |
 
 ---
@@ -76,11 +79,12 @@ npm test
 ## 📊 Stats
 
 ```
-📊 Tests Passing:     137
-📸 Theme Snapshots:    18
-📦 Packages Built:      5
+📊 Tests Passing:     236
+📸 Theme Snapshots:    19
+📦 Packages Built:      6
 🎨 UI Components:      10
 🔧 Claude Skills:       3
+🔥 Firebase Powered:   Yes
 ```
 
 ---
@@ -153,21 +157,26 @@ const screenSchema = {
 <SDUIRenderer schema={screenSchema} />
 ```
 
-### Security (Paid - Coming Soon)
+### Security (Paid)
 
 ```typescript
 import { SecureStorage, sanitize, validateSchema } from '@rn-toolkit/security';
 
-// Secure storage
+// Secure storage (Keychain/Keystore)
 await SecureStorage.set('auth_token', token);
 const token = await SecureStorage.get('auth_token');
 
-// Input sanitization
-const cleanInput = sanitize.text(userInput);
-const cleanHtml = sanitize.html(htmlContent);
+// Input sanitization (XSS, SQL injection, path traversal)
+const cleanInput = sanitize.text(userInput);      // Strip HTML
+const cleanHtml = sanitize.html(htmlContent);     // Safe HTML
+const cleanUrl = sanitize.url(urlInput);          // Block javascript:
+const cleanEmail = sanitize.email(emailInput);    // Validate & normalize
 
-// Schema validation
-const isValid = validateSchema(sduiSchema);
+// SDUI schema validation (block malicious payloads)
+const result = validateSchema(sduiSchema);
+if (!result.valid) {
+  console.error('Schema rejected:', result.errors);
+}
 ```
 
 ### Auth (Paid - Coming Soon)
@@ -211,16 +220,18 @@ npm run test:coverage # 📊 Tests with coverage
 - [x] 🧪 Testing utilities (35 tests)
 - [x] 🧩 Primitives package (60 tests, 16 snapshots)
 - [x] 📡 SDUI engine (31 tests, 2 snapshots)
+- [x] 🔐 Security package (99 tests)
 - [x] 📱 Scaffold app with web support
 - [x] 🤖 Claude skills (pre-commit, new-component, theme-test)
 
-### 🚧 In Progress
-- [ ] 🔐 Security package
-
-### 📋 Planned
-- [ ] 🔑 Auth package (Firebase)
-- [ ] 🔗 Deep linking
+### 📋 Planned (Firebase-Powered)
+- [ ] 🔑 Auth package (Firebase Authentication)
+- [ ] 🔔 Notifications package (Firebase FCM)
+- [ ] 📊 Analytics package (Firebase Analytics)
+- [ ] 🔗 Deep linking + navigation badging
+- [ ] ⚡ Performance (memory leak detection)
 - [ ] 🌍 i18n & accessibility
+- [ ] 📋 SDUIList (FlashList virtualization)
 - [ ] 🔬 Testing DSL
 
 ---
