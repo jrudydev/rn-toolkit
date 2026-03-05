@@ -1,0 +1,44 @@
+{
+  "name": "@rn-toolkit/notifications",
+  "version": "0.1.0",
+  "description": "Firebase-powered push notifications for React Native with topic subscriptions, local notifications, and deep link integration",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "keywords": [
+    "react-native",
+    "notifications",
+    "push-notifications",
+    "firebase",
+    "fcm",
+    "local-notifications"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "@react-native-firebase/app": ">=18.0.0",
+    "@react-native-firebase/messaging": ">=18.0.0",
+    "react": ">=18.0.0",
+    "react-native": ">=0.72.0"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-firebase/app": {
+      "optional": true
+    },
+    "@react-native-firebase/messaging": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@rn-toolkit/theming": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "typescript": "^5.0.0"
+  }
+}
