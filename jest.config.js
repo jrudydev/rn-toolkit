@@ -16,6 +16,7 @@ module.exports = {
     '^@rn-toolkit/auth$': '<rootDir>/packages/auth/src',
     '^@rn-toolkit/notifications$': '<rootDir>/packages/notifications/src',
     '^@rn-toolkit/analytics$': '<rootDir>/packages/analytics/src',
+    '^@rn-toolkit/i18n$': '<rootDir>/packages/i18n/src',
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.{ts,tsx}',
