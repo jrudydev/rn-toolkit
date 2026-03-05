@@ -108,6 +108,113 @@
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+### ⚠️ Current Limitation: Firebase Coupling
+
+The toolkit is currently **"Firebase-flavored"** - packages directly integrate with Firebase services without an abstraction layer.
+
+**Tightly coupled packages:**
+| Package | Firebase Service | Alternative Providers |
+|---------|------------------|----------------------|
+| `@rn-toolkit/auth` | Firebase Auth | Auth0, Cognito, Supabase, Custom |
+| `@rn-toolkit/notifications` | Firebase FCM | OneSignal, Expo Notifications, AWS SNS |
+| `@rn-toolkit/analytics` | Firebase Analytics | Mixpanel, Amplitude, Segment, PostHog |
+
+**Current architecture (direct coupling):**
+```
+┌─────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│  Component  │ ───▶ │   useAuth()     │ ───▶ │  Firebase Auth  │
+│             │      │                 │      │   (hardcoded)   │
+└─────────────┘      └─────────────────┘      └─────────────────┘
+```
+
+---
+
+## 🔮 Future Enhancement: Adapter Pattern (MVVM-like)
+
+A future refactor could introduce an adapter/provider pattern to allow swapping implementations without changing app code.
+
+**Proposed architecture (with adapters):**
+```
+┌─────────────┐      ┌──────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│  Component  │ ───▶ │  useAuth()   │ ───▶ │  AuthAdapter    │ ───▶ │  FirebaseAdapter│
+│             │      │              │      │   (interface)   │      │  Auth0Adapter   │
+└─────────────┘      └──────────────┘      └─────────────────┘      │  CognitoAdapter │
+                                                                     │  CustomAdapter  │
+                                                                     └─────────────────┘
+```
+
+### Proposed Adapter Interfaces
+
+**Authentication:**
+```typescript
+interface AuthAdapter {
+  signIn(email: string, password: string): Promise<User>;
+  signUp(email: string, password: string): Promise<User>;
+  signOut(): Promise<void>;
+  signInWithProvider(provider: 'google' | 'apple' | 'facebook'): Promise<User>;
+  getCurrentUser(): User | null;
+  onAuthStateChanged(callback: (user: User | null) => void): () => void;
+}
+
+// Usage: swap providers without changing app code
+<AuthProvider adapter={new FirebaseAuthAdapter()}>
+// or
+<AuthProvider adapter={new Auth0Adapter(clientId)}>
+```
+
+**Notifications:**
+```typescript
+interface NotificationAdapter {
+  getToken(): Promise<string>;
+  requestPermission(): Promise<NotificationPermission>;
+  subscribeToTopic(topic: string): Promise<void>;
+  unsubscribeFromTopic(topic: string): Promise<void>;
+  onMessage(callback: (message: RemoteNotification) => void): () => void;
+  onTokenRefresh(callback: (token: string) => void): () => void;
+}
+
+// Usage
+<NotificationProvider adapter={new FCMAdapter()}>
+// or
+<NotificationProvider adapter={new OneSignalAdapter(appId)}>
+```
+
+**Analytics:**
+```typescript
+interface AnalyticsAdapter {
+  logEvent(name: string, params?: Record<string, unknown>): void;
+  setUserId(id: string | null): void;
+  setUserProperties(props: Record<string, unknown>): void;
+  logScreenView(screenName: string, screenClass?: string): void;
+  setAnalyticsCollectionEnabled(enabled: boolean): void;
+}
+
+// Usage
+<AnalyticsProvider adapter={new FirebaseAnalyticsAdapter()}>
+// or
+<AnalyticsProvider adapter={new MixpanelAdapter(token)}>
+```
+
+### Packages That Would Benefit
+
+| Package | Benefit | Priority |
+|---------|---------|----------|
+| `@rn-toolkit/auth` | **High** - Most likely to swap providers |  ⭐⭐⭐ |
+| `@rn-toolkit/analytics` | **High** - Analytics provider choice varies by project | ⭐⭐⭐ |
+| `@rn-toolkit/notifications` | **Medium** - FCM is common, but OneSignal popular | ⭐⭐ |
+| `@rn-toolkit/security` | **Low** - Could abstract keychain providers | ⭐ |
+| `@rn-toolkit/deeplink` | **Low** - Could abstract nav libraries | ⭐ |
+
+### Migration Path
+
+1. **Phase 1**: Continue with Firebase-flavored implementation ✅ (current)
+2. **Phase 2**: Define adapter interfaces
+3. **Phase 3**: Refactor existing packages to use adapters internally
+4. **Phase 4**: Create adapters for alternative providers
+5. **Phase 5**: Make adapter selection configurable at provider level
+
+> **Note**: This refactor is planned for after the initial toolkit is complete and battle-tested.
+
 ---
 
 ## 🎯 Design Patterns
