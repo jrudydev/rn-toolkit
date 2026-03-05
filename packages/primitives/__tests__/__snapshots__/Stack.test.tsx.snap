@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HStack HStack matches dark theme snapshot 1`] = `
+<View
+  style={
+    [
+      {},
+      {
+        "alignItems": "stretch",
+        "flexDirection": "row",
+        "gap": 8,
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+  testID="hstack"
+>
+  <Text>
+    Left
+  </Text>
+  <Text>
+    Right
+  </Text>
+</View>
+`;
+
+exports[`HStack HStack matches light theme snapshot 1`] = `
+<View
+  style={
+    [
+      {},
+      {
+        "alignItems": "stretch",
+        "flexDirection": "row",
+        "gap": 8,
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+  testID="hstack"
+>
+  <Text>
+    Left
+  </Text>
+  <Text>
+    Right
+  </Text>
+</View>
+`;
+
+exports[`VStack VStack matches dark theme snapshot 1`] = `
+<View
+  style={
+    [
+      {},
+      {
+        "alignItems": "stretch",
+        "flexDirection": "column",
+        "gap": 16,
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+  testID="vstack"
+>
+  <Text>
+    Item 1
+  </Text>
+  <Text>
+    Item 2
+  </Text>
+</View>
+`;
+
+exports[`VStack VStack matches light theme snapshot 1`] = `
+<View
+  style={
+    [
+      {},
+      {
+        "alignItems": "stretch",
+        "flexDirection": "column",
+        "gap": 16,
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+  testID="vstack"
+>
+  <Text>
+    Item 1
+  </Text>
+  <Text>
+    Item 2
+  </Text>
+</View>
+`;

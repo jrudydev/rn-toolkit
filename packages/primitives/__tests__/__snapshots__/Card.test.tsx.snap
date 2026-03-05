@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card matches dark theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "borderRadius": 12,
+      },
+      {
+        "backgroundColor": "#1A1A1A",
+        "borderWidth": 0,
+        "padding": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="card"
+>
+  <Text>
+    Card content
+  </Text>
+</View>
+`;
+
+exports[`Card matches light theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "borderRadius": 12,
+      },
+      {
+        "backgroundColor": "#FFFFFF",
+        "borderWidth": 0,
+        "padding": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="card"
+>
+  <Text>
+    Card content
+  </Text>
+</View>
+`;

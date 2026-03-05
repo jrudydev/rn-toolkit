@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input matches dark theme snapshot 1`] = `
+<View
+  style={
+    {
+      "width": "100%",
+    }
+  }
+>
+  <TextInput
+    editable={true}
+    onBlur={[Function]}
+    onFocus={[Function]}
+    placeholder="Enter text"
+    placeholderTextColor="#737373"
+    style={
+      [
+        {
+          "borderRadius": 8,
+          "borderWidth": 1,
+        },
+        {
+          "backgroundColor": "#0A0A0A",
+          "borderColor": "#404040",
+          "color": "#FAFAFA",
+          "fontSize": 16,
+          "opacity": 1,
+          "padding": 8,
+        },
+        undefined,
+      ]
+    }
+    testID="input"
+  />
+</View>
+`;
+
+exports[`Input matches light theme snapshot 1`] = `
+<View
+  style={
+    {
+      "width": "100%",
+    }
+  }
+>
+  <TextInput
+    editable={true}
+    onBlur={[Function]}
+    onFocus={[Function]}
+    placeholder="Enter text"
+    placeholderTextColor="#999999"
+    style={
+      [
+        {
+          "borderRadius": 8,
+          "borderWidth": 1,
+        },
+        {
+          "backgroundColor": "#FFFFFF",
+          "borderColor": "#E5E5E5",
+          "color": "#1A1A1A",
+          "fontSize": 16,
+          "opacity": 1,
+          "padding": 8,
+        },
+        undefined,
+      ]
+    }
+    testID="input"
+  />
+</View>
+`;

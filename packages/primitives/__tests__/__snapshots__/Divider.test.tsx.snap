@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Divider matches dark theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      {
+        "backgroundColor": "#404040",
+        "height": 1,
+      },
+      undefined,
+    ]
+  }
+  testID="divider"
+/>
+`;
+
+exports[`Divider matches light theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "width": "100%",
+      },
+      {
+        "backgroundColor": "#E5E5E5",
+        "height": 1,
+      },
+      undefined,
+    ]
+  }
+  testID="divider"
+/>
+`;

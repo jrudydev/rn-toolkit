@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Container matches dark theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      {
+        "alignSelf": undefined,
+        "backgroundColor": "#0A0A0A",
+        "maxWidth": undefined,
+        "padding": 16,
+        "width": undefined,
+      },
+      undefined,
+    ]
+  }
+  testID="container"
+>
+  <Text>
+    Content
+  </Text>
+</View>
+`;
+
+exports[`Container matches light theme snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      {
+        "alignSelf": undefined,
+        "backgroundColor": "#FFFFFF",
+        "maxWidth": undefined,
+        "padding": 16,
+        "width": undefined,
+      },
+      undefined,
+    ]
+  }
+  testID="container"
+>
+  <Text>
+    Content
+  </Text>
+</View>
+`;

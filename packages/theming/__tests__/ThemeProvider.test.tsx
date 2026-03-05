@@ -50,8 +50,9 @@ describe('ThemeProvider', () => {
   });
 
   it('merges_customTheme_withDefault', () => {
-    // Using Partial type for test-only partial theme override
-    const customTheme: Partial<{ colors: { light: { primary: string }; dark: { primary: string } } }> = {
+    // Using deep partial for test-only partial theme override
+    // DeepMerge in ThemeProvider handles incomplete color objects
+    const customTheme = {
       colors: {
         light: {
           primary: '#FF0000',
@@ -68,7 +69,8 @@ describe('ThemeProvider', () => {
     }
 
     const { getByTestId } = render(
-      <ThemeProvider mode="light" theme={customTheme}>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      <ThemeProvider mode="light" theme={customTheme as any}>
         <CustomThemeDisplay />
       </ThemeProvider>
     );

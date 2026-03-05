@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text matches dark theme snapshot 1`] = `
+<Text
+  style={
+    [
+      {},
+      {
+        "color": "#FAFAFA",
+        "fontFamily": "System",
+        "fontSize": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="text"
+>
+  Hello World
+</Text>
+`;
+
+exports[`Text matches light theme snapshot 1`] = `
+<Text
+  style={
+    [
+      {},
+      {
+        "color": "#1A1A1A",
+        "fontFamily": "System",
+        "fontSize": 16,
+      },
+      undefined,
+    ]
+  }
+  testID="text"
+>
+  Hello World
+</Text>
+`;
