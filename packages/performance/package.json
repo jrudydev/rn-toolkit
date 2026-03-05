@@ -1,0 +1,34 @@
+{
+  "name": "@rn-toolkit/performance",
+  "version": "0.1.0",
+  "description": "Performance monitoring with adapter pattern - memory leak detection and metrics reporting",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "jest"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-native": ">=0.64.0"
+  },
+  "optionalDependencies": {
+    "@react-native-firebase/perf": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "react": "^18.2.0",
+    "react-native": "^0.72.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "react-native",
+    "performance",
+    "memory-leak",
+    "monitoring",
+    "adapter-pattern",
+    "profiling",
+    "metrics"
+  ],
+  "license": "MIT"
+}
