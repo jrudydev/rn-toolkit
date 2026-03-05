@@ -13,6 +13,9 @@ module.exports = {
     '^@rn-toolkit/deeplink$': '<rootDir>/packages/deeplink/src',
     '^@rn-toolkit/testing$': '<rootDir>/packages/testing/src',
     '^@rn-toolkit/primitives$': '<rootDir>/packages/primitives/src',
+    '^@rn-toolkit/auth$': '<rootDir>/packages/auth/src',
+    '^@rn-toolkit/notifications$': '<rootDir>/packages/notifications/src',
+    '^@rn-toolkit/analytics$': '<rootDir>/packages/analytics/src',
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.{ts,tsx}',
