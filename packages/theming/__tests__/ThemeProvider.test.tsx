@@ -50,8 +50,8 @@ describe('ThemeProvider', () => {
   });
 
   it('merges_customTheme_withDefault', () => {
-    // Using type assertion for partial theme override in tests
-    const customTheme = {
+    // Using Partial type for test-only partial theme override
+    const customTheme: Partial<{ colors: { light: { primary: string }; dark: { primary: string } } }> = {
       colors: {
         light: {
           primary: '#FF0000',
@@ -60,7 +60,7 @@ describe('ThemeProvider', () => {
           primary: '#FF0000',
         },
       },
-    } as any;
+    };
 
     function CustomThemeDisplay() {
       const { colors } = useTheme();
