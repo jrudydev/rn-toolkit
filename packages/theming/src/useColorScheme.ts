@@ -20,7 +20,7 @@ export function useColorScheme(): ResolvedThemeMode {
     );
 
     return () => {
-      subscription.remove();
+      subscription?.remove?.();
     };
   }, []);
 
