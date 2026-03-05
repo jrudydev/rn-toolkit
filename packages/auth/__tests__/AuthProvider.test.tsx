@@ -7,9 +7,8 @@ import { Text, View } from 'react-native';
 import { render, waitFor, act } from '@testing-library/react-native';
 import { AuthProvider } from '../src/AuthProvider';
 import { useAuth } from '../src/hooks/useAuth';
-
-// Mock Firebase Auth
-jest.mock('@react-native-firebase/auth');
+import { NoOpAdapter } from '../src/adapters/NoOpAdapter';
+import { ConsoleAdapter } from '../src/adapters/ConsoleAdapter';
 
 // Test component that uses auth
 function TestComponent() {
@@ -34,8 +33,9 @@ describe('AuthProvider', () => {
 
   describe('rendering', () => {
     it('renders_children', () => {
+      const adapter = new NoOpAdapter();
       const { getByTestId } = render(
-        <AuthProvider>
+        <AuthProvider adapter={adapter}>
           <Text testID="child">Hello</Text>
         </AuthProvider>
       );
@@ -44,8 +44,9 @@ describe('AuthProvider', () => {
     });
 
     it('provides_auth_context', async () => {
+      const adapter = new NoOpAdapter();
       const { getByTestId } = render(
-        <AuthProvider>
+        <AuthProvider adapter={adapter}>
           <TestComponent />
         </AuthProvider>
       );
@@ -59,8 +60,9 @@ describe('AuthProvider', () => {
 
   describe('initial state', () => {
     it('starts_in_loading_state', () => {
+      const adapter = new NoOpAdapter();
       const { getByTestId } = render(
-        <AuthProvider>
+        <AuthProvider adapter={adapter}>
           <TestComponent />
         </AuthProvider>
       );
@@ -69,8 +71,9 @@ describe('AuthProvider', () => {
     });
 
     it('shows_not_authenticated_when_no_user', async () => {
+      const adapter = new NoOpAdapter();
       const { getByTestId, queryByTestId } = render(
-        <AuthProvider>
+        <AuthProvider adapter={adapter}>
           <TestComponent />
         </AuthProvider>
       );
@@ -81,14 +84,30 @@ describe('AuthProvider', () => {
 
       expect(getByTestId('auth-status').props.children).toBe('not-authenticated');
     });
+
+    it('shows_authenticated_with_autoSignIn', async () => {
+      const adapter = new NoOpAdapter({ autoSignIn: true });
+      const { getByTestId, queryByTestId } = render(
+        <AuthProvider adapter={adapter}>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(queryByTestId('loading')).toBeNull();
+      });
+
+      expect(getByTestId('auth-status').props.children).toBe('authenticated');
+    });
   });
 
   describe('configuration', () => {
     it('accepts_config_prop', () => {
+      const adapter = new NoOpAdapter();
       const onAuthStateChange = jest.fn();
 
       render(
-        <AuthProvider config={{ onAuthStateChange }}>
+        <AuthProvider adapter={adapter} config={{ onAuthStateChange }}>
           <TestComponent />
         </AuthProvider>
       );
@@ -98,16 +117,55 @@ describe('AuthProvider', () => {
     });
 
     it('accepts_onError_callback', () => {
+      const adapter = new NoOpAdapter();
       const onError = jest.fn();
 
       render(
-        <AuthProvider config={{ onError }}>
+        <AuthProvider adapter={adapter} config={{ onError }}>
           <TestComponent />
         </AuthProvider>
       );
 
       // Config should be accepted without error
       expect(true).toBe(true);
+    });
+  });
+
+  describe('adapter pattern', () => {
+    it('works_with_NoOpAdapter', async () => {
+      const adapter = new NoOpAdapter();
+      const { getByTestId } = render(
+        <AuthProvider adapter={adapter}>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('auth-status')).toBeTruthy();
+      });
+    });
+
+    it('works_with_ConsoleAdapter', async () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+      const adapter = new ConsoleAdapter({ prefix: '[Test]' });
+
+      const { getByTestId } = render(
+        <AuthProvider adapter={adapter}>
+          <TestComponent />
+        </AuthProvider>
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('auth-status')).toBeTruthy();
+      });
+
+      // Console adapter should have logged initialization
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('[Test] INIT'),
+        expect.anything()
+      );
+
+      consoleSpy.mockRestore();
     });
   });
 });
@@ -133,5 +191,72 @@ describe('useAuth outside provider', () => {
     );
 
     consoleSpy.mockRestore();
+  });
+});
+
+describe('Auth operations', () => {
+  let consoleSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
+  it('signInWithEmail_callsAdapter', async () => {
+    const adapter = new ConsoleAdapter({ prefix: '[Test]' });
+    let authContext: ReturnType<typeof useAuth>;
+
+    function CaptureAuth() {
+      authContext = useAuth();
+      return null;
+    }
+
+    render(
+      <AuthProvider adapter={adapter}>
+        <CaptureAuth />
+      </AuthProvider>
+    );
+
+    await act(async () => {
+      await authContext!.signInWithEmail({ email: 'test@test.com', password: 'password' });
+    });
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining('SIGN_IN_EMAIL'),
+      expect.objectContaining({ email: 'test@test.com' })
+    );
+  });
+
+  it('signOut_callsAdapter', async () => {
+    const adapter = new NoOpAdapter({ autoSignIn: true });
+    let authContext: ReturnType<typeof useAuth>;
+
+    function CaptureAuth() {
+      authContext = useAuth();
+      return null;
+    }
+
+    const { getByTestId } = render(
+      <AuthProvider adapter={adapter}>
+        <CaptureAuth />
+        <TestComponent />
+      </AuthProvider>
+    );
+
+    // Wait for initial auth
+    await waitFor(() => {
+      expect(getByTestId('auth-status').props.children).toBe('authenticated');
+    });
+
+    await act(async () => {
+      await authContext!.signOut();
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('auth-status').props.children).toBe('not-authenticated');
+    });
   });
 });

@@ -2,7 +2,7 @@
  * Authentication Provider
  *
  * Provides authentication state and methods to the component tree.
- * Wraps Firebase Authentication with a clean React interface.
+ * Uses the adapter pattern for swappable authentication backends.
  */
 
 import React, {
@@ -13,6 +13,7 @@ import React, {
   type ReactNode,
 } from 'react';
 import { AuthContext, initialAuthState } from './AuthContext';
+import type { AuthAdapter } from './adapters/types';
 import type {
   AuthContextValue,
   AuthError,
@@ -28,25 +29,6 @@ import type {
   Session,
   SocialProvider,
 } from './types';
-
-// Firebase imports will be optional - we use dynamic imports
-let firebaseAuth: typeof import('@react-native-firebase/auth').default | null = null;
-
-/**
- * Try to import Firebase Auth
- */
-async function loadFirebaseAuth() {
-  try {
-    const module = await import('@react-native-firebase/auth');
-    firebaseAuth = module.default;
-    return firebaseAuth;
-  } catch {
-    console.warn(
-      '[@rn-toolkit/auth] Firebase Auth not installed. Install @react-native-firebase/auth for full functionality.'
-    );
-    return null;
-  }
-}
 
 /**
  * Auth state reducer actions
@@ -89,14 +71,14 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
 }
 
 /**
- * Convert Firebase error to AuthError
+ * Convert error to AuthError
  */
 function toAuthError(error: unknown): AuthError {
   if (error && typeof error === 'object' && 'code' in error) {
-    const firebaseError = error as { code: string; message: string };
+    const authError = error as { code: string; message: string };
     return {
-      code: firebaseError.code as AuthErrorCode,
-      message: firebaseError.message,
+      code: authError.code as AuthErrorCode,
+      message: authError.message,
       originalError: error,
     };
   }
@@ -108,62 +90,13 @@ function toAuthError(error: unknown): AuthError {
 }
 
 /**
- * Convert Firebase user to AuthUser
- */
-function toAuthUser(firebaseUser: {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  phoneNumber: string | null;
-  photoURL: string | null;
-  emailVerified: boolean;
-  isAnonymous: boolean;
-  providerId: string;
-  metadata: {
-    creationTime?: string;
-    lastSignInTime?: string;
-  };
-  providerData: Array<{
-    providerId: string;
-    uid: string;
-    displayName: string | null;
-    email: string | null;
-    phoneNumber: string | null;
-    photoURL: string | null;
-  }>;
-}): AuthUser {
-  return {
-    uid: firebaseUser.uid,
-    email: firebaseUser.email,
-    displayName: firebaseUser.displayName,
-    phoneNumber: firebaseUser.phoneNumber,
-    photoURL: firebaseUser.photoURL,
-    emailVerified: firebaseUser.emailVerified,
-    isAnonymous: firebaseUser.isAnonymous,
-    providerId: firebaseUser.providerId,
-    createdAt: firebaseUser.metadata.creationTime
-      ? new Date(firebaseUser.metadata.creationTime)
-      : null,
-    lastSignInAt: firebaseUser.metadata.lastSignInTime
-      ? new Date(firebaseUser.metadata.lastSignInTime)
-      : null,
-    providerData: firebaseUser.providerData.map((p) => ({
-      providerId: p.providerId,
-      uid: p.uid,
-      displayName: p.displayName,
-      email: p.email,
-      phoneNumber: p.phoneNumber,
-      photoURL: p.photoURL,
-    })),
-  };
-}
-
-/**
  * AuthProvider props
  */
 export interface AuthProviderProps {
   /** Child components */
   children: ReactNode;
+  /** Authentication adapter (required) */
+  adapter: AuthAdapter;
   /** Configuration options */
   config?: AuthProviderConfig;
 }
@@ -171,48 +104,52 @@ export interface AuthProviderProps {
 /**
  * AuthProvider component
  *
- * Provides authentication context to the component tree.
+ * Provides authentication context to the component tree using the adapter pattern.
  *
  * @example
  * ```tsx
- * import { AuthProvider } from '@rn-toolkit/auth';
+ * import { AuthProvider, FirebaseAuthAdapter } from '@rn-toolkit/auth';
+ *
+ * // Production: Firebase Auth
+ * const adapter = new FirebaseAuthAdapter();
+ *
+ * // Development: Console logging
+ * const adapter = new ConsoleAdapter({ prefix: '[Auth]' });
+ *
+ * // Testing: NoOp
+ * const adapter = new NoOpAdapter();
  *
  * function App() {
  *   return (
- *     <AuthProvider>
+ *     <AuthProvider adapter={adapter}>
  *       <MyApp />
  *     </AuthProvider>
  *   );
  * }
  * ```
  */
-export function AuthProvider({ children, config = {} }: AuthProviderProps) {
+export function AuthProvider({ children, adapter, config = {} }: AuthProviderProps) {
   const [state, dispatch] = useReducer(authReducer, initialAuthState);
 
   const { onAuthStateChange, onError } = config;
 
-  // Initialize Firebase Auth and listen for auth state changes
+  // Initialize adapter and listen for auth state changes
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
 
     async function initAuth() {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        dispatch({ type: 'SET_LOADING', payload: false });
-        return;
-      }
+      try {
+        await adapter.initialize();
 
-      // Subscribe to auth state changes
-      unsubscribe = auth().onAuthStateChanged((firebaseUser) => {
-        if (firebaseUser) {
-          const user = toAuthUser(firebaseUser as Parameters<typeof toAuthUser>[0]);
+        // Subscribe to auth state changes
+        unsubscribe = adapter.onAuthStateChanged((user) => {
           dispatch({ type: 'SET_USER', payload: user });
           onAuthStateChange?.(user);
-        } else {
-          dispatch({ type: 'SET_USER', payload: null });
-          onAuthStateChange?.(null);
-        }
-      });
+        });
+      } catch (error) {
+        console.error('[@rn-toolkit/auth] Failed to initialize:', error);
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
     }
 
     initAuth();
@@ -220,25 +157,15 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     return () => {
       unsubscribe?.();
     };
-  }, [onAuthStateChange]);
+  }, [adapter, onAuthStateChange]);
 
   // Sign in with email and password
   const signInWithEmail = useCallback(
     async (credentials: EmailPasswordCredentials): Promise<AuthUser> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const result = await auth().signInWithEmailAndPassword(
-          credentials.email,
-          credentials.password
-        );
-        if (!result.user) {
-          throw new Error('No user returned from sign in');
-        }
-        return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
+        const user = await adapter.signInWithEmail(credentials);
+        return user;
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -246,7 +173,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Sign up with email and password
@@ -254,18 +181,8 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     async (credentials: EmailPasswordCredentials): Promise<AuthUser> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const result = await auth().createUserWithEmailAndPassword(
-          credentials.email,
-          credentials.password
-        );
-        if (!result.user) {
-          throw new Error('No user returned from sign up');
-        }
-        return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
+        const user = await adapter.signUpWithEmail(credentials);
+        return user;
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -273,7 +190,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Sign in with social provider
@@ -281,68 +198,8 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     async (provider: SocialProvider): Promise<AuthUser> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-
-        // Dynamic import of the provider module
-        let providerInstance;
-        switch (provider) {
-          case 'google': {
-            const GoogleSignIn = await import('@react-native-google-signin/google-signin');
-            await GoogleSignIn.GoogleSignin.hasPlayServices();
-            const { idToken } = await GoogleSignIn.GoogleSignin.signIn();
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-            const result = await auth().signInWithCredential(googleCredential);
-            if (!result.user) {
-              throw new Error('No user returned from Google sign in');
-            }
-            return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
-          }
-          case 'apple': {
-            const AppleAuth = await import('@invertase/react-native-apple-authentication');
-            const appleAuthRequestResponse = await AppleAuth.appleAuth.performRequest({
-              requestedOperation: AppleAuth.appleAuth.Operation.LOGIN,
-              requestedScopes: [
-                AppleAuth.appleAuth.Scope.EMAIL,
-                AppleAuth.appleAuth.Scope.FULL_NAME,
-              ],
-            });
-            const { identityToken, nonce } = appleAuthRequestResponse;
-            if (!identityToken) {
-              throw new Error('Apple Sign In failed - no identity token');
-            }
-            const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
-            const result = await auth().signInWithCredential(appleCredential);
-            if (!result.user) {
-              throw new Error('No user returned from Apple sign in');
-            }
-            return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
-          }
-          case 'facebook': {
-            const FacebookLogin = await import('react-native-fbsdk-next');
-            const loginResult = await FacebookLogin.LoginManager.logInWithPermissions([
-              'public_profile',
-              'email',
-            ]);
-            if (loginResult.isCancelled) {
-              throw new Error('User cancelled Facebook login');
-            }
-            const data = await FacebookLogin.AccessToken.getCurrentAccessToken();
-            if (!data?.accessToken) {
-              throw new Error('Failed to get Facebook access token');
-            }
-            const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
-            const result = await auth().signInWithCredential(facebookCredential);
-            if (!result.user) {
-              throw new Error('No user returned from Facebook sign in');
-            }
-            return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
-          }
-          default:
-            throw new Error(`Provider ${provider} not supported`);
-        }
+        const user = await adapter.signInWithProvider(provider);
+        return user;
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -350,7 +207,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Sign in with phone number
@@ -358,15 +215,9 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     async (options: PhoneAuthOptions): Promise<PhoneVerificationResult> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const confirmation = await auth().signInWithPhoneNumber(options.phoneNumber);
+        const result = await adapter.signInWithPhone(options);
         dispatch({ type: 'SET_LOADING', payload: false });
-        return {
-          verificationId: confirmation.verificationId || '',
-        };
+        return result;
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -374,7 +225,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Confirm phone number with verification code
@@ -382,16 +233,8 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     async (verificationId: string, code: string): Promise<AuthUser> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const credential = auth.PhoneAuthProvider.credential(verificationId, code);
-        const result = await auth().signInWithCredential(credential);
-        if (!result.user) {
-          throw new Error('No user returned from phone verification');
-        }
-        return toAuthUser(result.user as Parameters<typeof toAuthUser>[0]);
+        const user = await adapter.confirmPhoneNumber(verificationId, code);
+        return user;
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -399,7 +242,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Send password reset email
@@ -407,11 +250,7 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
     async (email: string): Promise<void> => {
       dispatch({ type: 'SET_LOADING', payload: true });
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        await auth().sendPasswordResetEmail(email);
+        await adapter.sendPasswordResetEmail(email);
         dispatch({ type: 'SET_LOADING', payload: false });
       } catch (error) {
         const authError = toAuthError(error);
@@ -420,108 +259,58 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Send email verification
   const sendEmailVerification = useCallback(async (): Promise<void> => {
     try {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        throw new Error('Firebase Auth not available');
-      }
-      const currentUser = auth().currentUser;
-      if (!currentUser) {
-        throw new Error('No user is currently signed in');
-      }
-      await currentUser.sendEmailVerification();
+      await adapter.sendEmailVerification();
     } catch (error) {
       const authError = toAuthError(error);
       dispatch({ type: 'SET_ERROR', payload: authError });
       onError?.(authError);
       throw authError;
     }
-  }, [onError]);
+  }, [adapter, onError]);
 
   // Sign out
   const signOut = useCallback(async (): Promise<void> => {
     try {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        throw new Error('Firebase Auth not available');
-      }
-      await auth().signOut();
+      await adapter.signOut();
     } catch (error) {
       const authError = toAuthError(error);
       dispatch({ type: 'SET_ERROR', payload: authError });
       onError?.(authError);
       throw authError;
     }
-  }, [onError]);
+  }, [adapter, onError]);
 
   // Refresh session
   const refreshSession = useCallback(async (): Promise<Session | null> => {
     try {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        return null;
-      }
-      const currentUser = auth().currentUser;
-      if (!currentUser) {
-        return null;
-      }
-      const tokenResult = await currentUser.getIdTokenResult(true);
-      return {
-        token: tokenResult.token,
-        refreshToken: '', // Firebase handles refresh internally
-        expiresAt: new Date(tokenResult.expirationTime),
-        isValid: new Date(tokenResult.expirationTime) > new Date(),
-      };
+      return await adapter.refreshSession();
     } catch (error) {
       const authError = toAuthError(error);
       onError?.(authError);
       return null;
     }
-  }, [onError]);
+  }, [adapter, onError]);
 
   // Get current session
   const getSession = useCallback(async (): Promise<Session | null> => {
     try {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        return null;
-      }
-      const currentUser = auth().currentUser;
-      if (!currentUser) {
-        return null;
-      }
-      const tokenResult = await currentUser.getIdTokenResult();
-      return {
-        token: tokenResult.token,
-        refreshToken: '',
-        expiresAt: new Date(tokenResult.expirationTime),
-        isValid: new Date(tokenResult.expirationTime) > new Date(),
-      };
+      return await adapter.getSession();
     } catch {
       return null;
     }
-  }, []);
+  }, [adapter]);
 
   // Update profile
   const updateProfile = useCallback(
     async (data: Partial<Pick<AuthUser, 'displayName' | 'photoURL'>>): Promise<void> => {
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const currentUser = auth().currentUser;
-        if (!currentUser) {
-          throw new Error('No user is currently signed in');
-        }
-        await currentUser.updateProfile(data);
-        // Refresh user data
-        const updatedUser = toAuthUser(currentUser as Parameters<typeof toAuthUser>[0]);
+        const updatedUser = await adapter.updateProfile(data);
         dispatch({ type: 'SET_USER', payload: updatedUser });
       } catch (error) {
         const authError = toAuthError(error);
@@ -530,22 +319,14 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Update email
   const updateEmail = useCallback(
     async (newEmail: string): Promise<void> => {
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const currentUser = auth().currentUser;
-        if (!currentUser) {
-          throw new Error('No user is currently signed in');
-        }
-        await currentUser.updateEmail(newEmail);
+        await adapter.updateEmail(newEmail);
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -553,22 +334,14 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Update password
   const updatePassword = useCallback(
     async (newPassword: string): Promise<void> => {
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const currentUser = auth().currentUser;
-        if (!currentUser) {
-          throw new Error('No user is currently signed in');
-        }
-        await currentUser.updatePassword(newPassword);
+        await adapter.updatePassword(newPassword);
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -576,21 +349,13 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Delete account
   const deleteAccount = useCallback(async (): Promise<void> => {
     try {
-      const auth = await loadFirebaseAuth();
-      if (!auth) {
-        throw new Error('Firebase Auth not available');
-      }
-      const currentUser = auth().currentUser;
-      if (!currentUser) {
-        throw new Error('No user is currently signed in');
-      }
-      await currentUser.delete();
+      await adapter.deleteAccount();
       dispatch({ type: 'SET_USER', payload: null });
     } catch (error) {
       const authError = toAuthError(error);
@@ -598,37 +363,28 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
       onError?.(authError);
       throw authError;
     }
-  }, [onError]);
+  }, [adapter, onError]);
 
   // Link provider
   const linkProvider = useCallback(
     async (provider: SocialProvider): Promise<void> => {
-      // Implementation depends on provider - similar to signInWithProvider
-      throw new Error(`Link provider ${provider} not yet implemented`);
+      try {
+        await adapter.linkProvider(provider);
+      } catch (error) {
+        const authError = toAuthError(error);
+        dispatch({ type: 'SET_ERROR', payload: authError });
+        onError?.(authError);
+        throw authError;
+      }
     },
-    []
+    [adapter, onError]
   );
 
   // Unlink provider
   const unlinkProvider = useCallback(
     async (provider: SocialProvider): Promise<void> => {
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const currentUser = auth().currentUser;
-        if (!currentUser) {
-          throw new Error('No user is currently signed in');
-        }
-        const providerMapping: Record<SocialProvider, string> = {
-          google: 'google.com',
-          apple: 'apple.com',
-          facebook: 'facebook.com',
-          twitter: 'twitter.com',
-          github: 'github.com',
-        };
-        await currentUser.unlink(providerMapping[provider]);
+        await adapter.unlinkProvider(provider);
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -636,26 +392,14 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Re-authenticate
   const reauthenticate = useCallback(
     async (credentials: EmailPasswordCredentials): Promise<void> => {
       try {
-        const auth = await loadFirebaseAuth();
-        if (!auth) {
-          throw new Error('Firebase Auth not available');
-        }
-        const currentUser = auth().currentUser;
-        if (!currentUser) {
-          throw new Error('No user is currently signed in');
-        }
-        const credential = auth.EmailAuthProvider.credential(
-          credentials.email,
-          credentials.password
-        );
-        await currentUser.reauthenticateWithCredential(credential);
+        await adapter.reauthenticate(credentials);
       } catch (error) {
         const authError = toAuthError(error);
         dispatch({ type: 'SET_ERROR', payload: authError });
@@ -663,29 +407,29 @@ export function AuthProvider({ children, config = {} }: AuthProviderProps) {
         throw authError;
       }
     },
-    [onError]
+    [adapter, onError]
   );
 
   // Get MFA factors
   const getMfaFactors = useCallback(async (): Promise<MfaEnrollmentInfo[]> => {
-    // MFA implementation would go here
-    return [];
-  }, []);
+    return adapter.getMfaFactors();
+  }, [adapter]);
 
   // Enroll MFA
   const enrollMfa = useCallback(
     async (method: MfaMethod, phoneNumber?: string): Promise<void> => {
-      // MFA enrollment implementation
-      throw new Error('MFA enrollment not yet implemented');
+      await adapter.enrollMfa(method, phoneNumber);
     },
-    []
+    [adapter]
   );
 
   // Unenroll MFA
-  const unenrollMfa = useCallback(async (factorUid: string): Promise<void> => {
-    // MFA unenrollment implementation
-    throw new Error('MFA unenrollment not yet implemented');
-  }, []);
+  const unenrollMfa = useCallback(
+    async (factorUid: string): Promise<void> => {
+      await adapter.unenrollMfa(factorUid);
+    },
+    [adapter]
+  );
 
   const contextValue = useMemo<AuthContextValue>(
     () => ({
