@@ -1,5 +1,5 @@
 /**
- * @rn-toolkit/performance
+ * @astacinco/rn-performance
  *
  * Performance monitoring with adapter pattern for swappable backends.
  *
@@ -20,7 +20,7 @@
  *   usePerformance,
  *   useLeakDetector,
  *   useRenderTracker,
- * } from '@rn-toolkit/performance';
+ * } from '@astacinco/rn-performance';
  *
  * // Use Console adapter for debugging
  * const adapter = new ConsoleAdapter({ prefix: '[Perf]' });

@@ -1,5 +1,5 @@
 /**
- * @rn-toolkit/performance Types
+ * @astacinco/rn-performance Types
  *
  * Core types for the performance monitoring adapter pattern.
  */

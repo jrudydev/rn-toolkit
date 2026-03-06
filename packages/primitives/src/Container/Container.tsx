@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { ContainerProps } from './types';
 
 export function Container({

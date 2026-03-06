@@ -17,7 +17,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules",
     "versions": "npm ls --depth=0 --workspaces",
-    "publish:all": "npm publish -w @rn-toolkit/theming --access public && npm publish -w @rn-toolkit/primitives --access public && npm publish -w @rn-toolkit/i18n --access public && npm publish -w @rn-toolkit/performance --access public && npm publish -w @rn-toolkit/testing --access public"
+    "publish:all": "npm publish -w @astacinco/rn-theming --access public && npm publish -w @astacinco/rn-primitives --access public && npm publish -w @astacinco/rn-i18n --access public && npm publish -w @astacinco/rn-performance --access public && npm publish -w @astacinco/rn-testing --access public"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -1,18 +1,18 @@
-# @rn-toolkit/primitives
+# @astacinco/rn-primitives
 
 Theme-aware UI primitives for React Native. All components automatically adapt to light/dark modes.
 
 ## Installation
 
 ```bash
-npm install @rn-toolkit/primitives @rn-toolkit/theming
+npm install @astacinco/rn-primitives @astacinco/rn-theming
 ```
 
 ## Quick Start
 
 ```typescript
-import { ThemeProvider } from '@rn-toolkit/theming';
-import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
+import { ThemeProvider } from '@astacinco/rn-theming';
+import { Text, Button, Card, VStack } from '@astacinco/rn-primitives';
 
 function App() {
   return (
@@ -174,7 +174,7 @@ Themed horizontal divider.
 
 ## Theme Integration
 
-All components use the `useTheme()` hook from `@rn-toolkit/theming`. They automatically:
+All components use the `useTheme()` hook from `@astacinco/rn-theming`. They automatically:
 
 - Adapt colors to light/dark mode
 - Use consistent spacing tokens
@@ -183,11 +183,11 @@ All components use the `useTheme()` hook from `@rn-toolkit/theming`. They automa
 
 ## Testing
 
-Use `@rn-toolkit/testing` for testing primitives:
+Use `@astacinco/rn-testing` for testing primitives:
 
 ```typescript
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
-import { Button } from '@rn-toolkit/primitives';
+import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
+import { Button } from '@astacinco/rn-primitives';
 
 describe('Button', () => {
   createThemeSnapshot(<Button label="Click" onPress={() => {}} />);

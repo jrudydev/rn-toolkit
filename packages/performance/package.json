@@ -1,5 +1,5 @@
 {
-  "name": "@rn-toolkit/performance",
+  "name": "@astacinco/rn-performance",
   "version": "0.1.0",
   "description": "Performance monitoring with adapter pattern - memory leak detection and metrics reporting",
   "main": "src/index.ts",

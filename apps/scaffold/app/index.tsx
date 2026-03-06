@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import {
   Text,
   Button,
@@ -11,7 +11,7 @@ import {
   Input,
   Divider,
   Container,
-} from '@rn-toolkit/primitives';
+} from '@astacinco/rn-primitives';
 
 type DemoSection = 'theming' | 'primitives' | 'all';
 
@@ -85,7 +85,7 @@ export default function HomeScreen() {
             {/* Theming Section */}
             {(activeSection === 'all' || activeSection === 'theming') && (
               <VStack spacing="md">
-                <Text variant="subtitle">@rn-toolkit/theming</Text>
+                <Text variant="subtitle">@astacinco/rn-theming</Text>
 
                 {/* Color Tokens */}
                 <Card variant="outlined">
@@ -134,7 +134,7 @@ export default function HomeScreen() {
             {/* Primitives Section */}
             {(activeSection === 'all' || activeSection === 'primitives') && (
               <VStack spacing="md">
-                <Text variant="subtitle">@rn-toolkit/primitives</Text>
+                <Text variant="subtitle">@astacinco/rn-primitives</Text>
 
                 {/* Text Variants */}
                 <Card variant="outlined">

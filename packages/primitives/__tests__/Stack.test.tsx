@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
 import { VStack, HStack } from '../src/Stack';
 
 describe('VStack', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text as RNText, StyleSheet } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { TextProps, TextVariant } from './types';
 
 const variantStyles: Record<TextVariant, { fontSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'; fontWeight: 'regular' | 'medium' | 'bold' }> = {

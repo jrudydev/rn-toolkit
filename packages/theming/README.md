@@ -1,4 +1,4 @@
-# @rn-toolkit/theming
+# @astacinco/rn-theming
 
 Scope-based theming system for React Native with dark/light mode support.
 
@@ -13,13 +13,13 @@ Scope-based theming system for React Native with dark/light mode support.
 ## Installation
 
 ```bash
-yarn add @rn-toolkit/theming
+yarn add @astacinco/rn-theming
 ```
 
 ## Quick Start
 
 ```tsx
-import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
+import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
 
 // Wrap your app
 function App() {
@@ -129,7 +129,7 @@ Use different themes for different parts of your app:
 The package exports test utilities:
 
 ```tsx
-import { TestThemeProvider } from '@rn-toolkit/theming/testing';
+import { TestThemeProvider } from '@astacinco/rn-theming/testing';
 
 // Render component in both themes
 renderWithThemes(<MyComponent />);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, FlexAlignType } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { StackProps, StackAlign, StackJustify } from './types';
 
 const alignMap: Record<StackAlign, FlexAlignType> = {

@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
+import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
 
 function ThemedStatusBar() {
   const { mode } = useTheme();

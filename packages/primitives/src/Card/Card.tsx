@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { CardProps } from './types';
 
 export function Card({

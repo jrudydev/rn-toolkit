@@ -1,12 +1,12 @@
 /**
- * @rn-toolkit/primitives
+ * @astacinco/rn-primitives
  *
  * Theme-aware UI primitives for React Native.
  * All components automatically adapt to light/dark modes.
  *
  * @example
  * ```typescript
- * import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
+ * import { Text, Button, Card, VStack } from '@astacinco/rn-primitives';
  *
  * function MyScreen() {
  *   return (

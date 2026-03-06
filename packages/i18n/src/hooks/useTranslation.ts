@@ -38,7 +38,7 @@ export interface UseTranslationResult {
  *
  * @example
  * ```tsx
- * import { useTranslation } from '@rn-toolkit/i18n';
+ * import { useTranslation } from '@astacinco/rn-i18n';
  *
  * function WelcomeMessage({ name }) {
  *   const { t } = useTranslation();

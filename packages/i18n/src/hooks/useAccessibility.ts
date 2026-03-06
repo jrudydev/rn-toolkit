@@ -31,7 +31,7 @@ export interface UseAccessibilityResult {
  *
  * @example
  * ```tsx
- * import { useAccessibility } from '@rn-toolkit/i18n';
+ * import { useAccessibility } from '@astacinco/rn-i18n';
  *
  * function AccessibleButton({ label, onPress }) {
  *   const { announce, isScreenReaderEnabled } = useAccessibility();
@@ -86,7 +86,7 @@ export function useAccessibility(): UseAccessibilityResult {
   const [isScreenReaderEnabled, setIsScreenReaderEnabled] = useState(false);
   const [isReduceMotionEnabled, setIsReduceMotionEnabled] = useState(false);
   const [isBoldTextEnabled, setIsBoldTextEnabled] = useState(false);
-  const [fontScale, setFontScale] = useState(1);
+  const [fontScale] = useState(1); // TODO: Add font scale listener when needed
   const [settings, setSettings] = useState<AccessibilitySettings | null>(null);
 
   // Listen for accessibility changes

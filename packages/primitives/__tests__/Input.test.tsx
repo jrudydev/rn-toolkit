@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react-native';
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
 import { Input } from '../src/Input';
 
 describe('Input', () => {

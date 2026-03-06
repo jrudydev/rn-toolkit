@@ -41,11 +41,12 @@ export class FirebaseAdapter implements PerformanceAdapter {
   async initialize(): Promise<void> {
     try {
       // Dynamic import to avoid hard dependency
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const firebasePerf = require('@react-native-firebase/perf').default;
       this.perf = firebasePerf();
-    } catch (error) {
+    } catch {
       console.warn(
-        '[@rn-toolkit/performance] Firebase Performance not available.',
+        '[@astacinco/rn-performance] Firebase Performance not available.',
         'Install @react-native-firebase/perf for production monitoring.'
       );
     }

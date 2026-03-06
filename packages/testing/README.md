@@ -1,11 +1,11 @@
-# @rn-toolkit/testing
+# @astacinco/rn-testing
 
 Testing utilities for React Native with automatic theme support.
 
 ## Installation
 
 ```bash
-npm install @rn-toolkit/testing --save-dev
+npm install @astacinco/rn-testing --save-dev
 ```
 
 ## Features
@@ -18,7 +18,7 @@ npm install @rn-toolkit/testing --save-dev
 ## Quick Start
 
 ```typescript
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
 import { MyComponent } from './MyComponent';
 
 describe('MyComponent', () => {
@@ -88,7 +88,7 @@ createThemeSnapshot(<Card title="Hello" />);
 ### mockNavigation
 
 ```typescript
-import { mockNavigation } from '@rn-toolkit/testing';
+import { mockNavigation } from '@astacinco/rn-testing';
 
 const { navigate, back, currentRoute } = mockNavigation();
 
@@ -103,7 +103,7 @@ expect(currentRoute()).toBe('/home');
 ### mockSDUISchema
 
 ```typescript
-import { mockSDUISchema } from '@rn-toolkit/testing';
+import { mockSDUISchema } from '@astacinco/rn-testing';
 
 const schema = mockSDUISchema({
   type: 'screen',
@@ -156,7 +156,7 @@ The DSL provides a fluent, chainable API for expressive test writing with signif
 ### Entry Point
 
 ```typescript
-import { dsl } from '@rn-toolkit/testing';
+import { dsl } from '@astacinco/rn-testing';
 
 dsl.component(<Button />)    // Component testing
 dsl.matrix(<Button />)       // Variant matrix testing
@@ -306,7 +306,7 @@ dsl.component(<Form />)
 ### Theme Assertions
 
 ```typescript
-import { expectThemeDifference, expectColorDifference, expectAccessibility } from '@rn-toolkit/testing';
+import { expectThemeDifference, expectColorDifference, expectAccessibility } from '@astacinco/rn-testing';
 
 // Assert component looks different in each theme
 expectThemeDifference(<Card title="Test" />);
@@ -326,7 +326,7 @@ expectAccessibility(<Button label="Submit" />, ['hasAccessibleLabel', 'hasRole']
 Create reusable provider configurations:
 
 ```typescript
-import { createProviderConfig, combineProviders, createWrapperFromConfigs } from '@rn-toolkit/testing';
+import { createProviderConfig, combineProviders, createWrapperFromConfigs } from '@astacinco/rn-testing';
 
 // Create preset
 const authPreset = createProviderConfig(AuthProvider, {

@@ -224,7 +224,6 @@ export class ConsoleAdapter implements PerformanceAdapter {
 
   async setEnabled(enabled: boolean): Promise<void> {
     // Log before changing state (so we can log even when disabling)
-    const wasEnabled = this.enabled;
     this.enabled = true; // Temporarily enable to log
     this.log('info', 'SET_ENABLED', { enabled });
     this.enabled = enabled;

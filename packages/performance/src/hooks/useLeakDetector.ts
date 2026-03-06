@@ -30,7 +30,7 @@ export interface UseLeakDetectorResult {
  *
  * @example
  * ```tsx
- * import { useLeakDetector } from '@rn-toolkit/performance';
+ * import { useLeakDetector } from '@astacinco/rn-performance';
  *
  * function DataSubscriber() {
  *   const { trackSubscription, trackTimer, trackListener } = useLeakDetector({

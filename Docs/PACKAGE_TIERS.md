@@ -16,23 +16,23 @@ This allows developers to evaluate the toolkit with free packages while supporti
 
 | Package | Description |
 |---------|-------------|
-| `@rn-toolkit/theming` | Theme system with dark/light mode, tokens, scopes |
-| `@rn-toolkit/primitives` | Theme-aware UI components (Text, Button, Card, etc.) |
-| `@rn-toolkit/i18n` | Internationalization with adapter pattern |
-| `@rn-toolkit/performance` | Performance monitoring, render tracking |
-| `@rn-toolkit/testing` | Theme snapshots, mocks, test utilities |
+| `@astacinco/rn-theming` | Theme system with dark/light mode, tokens, scopes |
+| `@astacinco/rn-primitives` | Theme-aware UI components (Text, Button, Card, etc.) |
+| `@astacinco/rn-i18n` | Internationalization with adapter pattern |
+| `@astacinco/rn-performance` | Performance monitoring, render tracking |
+| `@astacinco/rn-testing` | Theme snapshots, mocks, test utilities |
 
 ### Premium Tier (Patreon) - Private Repo
 
 | Package | Description |
 |---------|-------------|
-| `@rn-toolkit/sdui` | Server-Driven UI engine |
-| `@rn-toolkit/auth` | Multi-provider authentication |
-| `@rn-toolkit/analytics` | Event tracking with adapter pattern |
-| `@rn-toolkit/deeplink` | Type-safe navigation & deep linking |
-| `@rn-toolkit/notifications` | Push notifications |
-| `@rn-toolkit/security` | Secure storage & validation |
-| `@rn-toolkit/testing/dsl` | Declarative test DSL |
+| `@astacinco/rn-sdui` | Server-Driven UI engine |
+| `@astacinco/rn-auth` | Multi-provider authentication |
+| `@astacinco/rn-analytics` | Event tracking with adapter pattern |
+| `@astacinco/rn-deeplink` | Type-safe navigation & deep linking |
+| `@astacinco/rn-notifications` | Push notifications |
+| `@astacinco/rn-security` | Secure storage & validation |
+| `@astacinco/rn-testing/dsl` | Declarative test DSL |
 
 ---
 
@@ -72,7 +72,7 @@ PRIVATE: github.com/jrudydev/rn-toolkit-pro
 
 ```bash
 # Install from npm (public)
-npm install @rn-toolkit/theming @rn-toolkit/primitives
+npm install @astacinco/rn-theming @astacinco/rn-primitives
 ```
 
 ### Premium Packages
@@ -112,14 +112,14 @@ Some packages offer both free core functionality and premium extensions:
 
 | Package | Free (npm) | Premium (GitHub) |
 |---------|------------|------------------|
-| `@rn-toolkit/testing` | `renderWithTheme`, snapshots, mocks | DSL (`dsl.component()`, `dsl.matrix()`) |
+| `@astacinco/rn-testing` | `renderWithTheme`, snapshots, mocks | DSL (`dsl.component()`, `dsl.matrix()`) |
 
 ### Future Considerations
 
 | Package | Potential Free Tier | Potential Premium Tier |
 |---------|---------------------|------------------------|
-| `@rn-toolkit/sdui` | Basic renderer | Advanced containers, templates |
-| `@rn-toolkit/deeplink` | Basic routing | Smart navigation, badging |
+| `@astacinco/rn-sdui` | Basic renderer | Advanced containers, templates |
+| `@astacinco/rn-deeplink` | Basic routing | Smart navigation, badging |
 
 **Why split packages?**
 - Lowers barrier to entry for free users
@@ -142,7 +142,7 @@ A: Yes, MIT license allows commercial use.
 A: You keep the code you have, but lose access to the private repo for updates.
 
 **Q: Do premium packages depend on free packages?**
-A: Yes! `@rn-toolkit/sdui` uses primitives and theming internally. You'll install free packages from npm.
+A: Yes! `@astacinco/rn-sdui` uses primitives and theming internally. You'll install free packages from npm.
 
 **Q: Can I contribute to free packages?**
 A: Yes! PRs welcome on the public repo.

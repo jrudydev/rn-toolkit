@@ -1,5 +1,5 @@
 /**
- * @rn-toolkit/i18n Types
+ * @astacinco/rn-i18n Types
  *
  * Core types for the internationalization adapter pattern.
  */

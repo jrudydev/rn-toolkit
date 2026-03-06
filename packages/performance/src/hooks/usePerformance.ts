@@ -45,7 +45,7 @@ export interface UsePerformanceResult {
  *
  * @example
  * ```tsx
- * import { usePerformance } from '@rn-toolkit/performance';
+ * import { usePerformance } from '@astacinco/rn-performance';
  *
  * function DataFetcher() {
  *   const { measure, recordMetric, startTrace } = usePerformance();

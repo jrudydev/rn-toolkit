@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, StyleSheet, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { InputProps } from './types';
 
 export function Input({

@@ -3,7 +3,7 @@ import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
+import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
 import {
   Text,
   Button,
@@ -13,19 +13,19 @@ import {
   Input,
   Divider,
   Container,
-} from '@rn-toolkit/primitives';
+} from '@astacinco/rn-primitives';
 import {
   I18nProvider,
   ConsoleAdapter as I18nConsoleAdapter,
   useTranslation,
   useLocale,
-} from '@rn-toolkit/i18n';
+} from '@astacinco/rn-i18n';
 import {
   PerformanceProvider,
   ConsoleAdapter as PerfConsoleAdapter,
   usePerformance,
   useRenderTracker,
-} from '@rn-toolkit/performance';
+} from '@astacinco/rn-performance';
 
 // i18n adapter setup
 const i18nAdapter = new I18nConsoleAdapter({
@@ -153,7 +153,7 @@ function HomeScreen() {
             {/* Theming Section */}
             {(activeSection === 'all' || activeSection === 'theming') && (
               <VStack spacing="md">
-                <Text variant="subtitle">@rn-toolkit/theming</Text>
+                <Text variant="subtitle">@astacinco/rn-theming</Text>
 
                 {/* Color Tokens */}
                 <Card variant="outlined">
@@ -202,7 +202,7 @@ function HomeScreen() {
             {/* Primitives Section */}
             {(activeSection === 'all' || activeSection === 'primitives') && (
               <VStack spacing="md">
-                <Text variant="subtitle">@rn-toolkit/primitives</Text>
+                <Text variant="subtitle">@astacinco/rn-primitives</Text>
 
                 {/* Text Variants */}
                 <Card variant="outlined">
@@ -320,7 +320,7 @@ function I18nDemo() {
 
   return (
     <VStack spacing="md">
-      <Text variant="subtitle">@rn-toolkit/i18n</Text>
+      <Text variant="subtitle">@astacinco/rn-i18n</Text>
 
       {/* Locale Switcher */}
       <Card variant="outlined">
@@ -431,7 +431,7 @@ function PerformanceDemo() {
 
   return (
     <VStack spacing="md">
-      <Text variant="subtitle">@rn-toolkit/performance</Text>
+      <Text variant="subtitle">@astacinco/rn-performance</Text>
 
       {/* Render Tracking */}
       <Card variant="outlined">

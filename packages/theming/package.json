@@ -1,5 +1,5 @@
 {
-  "name": "@rn-toolkit/theming",
+  "name": "@astacinco/rn-theming",
   "version": "0.1.0",
   "description": "Scope-based theming system for React Native",
   "main": "src/index.ts",

@@ -38,7 +38,7 @@ export interface UseRenderTrackerResult {
  *
  * @example
  * ```tsx
- * import { useRenderTracker } from '@rn-toolkit/performance';
+ * import { useRenderTracker } from '@astacinco/rn-performance';
  *
  * function ExpensiveComponent({ data, filter }) {
  *   const { renderCount, averageRenderDuration } = useRenderTracker({

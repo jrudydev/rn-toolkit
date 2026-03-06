@@ -31,7 +31,7 @@ import {
   renderWithProviders,
   createThemeSnapshot,
   mockNavigation,
-} from '@rn-toolkit/testing';
+} from '@astacinco/rn-testing';
 ```
 
 ### renderWithTheme
@@ -39,7 +39,7 @@ import {
 Renders a component wrapped in ThemeProvider:
 
 ```typescript
-import { renderWithTheme } from '@rn-toolkit/testing';
+import { renderWithTheme } from '@astacinco/rn-testing';
 
 it('renders with theme', () => {
   const { getByText } = renderWithTheme(
@@ -56,7 +56,7 @@ it('renders with theme', () => {
 Renders with all providers (theme, navigation, etc.):
 
 ```typescript
-import { renderWithProviders } from '@rn-toolkit/testing';
+import { renderWithProviders } from '@astacinco/rn-testing';
 
 it('renders with all providers', () => {
   const { getByTestId } = renderWithProviders(
@@ -74,7 +74,7 @@ it('renders with all providers', () => {
 Generates snapshots for both light and dark modes:
 
 ```typescript
-import { createThemeSnapshot } from '@rn-toolkit/testing';
+import { createThemeSnapshot } from '@astacinco/rn-testing';
 
 describe('ProfileCard', () => {
   it('matches theme snapshots', () => {
@@ -89,7 +89,7 @@ describe('ProfileCard', () => {
 ### Mocks
 
 ```typescript
-import { mockNavigation, mockSDUISchema } from '@rn-toolkit/testing';
+import { mockNavigation, mockSDUISchema } from '@astacinco/rn-testing';
 
 // Mock navigation
 const navigation = mockNavigation();
@@ -112,7 +112,7 @@ The DSL provides a fluent, declarative API for more readable tests.
 ### Screen-Level Assertions
 
 ```typescript
-import { dsl } from '@rn-toolkit/testing/dsl';
+import { dsl } from '@astacinco/rn-testing/dsl';
 
 describe('ProfileScreen', () => {
   it('displays user information', () => {
@@ -130,7 +130,7 @@ describe('ProfileScreen', () => {
 ### Component-Level Assertions
 
 ```typescript
-import { dsl } from '@rn-toolkit/testing/dsl';
+import { dsl } from '@astacinco/rn-testing/dsl';
 
 describe('Button', () => {
   it('handles press state', () => {
@@ -156,7 +156,7 @@ describe('Button', () => {
 ### Theme Variant Testing
 
 ```typescript
-import { dsl } from '@rn-toolkit/testing/dsl';
+import { dsl } from '@astacinco/rn-testing/dsl';
 
 describe('Card', () => {
   it('adapts to theme', () => {

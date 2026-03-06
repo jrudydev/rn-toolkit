@@ -75,13 +75,13 @@ Some developers prefer to copy the package source directly.
 
 | Package | Description |
 |---------|-------------|
-| `@rn-toolkit/sdui` | Server-Driven UI engine |
-| `@rn-toolkit/auth` | Multi-provider authentication |
-| `@rn-toolkit/analytics` | Event tracking with adapters |
-| `@rn-toolkit/deeplink` | Type-safe navigation |
-| `@rn-toolkit/notifications` | Push notifications |
-| `@rn-toolkit/security` | Secure storage & validation |
-| `@rn-toolkit/testing/dsl` | Declarative test DSL |
+| `@astacinco/rn-sdui` | Server-Driven UI engine |
+| `@astacinco/rn-auth` | Multi-provider authentication |
+| `@astacinco/rn-analytics` | Event tracking with adapters |
+| `@astacinco/rn-deeplink` | Type-safe navigation |
+| `@astacinco/rn-notifications` | Push notifications |
+| `@astacinco/rn-security` | Secure storage & validation |
+| `@astacinco/rn-testing/dsl` | Declarative test DSL |
 
 ### Showcase App
 
@@ -94,7 +94,7 @@ Some developers prefer to copy the package source directly.
 Premium packages use free packages internally. Install them from npm:
 
 ```bash
-npm install @rn-toolkit/theming @rn-toolkit/primitives
+npm install @astacinco/rn-theming @astacinco/rn-primitives
 ```
 
 ---

@@ -1,5 +1,5 @@
 /**
- * @rn-toolkit/testing
+ * @astacinco/rn-testing
  *
  * Testing utilities for React Native with automatic theme support.
  *
@@ -7,12 +7,12 @@
  * - **Theme Testing** - renderWithTheme, createThemeSnapshot
  * - **Mock Utilities** - mockNavigation, mockSDUI builders
  *
- * For advanced DSL features (fluent API, matrix testing), see @rn-toolkit/testing
+ * For advanced DSL features (fluent API, matrix testing), see @astacinco/rn-testing
  * in the premium repo: https://patreon.com/SparkLabs343
  *
  * @example
  * ```typescript
- * import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+ * import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
  *
  * describe('MyComponent', () => {
  *   createThemeSnapshot(<MyComponent />);

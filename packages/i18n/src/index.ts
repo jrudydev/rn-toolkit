@@ -1,5 +1,5 @@
 /**
- * @rn-toolkit/i18n
+ * @astacinco/rn-i18n
  *
  * Internationalization with adapter pattern for swappable i18n providers.
  *
@@ -19,7 +19,7 @@
  *   ConsoleAdapter,
  *   useTranslation,
  *   useLocale,
- * } from '@rn-toolkit/i18n';
+ * } from '@astacinco/rn-i18n';
  *
  * // Use Console adapter for debugging
  * const adapter = new ConsoleAdapter({

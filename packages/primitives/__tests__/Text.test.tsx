@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+import { renderWithTheme, createThemeSnapshot } from '@astacinco/rn-testing';
 import { Text } from '../src/Text';
 
 describe('Text', () => {

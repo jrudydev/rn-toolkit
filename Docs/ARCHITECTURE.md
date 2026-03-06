@@ -17,27 +17,27 @@
 ┃            │                                                                  ┃
 ┃            ▼                                                                  ┃
 ┃   ┌─────────────────────────┐    ┌─────────────────────────┐                 ┃
-┃   │    📡 @rn-toolkit/sdui  │    │  🔗 @rn-toolkit/deeplink│                 ┃
+┃   │    📡 @astacinco/rn-sdui  │    │  🔗 @astacinco/rn-deeplink│                 ┃
 ┃   │     (SDUI Engine)       │    │     (Navigation)        │                 ┃
 ┃   │        💎 PAID          │    │        💎 PAID          │                 ┃
 ┃   └───────────┬─────────────┘    └─────────────────────────┘                 ┃
 ┃               │                                                               ┃
 ┃               ▼                                                               ┃
 ┃   ┌───────────────────────────────────────────────────────────────────────┐  ┃
-┃   │                    🧩 @rn-toolkit/primitives                          │  ┃
+┃   │                    🧩 @astacinco/rn-primitives                          │  ┃
 ┃   │                       (UI Components)                                  │  ┃
 ┃   │                          🆓 FREE                                       │  ┃
 ┃   └───────────────────────────────┬───────────────────────────────────────┘  ┃
 ┃                                   │                                           ┃
 ┃                                   ▼                                           ┃
 ┃   ┌───────────────────────────────────────────────────────────────────────┐  ┃
-┃   │                     🎨 @rn-toolkit/theming                            │  ┃
+┃   │                     🎨 @astacinco/rn-theming                            │  ┃
 ┃   │                       (Theme System)                                   │  ┃
 ┃   │                          🆓 FREE                                       │  ┃
 ┃   └───────────────────────────────────────────────────────────────────────┘  ┃
 ┃                                                                               ┃
 ┃   ┌───────────────────────────────────────────────────────────────────────┐  ┃
-┃   │                     🧪 @rn-toolkit/testing                            │  ┃
+┃   │                     🧪 @astacinco/rn-testing                            │  ┃
 ┃   │          Basic Utils 🆓 FREE  │  DSL 💎 PAID                          │  ┃
 ┃   └───────────────────────────────────────────────────────────────────────┘  ┃
 ┃                                                                               ┃
@@ -49,34 +49,34 @@
 ## 🔄 Package Dependencies
 
 ```
-📡 @rn-toolkit/sdui
- ├──▶ 🧩 @rn-toolkit/primitives
- ├──▶ 🔐 @rn-toolkit/security (for schema validation)
- └──▶ 🎨 @rn-toolkit/theming
+📡 @astacinco/rn-sdui
+ ├──▶ 🧩 @astacinco/rn-primitives
+ ├──▶ 🔐 @astacinco/rn-security (for schema validation)
+ └──▶ 🎨 @astacinco/rn-theming
 
-🔑 @rn-toolkit/auth (Firebase Authentication)
- └──▶ 🔐 @rn-toolkit/security (for secure token storage)
+🔑 @astacinco/rn-auth (Firebase Authentication)
+ └──▶ 🔐 @astacinco/rn-security (for secure token storage)
 
-🔔 @rn-toolkit/notifications (Firebase FCM)
- └──▶ 🔗 @rn-toolkit/deeplink (for notification deep links)
+🔔 @astacinco/rn-notifications (Firebase FCM)
+ └──▶ 🔗 @astacinco/rn-deeplink (for notification deep links)
 
-📊 @rn-toolkit/analytics (Firebase Analytics)
+📊 @astacinco/rn-analytics (Firebase Analytics)
  └──▶ (standalone)
 
-🔗 @rn-toolkit/deeplink
+🔗 @astacinco/rn-deeplink
  └──▶ (standalone, optional theming integration)
 
-🧩 @rn-toolkit/primitives
- └──▶ 🎨 @rn-toolkit/theming
+🧩 @astacinco/rn-primitives
+ └──▶ 🎨 @astacinco/rn-theming
 
-🧪 @rn-toolkit/testing
- ├──▶ 🎨 @rn-toolkit/theming (for theme snapshots)
- └──▶ 🧩 @rn-toolkit/primitives (for component testing)
+🧪 @astacinco/rn-testing
+ ├──▶ 🎨 @astacinco/rn-theming (for theme snapshots)
+ └──▶ 🧩 @astacinco/rn-primitives (for component testing)
 
-⚡ @rn-toolkit/performance
+⚡ @astacinco/rn-performance
  └──▶ (standalone, dev-only)
 
-🌍 @rn-toolkit/i18n
+🌍 @astacinco/rn-i18n
  └──▶ (standalone)
 ```
 
@@ -96,7 +96,7 @@
 │            │                    │                    │              │
 │            ▼                    ▼                    ▼              │
 │   ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐    │
-│   │ @rn-toolkit/    │  │ @rn-toolkit/    │  │ @rn-toolkit/    │    │
+│   │ @astacinco/rn-    │  │ @astacinco/rn-    │  │ @astacinco/rn-    │    │
 │   │     auth        │  │  notifications  │  │   analytics     │    │
 │   └─────────────────┘  └─────────────────┘  └─────────────────┘    │
 │                                                                     │
@@ -115,9 +115,9 @@ The toolkit is currently **"Firebase-flavored"** - packages directly integrate w
 **Tightly coupled packages:**
 | Package | Firebase Service | Alternative Providers |
 |---------|------------------|----------------------|
-| `@rn-toolkit/auth` | Firebase Auth | Auth0, Cognito, Supabase, Custom |
-| `@rn-toolkit/notifications` | Firebase FCM | OneSignal, Expo Notifications, AWS SNS |
-| `@rn-toolkit/analytics` | Firebase Analytics | Mixpanel, Amplitude, Segment, PostHog |
+| `@astacinco/rn-auth` | Firebase Auth | Auth0, Cognito, Supabase, Custom |
+| `@astacinco/rn-notifications` | Firebase FCM | OneSignal, Expo Notifications, AWS SNS |
+| `@astacinco/rn-analytics` | Firebase Analytics | Mixpanel, Amplitude, Segment, PostHog |
 
 **Current architecture (direct coupling):**
 ```
@@ -199,11 +199,11 @@ interface AnalyticsAdapter {
 
 | Package | Benefit | Priority |
 |---------|---------|----------|
-| `@rn-toolkit/auth` | **High** - Most likely to swap providers |  ⭐⭐⭐ |
-| `@rn-toolkit/analytics` | **High** - Analytics provider choice varies by project | ⭐⭐⭐ |
-| `@rn-toolkit/notifications` | **Medium** - FCM is common, but OneSignal popular | ⭐⭐ |
-| `@rn-toolkit/security` | **Low** - Could abstract keychain providers | ⭐ |
-| `@rn-toolkit/deeplink` | **Low** - Could abstract nav libraries | ⭐ |
+| `@astacinco/rn-auth` | **High** - Most likely to swap providers |  ⭐⭐⭐ |
+| `@astacinco/rn-analytics` | **High** - Analytics provider choice varies by project | ⭐⭐⭐ |
+| `@astacinco/rn-notifications` | **Medium** - FCM is common, but OneSignal popular | ⭐⭐ |
+| `@astacinco/rn-security` | **Low** - Could abstract keychain providers | ⭐ |
+| `@astacinco/rn-deeplink` | **Low** - Could abstract nav libraries | ⭐ |
 
 ### Migration Path
 
@@ -556,7 +556,7 @@ rn-sdui-toolkit/
 ### 📛 Naming
 | Type | Convention | Example |
 |------|------------|---------|
-| Packages | `@rn-toolkit/<name>` | `@rn-toolkit/theming` |
+| Packages | `@astacinco/rn-<name>` | `@astacinco/rn-theming` |
 | Components | PascalCase | `ThemeProvider`, `SDUIRenderer` |
 | Hooks | camelCase with `use` | `useTheme`, `useDeepLink` |
 | Tests | `Method_Condition_Expected` | `returns_dark_whenModeIsDark` |

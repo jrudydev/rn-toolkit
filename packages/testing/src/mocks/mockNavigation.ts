@@ -1,6 +1,6 @@
 /**
  * Mock navigation utilities for testing.
- * These mocks simulate the @rn-toolkit/deeplink package behavior.
+ * These mocks simulate the @astacinco/rn-deeplink package behavior.
  */
 
 export interface MockNavigationState {
@@ -111,7 +111,7 @@ export function mockNavigation(initialRoute: string = '/home'): MockNavigationRe
  *
  * @example
  * ```typescript
- * jest.mock('@rn-toolkit/deeplink', () => ({
+ * jest.mock('@astacinco/rn-deeplink', () => ({
  *   useDeepLink: createMockUseDeepLink(),
  * }));
  * ```

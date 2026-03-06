@@ -33,7 +33,7 @@ export interface PerformanceProviderProps {
  *
  * @example
  * ```tsx
- * import { PerformanceProvider, ConsoleAdapter } from '@rn-toolkit/performance';
+ * import { PerformanceProvider, ConsoleAdapter } from '@astacinco/rn-performance';
  *
  * const adapter = new ConsoleAdapter({ prefix: '[Perf]' });
  *

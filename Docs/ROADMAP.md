@@ -43,7 +43,7 @@ This toolkit is being built to support rapid React Native app development, with 
 **Status: COMPLETE**
 
 - [x] Monorepo setup (npm workspaces, TypeScript)
-- [x] `@rn-toolkit/theming` package (FREE)
+- [x] `@astacinco/rn-theming` package (FREE)
   - [x] ThemeProvider with scope support
   - [x] useTheme hook
   - [x] Dark/light mode detection
@@ -58,7 +58,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 2: Testing Infrastructure ✅
 **Status: COMPLETE**
 
-- [x] `@rn-toolkit/testing` package
+- [x] `@astacinco/rn-testing` package
   - [x] `renderWithTheme()` - Render with theme provider (FREE)
   - [x] `renderWithProviders()` - Render with all providers (FREE)
   - [x] `createThemeSnapshot()` - Snapshot both light/dark modes (FREE)
@@ -77,7 +77,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 3: Core UI Components ✅
 **Status: COMPLETE**
 
-- [x] `@rn-toolkit/primitives` package (FREE)
+- [x] `@astacinco/rn-primitives` package (FREE)
   - [x] Text (with variants: title, body, caption, etc.)
   - [x] Button (with variants: primary, secondary, outline, ghost)
   - [x] Card (with variants: filled, outlined, elevated)
@@ -93,7 +93,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 4: SDUI Engine ✅
 **Status: COMPLETE**
 
-- [x] `@rn-toolkit/sdui` package (PAID)
+- [x] `@astacinco/rn-sdui` package (PAID)
   - [x] SDUIRenderer component
   - [x] ComponentRegistry for custom components
   - [x] Built-in components (text, button, card, stack, input, divider, image, container)
@@ -105,7 +105,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 5: Security ✅
 **Status: COMPLETE**
 
-- [x] `@rn-toolkit/security` package (PAID)
+- [x] `@astacinco/rn-security` package (PAID)
   - [x] Secure Storage (Keychain/Keystore wrapper)
   - [x] Input Sanitization (XSS, SQL injection, path traversal)
   - [x] Schema Validation with dangerous pattern detection
@@ -118,7 +118,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 6: Authentication ✅
 **Status: COMPLETE** (with Adapter Pattern!)
 
-- [x] `@rn-toolkit/auth` package (PAID)
+- [x] `@astacinco/rn-auth` package (PAID)
   - [x] **Adapter Pattern** - Zero vendor lock-in!
     - [x] `FirebaseAuthAdapter` (production)
     - [x] `ConsoleAdapter` (development/debug)
@@ -136,7 +136,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 7: Internationalization ✅
 **Status: COMPLETE** (with Adapter Pattern!)
 
-- [x] `@rn-toolkit/i18n` package (FREE)
+- [x] `@astacinco/rn-i18n` package (FREE)
   - [x] **Adapter Pattern**
     - [x] `I18nextAdapter` (production)
     - [x] `ConsoleAdapter` (debug)
@@ -151,7 +151,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 8: Deep Linking ✅
 **Status: COMPLETE**
 
-- [x] `@rn-toolkit/deeplink` package (PAID)
+- [x] `@astacinco/rn-deeplink` package (PAID)
   - [x] Type-safe route definitions (enums)
   - [x] DeepLinkProvider with history tracking
   - [x] `useDeepLink()` hook
@@ -168,7 +168,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 9: Push Notifications ✅
 **Status: COMPLETE** (with Adapter Pattern!)
 
-- [x] `@rn-toolkit/notifications` package (PAID)
+- [x] `@astacinco/rn-notifications` package (PAID)
   - [x] **Adapter Pattern**
     - [x] `FirebaseNotificationAdapter` (production)
     - [x] `ConsoleAdapter` (debug - logs all calls)
@@ -184,7 +184,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 10: Analytics ✅
 **Status: COMPLETE** (with Adapter Pattern!)
 
-- [x] `@rn-toolkit/analytics` package (PAID)
+- [x] `@astacinco/rn-analytics` package (PAID)
   - [x] **Adapter Pattern**
     - [x] `FirebaseAnalyticsAdapter` (production)
     - [x] `ConsoleAdapter` (debug - logs events)
@@ -199,7 +199,7 @@ This toolkit is being built to support rapid React Native app development, with 
 ### Phase 11: Performance ✅
 **Status: COMPLETE** (with Adapter Pattern!)
 
-- [x] `@rn-toolkit/performance` package (FREE)
+- [x] `@astacinco/rn-performance` package (FREE)
   - [x] **Adapter Pattern**
     - [x] `FirebasePerformanceAdapter` (production)
     - [x] `ConsoleAdapter` (debug - logs metrics)
@@ -293,22 +293,22 @@ const authAdapter = __DEV__
 ### FREE Tier (MIT License)
 | Package | Description |
 |---------|-------------|
-| `@rn-toolkit/theming` | Dark/light mode, tokens, scoped themes |
-| `@rn-toolkit/primitives` | Text, Button, Card, Stack, Input |
-| `@rn-toolkit/testing` | renderWithTheme, snapshots, mocks |
-| `@rn-toolkit/i18n` | Translations, accessibility |
-| `@rn-toolkit/performance` | Memory leak detection |
+| `@astacinco/rn-theming` | Dark/light mode, tokens, scoped themes |
+| `@astacinco/rn-primitives` | Text, Button, Card, Stack, Input |
+| `@astacinco/rn-testing` | renderWithTheme, snapshots, mocks |
+| `@astacinco/rn-i18n` | Translations, accessibility |
+| `@astacinco/rn-performance` | Memory leak detection |
 
 ### PAID Tier (Commercial License)
 | Package | Description |
 |---------|-------------|
-| `@rn-toolkit/sdui` | JSON → Native UI, Actions |
-| `@rn-toolkit/security` | SecureStorage, Sanitize, Validate |
-| `@rn-toolkit/auth` | Social login, 2FA, adapters |
-| `@rn-toolkit/notifications` | Push, local, topics, adapters |
-| `@rn-toolkit/analytics` | Events, tracking, adapters |
-| `@rn-toolkit/deeplink` | Type-safe routes, badging |
-| `@rn-toolkit/testing/dsl` | Fluent test DSL, matrix testing |
+| `@astacinco/rn-sdui` | JSON → Native UI, Actions |
+| `@astacinco/rn-security` | SecureStorage, Sanitize, Validate |
+| `@astacinco/rn-auth` | Social login, 2FA, adapters |
+| `@astacinco/rn-notifications` | Push, local, topics, adapters |
+| `@astacinco/rn-analytics` | Events, tracking, adapters |
+| `@astacinco/rn-deeplink` | Type-safe routes, badging |
+| `@astacinco/rn-testing/dsl` | Fluent test DSL, matrix testing |
 
 ---
 

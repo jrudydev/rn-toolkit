@@ -40,7 +40,7 @@ export interface UseLocaleResult {
  *
  * @example
  * ```tsx
- * import { useLocale } from '@rn-toolkit/i18n';
+ * import { useLocale } from '@astacinco/rn-i18n';
  *
  * function LanguagePicker() {
  *   const { locale, supportedLocales, setLocale } = useLocale();

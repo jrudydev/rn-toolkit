@@ -5,7 +5,7 @@
 A comprehensive, server-driven layout system for building dynamic dashboards and feed-based UIs. This system allows domain teams to register their "experiences" (content modules) and display them in configurable containers (lists, grids, carousels) with customizable card templates.
 
 **Status**: PLANNED (Future Phase)
-**Package**: `@rn-toolkit/sdui` (extension)
+**Package**: `@astacinco/rn-sdui` (extension)
 **Tier**: PAID
 
 ---

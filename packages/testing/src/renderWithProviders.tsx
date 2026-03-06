@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, RenderOptions, RenderResult } from '@testing-library/react-native';
-import { ThemeProvider, ThemeMode } from '@rn-toolkit/theming';
+import { ThemeProvider, ThemeMode } from '@astacinco/rn-theming';
 
 /**
  * Options for renderWithProviders

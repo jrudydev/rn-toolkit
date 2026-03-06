@@ -41,7 +41,7 @@
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║                                                                              ║
 ║    ┌─────────────────────────────────────────────────────────────────────┐   ║
-║    │                        📦 @rn-toolkit/primitives                    │   ║
+║    │                        📦 @astacinco/rn-primitives                    │   ║
 ║    │     ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐         │   ║
 ║    │     │  Text  │ │ Button │ │  Card  │ │ Stack  │ │ Input  │         │   ║
 ║    │     └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘         │   ║
@@ -54,7 +54,7 @@
 ║                                         │                                    ║
 ║                                         ▼                                    ║
 ║    ┌─────────────────────────────────────────────────────────────────────┐   ║
-║    │                        🎨 @rn-toolkit/theming                       │   ║
+║    │                        🎨 @astacinco/rn-theming                       │   ║
 ║    │                                                                     │   ║
 ║    │     ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │   ║
 ║    │     │    Colors    │    │   Spacing    │    │  Typography  │       │   ║
@@ -71,7 +71,7 @@
 ║                         🔌 ADAPTER PATTERN PACKAGES 🔌                       ║
 ║                                                                              ║
 ║    ┌─────────────────────────────────────────────────────────────────────┐   ║
-║    │                          @rn-toolkit/i18n                           │   ║
+║    │                          @astacinco/rn-i18n                           │   ║
 ║    │                                                                     │   ║
 ║    │     ┌─────────────────────────────────────────────────────────┐     │   ║
 ║    │     │                    I18nProvider                         │     │   ║
@@ -88,7 +88,7 @@
 ║    └─────────────────────────────────────────────────────────────────────┘   ║
 ║                                                                              ║
 ║    ┌─────────────────────────────────────────────────────────────────────┐   ║
-║    │                       @rn-toolkit/performance                       │   ║
+║    │                       @astacinco/rn-performance                       │   ║
 ║    │                                                                     │   ║
 ║    │     ┌─────────────────────────────────────────────────────────┐     │   ║
 ║    │     │                 PerformanceProvider                     │     │   ║
@@ -148,11 +148,11 @@
 
 | Package | Description | Adapters |
 |---------|-------------|----------|
-| `@rn-toolkit/theming` | Theme system with dark/light mode | - |
-| `@rn-toolkit/primitives` | Theme-aware UI components | - |
-| `@rn-toolkit/i18n` | Localization & accessibility | i18next, Console, NoOp |
-| `@rn-toolkit/performance` | Memory leak detection & metrics | Firebase, Console, NoOp |
-| `@rn-toolkit/testing` | Test utilities & snapshots | - |
+| `@astacinco/rn-theming` | Theme system with dark/light mode | - |
+| `@astacinco/rn-primitives` | Theme-aware UI components | - |
+| `@astacinco/rn-i18n` | Localization & accessibility | i18next, Console, NoOp |
+| `@astacinco/rn-performance` | Memory leak detection & metrics | Firebase, Console, NoOp |
+| `@astacinco/rn-testing` | Test utilities & snapshots | - |
 
 ---
 
@@ -160,7 +160,7 @@
 
 ```bash
 # Install from npm
-npm install @rn-toolkit/theming @rn-toolkit/primitives
+npm install @astacinco/rn-theming @astacinco/rn-primitives
 
 # Or clone the demo
 git clone https://github.com/jrudydev/rn-toolkit.git
@@ -221,7 +221,7 @@ cd apps/scaffold && npx expo start --web
 ### Theming
 
 ```typescript
-import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
+import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
 
 <ThemeProvider mode="auto">
   <App />
@@ -240,7 +240,7 @@ function MyComponent() {
 ### Primitives
 
 ```typescript
-import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
+import { Text, Button, Card, VStack } from '@astacinco/rn-primitives';
 
 <VStack spacing="md">
   <Text variant="title">Welcome!</Text>
@@ -254,8 +254,8 @@ import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
 ### i18n with Adapters
 
 ```typescript
-import { I18nProvider, useTranslation } from '@rn-toolkit/i18n';
-import { I18nextAdapter } from '@rn-toolkit/i18n/adapters';
+import { I18nProvider, useTranslation } from '@astacinco/rn-i18n';
+import { I18nextAdapter } from '@astacinco/rn-i18n/adapters';
 
 const adapter = new I18nextAdapter({ resources, lng: 'en' });
 
@@ -267,8 +267,8 @@ const adapter = new I18nextAdapter({ resources, lng: 'en' });
 ### Performance Monitoring
 
 ```typescript
-import { PerformanceProvider, useLeakDetector } from '@rn-toolkit/performance';
-import { ConsoleAdapter } from '@rn-toolkit/performance/adapters';
+import { PerformanceProvider, useLeakDetector } from '@astacinco/rn-performance';
+import { ConsoleAdapter } from '@astacinco/rn-performance/adapters';
 
 <PerformanceProvider adapter={new ConsoleAdapter()}>
   <App />

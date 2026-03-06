@@ -1,4 +1,4 @@
-# @rn-toolkit/i18n
+# @astacinco/rn-i18n
 
 Internationalization with **adapter pattern** for React Native - swap i18n providers without code changes.
 
@@ -15,7 +15,7 @@ Internationalization with **adapter pattern** for React Native - swap i18n provi
 ## Installation
 
 ```bash
-npm install @rn-toolkit/i18n
+npm install @astacinco/rn-i18n
 ```
 
 ### For react-i18next (recommended for production)
@@ -34,7 +34,7 @@ import {
   ReactI18nextAdapter,
   ConsoleAdapter,
   NoOpAdapter,
-} from '@rn-toolkit/i18n';
+} from '@astacinco/rn-i18n';
 
 // Production: react-i18next
 const adapter = new ReactI18nextAdapter({ i18n: i18nextInstance });
@@ -83,7 +83,7 @@ function App() {
 ### 3. Use in components
 
 ```tsx
-import { useTranslation, useLocale, useAccessibility } from '@rn-toolkit/i18n';
+import { useTranslation, useLocale, useAccessibility } from '@astacinco/rn-i18n';
 
 function HomeScreen() {
   // Translation
@@ -136,7 +136,7 @@ Provider component that wraps your app with i18n context.
 #### ConsoleAdapter (Development)
 
 ```typescript
-import { ConsoleAdapter } from '@rn-toolkit/i18n';
+import { ConsoleAdapter } from '@astacinco/rn-i18n';
 
 const adapter = new ConsoleAdapter({
   prefix: '[I18n]',        // Log prefix
@@ -158,7 +158,7 @@ const adapter = new ConsoleAdapter({
 #### NoOpAdapter (Testing)
 
 ```typescript
-import { NoOpAdapter } from '@rn-toolkit/i18n';
+import { NoOpAdapter } from '@astacinco/rn-i18n';
 
 const adapter = new NoOpAdapter();
 // Returns keys as-is, useful for testing
@@ -167,7 +167,7 @@ const adapter = new NoOpAdapter();
 #### ReactI18nextAdapter (Production)
 
 ```typescript
-import { ReactI18nextAdapter } from '@rn-toolkit/i18n';
+import { ReactI18nextAdapter } from '@astacinco/rn-i18n';
 import i18n from './i18n'; // Your i18next instance
 
 const adapter = new ReactI18nextAdapter({
@@ -181,7 +181,7 @@ const adapter = new ReactI18nextAdapter({
 Implement the `I18nAdapter` interface:
 
 ```typescript
-import type { I18nAdapter } from '@rn-toolkit/i18n';
+import type { I18nAdapter } from '@astacinco/rn-i18n';
 
 class MyCustomAdapter implements I18nAdapter {
   readonly name = 'custom';
@@ -359,7 +359,7 @@ import type {
   NumberFormatOptions,
   AccessibilitySettings,
   LocaleConfig,
-} from '@rn-toolkit/i18n';
+} from '@astacinco/rn-i18n';
 ```
 
 ## License

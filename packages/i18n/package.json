@@ -1,5 +1,5 @@
 {
-  "name": "@rn-toolkit/i18n",
+  "name": "@astacinco/rn-i18n",
   "version": "0.1.0",
   "description": "Internationalization with adapter pattern - swap i18n providers without code changes",
   "main": "src/index.ts",

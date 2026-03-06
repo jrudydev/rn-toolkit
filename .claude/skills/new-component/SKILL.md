@@ -6,7 +6,7 @@ allowed-tools: Bash, Read, Write, Glob
 
 # 🧩 New Component Generator
 
-Creates a new themed UI component in `@rn-toolkit/primitives` with:
+Creates a new themed UI component in `@astacinco/rn-primitives` with:
 - Component file with theme integration
 - TypeScript types
 - Unit tests with theme snapshots
@@ -38,7 +38,7 @@ packages/primitives/__tests__/
 // packages/primitives/src/<ComponentName>/<ComponentName>.tsx
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useTheme } from '@rn-toolkit/theming';
+import { useTheme } from '@astacinco/rn-theming';
 import type { <ComponentName>Props } from './types';
 
 export function <ComponentName>({
@@ -104,7 +104,7 @@ export interface <ComponentName>Props extends ViewProps {
 import React from 'react';
 import { Text } from 'react-native';
 import { render } from '@testing-library/react-native';
-import { ThemeProvider } from '@rn-toolkit/theming';
+import { ThemeProvider } from '@astacinco/rn-theming';
 import { <ComponentName> } from '../src/<ComponentName>';
 
 const renderWithTheme = (component: React.ReactElement, mode: 'light' | 'dark' = 'light') => {
@@ -168,12 +168,12 @@ export { <ComponentName> } from './<ComponentName>';
 export type { <ComponentName>Props, <ComponentName>Variant } from './types';
 ```
 
-## SDUI Registration (if @rn-toolkit/sdui exists)
+## SDUI Registration (if @astacinco/rn-sdui exists)
 
 Add to `packages/sdui/src/ComponentRegistry.ts`:
 
 ```typescript
-import { <ComponentName> } from '@rn-toolkit/primitives';
+import { <ComponentName> } from '@astacinco/rn-primitives';
 
 registry.register('<componentName>', <ComponentName>);
 ```

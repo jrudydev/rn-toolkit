@@ -32,7 +32,7 @@ export interface I18nProviderProps {
  *
  * @example
  * ```tsx
- * import { I18nProvider, ConsoleAdapter } from '@rn-toolkit/i18n';
+ * import { I18nProvider, ConsoleAdapter } from '@astacinco/rn-i18n';
  *
  * const adapter = new ConsoleAdapter({
  *   defaultLocale: 'en',

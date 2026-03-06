@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, waitFor } from '@testing-library/react-native';
 import { PerformanceProvider } from '../src/PerformanceProvider';
 import { useLeakDetector } from '../src/hooks/useLeakDetector';
 import { useRenderTracker } from '../src/hooks/useRenderTracker';
@@ -270,7 +270,7 @@ describe('useRenderTracker', () => {
   it('reports_toContext', async () => {
     const adapter = new ConsoleAdapter({ timestamps: false });
 
-    const { result } = renderHook(
+    renderHook(
       () =>
         useRenderTracker({
           componentName: 'TestComponent',
@@ -281,9 +281,7 @@ describe('useRenderTracker', () => {
     await waitFor(() => {
       // Console adapter should have received render info
       // Check that RENDER was logged
-      const renderCall = consoleSpy.mock.calls.find((call) =>
-        call[0]?.includes?.('RENDER')
-      );
+      consoleSpy.mock.calls.find((call) => call[0]?.includes?.('RENDER'));
       // Note: May not be called immediately due to async nature
     });
   });

@@ -1,6 +1,6 @@
 /**
  * Mock SDUI utilities for testing.
- * These mocks simulate the @rn-toolkit/sdui package behavior.
+ * These mocks simulate the @astacinco/rn-sdui package behavior.
  */
 
 /**

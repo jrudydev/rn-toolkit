@@ -1,4 +1,4 @@
-# @rn-toolkit/performance
+# @astacinco/rn-performance
 
 Performance monitoring with **adapter pattern** for React Native - swap monitoring backends without code changes.
 
@@ -15,7 +15,7 @@ Performance monitoring with **adapter pattern** for React Native - swap monitori
 ## Installation
 
 ```bash
-npm install @rn-toolkit/performance
+npm install @astacinco/rn-performance
 ```
 
 ### For Firebase Performance (production)
@@ -34,7 +34,7 @@ import {
   FirebaseAdapter,
   ConsoleAdapter,
   NoOpAdapter,
-} from '@rn-toolkit/performance';
+} from '@astacinco/rn-performance';
 
 // Production: Firebase Performance
 const adapter = new FirebaseAdapter();
@@ -76,7 +76,7 @@ import {
   usePerformance,
   useLeakDetector,
   useRenderTracker,
-} from '@rn-toolkit/performance';
+} from '@astacinco/rn-performance';
 
 function DataLoader() {
   // Performance monitoring
@@ -148,7 +148,7 @@ Provider component that wraps your app with performance context.
 #### ConsoleAdapter (Development)
 
 ```typescript
-import { ConsoleAdapter } from '@rn-toolkit/performance';
+import { ConsoleAdapter } from '@astacinco/rn-performance';
 
 const adapter = new ConsoleAdapter({
   prefix: '[Perf]',       // Log prefix
@@ -161,7 +161,7 @@ const adapter = new ConsoleAdapter({
 #### NoOpAdapter (Testing)
 
 ```typescript
-import { NoOpAdapter } from '@rn-toolkit/performance';
+import { NoOpAdapter } from '@astacinco/rn-performance';
 
 const adapter = new NoOpAdapter();
 // Silent - does nothing (useful for testing)
@@ -170,7 +170,7 @@ const adapter = new NoOpAdapter();
 #### FirebaseAdapter (Production)
 
 ```typescript
-import { FirebaseAdapter } from '@rn-toolkit/performance';
+import { FirebaseAdapter } from '@astacinco/rn-performance';
 
 const adapter = new FirebaseAdapter();
 // Requires @react-native-firebase/perf
@@ -181,7 +181,7 @@ const adapter = new FirebaseAdapter();
 Implement the `PerformanceAdapter` interface:
 
 ```typescript
-import type { PerformanceAdapter } from '@rn-toolkit/performance';
+import type { PerformanceAdapter } from '@astacinco/rn-performance';
 
 class SentryAdapter implements PerformanceAdapter {
   readonly name = 'sentry';
@@ -402,7 +402,7 @@ import type {
   LeakDetectionResult,
   RenderInfo,
   LeakDetectorOptions,
-} from '@rn-toolkit/performance';
+} from '@astacinco/rn-performance';
 ```
 
 ## License

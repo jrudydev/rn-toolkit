@@ -10,11 +10,11 @@ Free packages are published to npm public registry. Premium packages stay in a p
 
 ### Packages
 
-- `@rn-toolkit/theming`
-- `@rn-toolkit/primitives`
-- `@rn-toolkit/i18n`
-- `@rn-toolkit/performance`
-- `@rn-toolkit/testing`
+- `@astacinco/rn-theming`
+- `@astacinco/rn-primitives`
+- `@astacinco/rn-i18n`
+- `@astacinco/rn-performance`
+- `@astacinco/rn-testing`
 
 ### Prerequisites
 

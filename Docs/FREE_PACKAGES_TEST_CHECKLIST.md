@@ -13,7 +13,7 @@ Use this checklist when manually testing the free packages before public release
 
 ---
 
-## Package 1: @rn-toolkit/theming
+## Package 1: @astacinco/rn-theming
 
 ### ThemeProvider
 - [ ] App renders with ThemeProvider wrapper
@@ -56,7 +56,7 @@ Use this checklist when manually testing the free packages before public release
 
 ---
 
-## Package 2: @rn-toolkit/primitives
+## Package 2: @astacinco/rn-primitives
 
 ### Text Component
 - [ ] `variant="title"` renders large bold text
@@ -125,12 +125,12 @@ Use this checklist when manually testing the free packages before public release
 
 ---
 
-## Package 3: @rn-toolkit/testing (FREE parts)
+## Package 3: @astacinco/rn-testing (FREE parts)
 
 ### renderWithTheme
 ```typescript
 // Verify this works in a test file:
-import { renderWithTheme } from '@rn-toolkit/testing';
+import { renderWithTheme } from '@astacinco/rn-testing';
 
 const { getByText } = renderWithTheme(<Text>Hello</Text>, 'light');
 expect(getByText('Hello')).toBeTruthy();
@@ -156,7 +156,7 @@ createThemeSnapshot(<Button label="Test" />);
 
 ---
 
-## Package 4: @rn-toolkit/i18n
+## Package 4: @astacinco/rn-i18n
 
 ### I18nProvider
 - [ ] App renders with I18nProvider
@@ -191,7 +191,7 @@ createThemeSnapshot(<Button label="Test" />);
 
 ---
 
-## Package 5: @rn-toolkit/performance
+## Package 5: @astacinco/rn-performance
 
 ### PerformanceProvider
 - [ ] App renders with PerformanceProvider

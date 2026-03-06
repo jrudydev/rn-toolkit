@@ -44,12 +44,12 @@ npm run typecheck     # TypeScript check
 
 ## Package Naming
 
-All packages use `@rn-toolkit/` scope:
-- `@rn-toolkit/theming`
-- `@rn-toolkit/primitives`
-- `@rn-toolkit/i18n`
-- `@rn-toolkit/performance`
-- `@rn-toolkit/testing`
+All packages use `@astacinco/rn-` scope:
+- `@astacinco/rn-theming`
+- `@astacinco/rn-primitives`
+- `@astacinco/rn-i18n`
+- `@astacinco/rn-performance`
+- `@astacinco/rn-testing`
 
 ## Premium Packages
 
