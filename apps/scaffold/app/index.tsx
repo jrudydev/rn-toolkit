@@ -1,165 +1,292 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@rn-toolkit/theming';
+import {
+  Text,
+  Button,
+  Card,
+  VStack,
+  HStack,
+  Input,
+  Divider,
+  Container,
+} from '@rn-toolkit/primitives';
+
+type DemoSection = 'theming' | 'primitives' | 'all';
 
 export default function HomeScreen() {
   const { colors, spacing, mode, setMode } = useTheme();
+  const [activeSection, setActiveSection] = useState<DemoSection>('all');
+  const [inputValue, setInputValue] = useState('');
+  const [inputError, setInputError] = useState<string | undefined>();
 
   const toggleTheme = () => {
     setMode(mode === 'light' ? 'dark' : 'light');
   };
 
+  const validateInput = (value: string) => {
+    setInputValue(value);
+    if (value.length > 0 && value.length < 3) {
+      setInputError('Must be at least 3 characters');
+    } else {
+      setInputError(undefined);
+    }
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-      <ScrollView contentContainerStyle={[styles.content, { padding: spacing.lg }]}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            RN SDUI Toolkit
-          </Text>
-          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Theme: {mode}
-          </Text>
-        </View>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Container padding={spacing.lg}>
+          <VStack spacing="lg">
+            {/* Header */}
+            <VStack spacing="xs" align="center">
+              <Text variant="title">RN SDUI Toolkit</Text>
+              <Text variant="caption">Free Packages Demo</Text>
+              <HStack spacing="sm">
+                <Text variant="label">Theme:</Text>
+                <Text variant="body" style={{ color: colors.primary }}>
+                  {mode.toUpperCase()}
+                </Text>
+              </HStack>
+            </VStack>
 
-        {/* Theme Toggle */}
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              backgroundColor: colors.primary,
-              marginTop: spacing.xl,
-            },
-          ]}
-          onPress={toggleTheme}
-        >
-          <Text style={[styles.buttonText, { color: colors.textInverse }]}>
-            Toggle Theme
-          </Text>
-        </TouchableOpacity>
+            {/* Theme Toggle */}
+            <Button
+              label={`Switch to ${mode === 'light' ? 'Dark' : 'Light'} Mode`}
+              variant="primary"
+              onPress={toggleTheme}
+            />
 
-        {/* Color Swatches */}
-        <View style={[styles.section, { marginTop: spacing.xl }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Color Tokens
-          </Text>
+            {/* Section Tabs */}
+            <HStack spacing="sm">
+              <Button
+                label="All"
+                variant={activeSection === 'all' ? 'primary' : 'outline'}
+                size="sm"
+                onPress={() => setActiveSection('all')}
+              />
+              <Button
+                label="Theming"
+                variant={activeSection === 'theming' ? 'primary' : 'outline'}
+                size="sm"
+                onPress={() => setActiveSection('theming')}
+              />
+              <Button
+                label="Primitives"
+                variant={activeSection === 'primitives' ? 'primary' : 'outline'}
+                size="sm"
+                onPress={() => setActiveSection('primitives')}
+              />
+            </HStack>
 
-          <View style={styles.swatches}>
-            <ColorSwatch label="Primary" color={colors.primary} textColor={colors.textInverse} />
-            <ColorSwatch label="Secondary" color={colors.secondary} textColor={colors.textInverse} />
-            <ColorSwatch label="Success" color={colors.success} textColor={colors.textInverse} />
-            <ColorSwatch label="Error" color={colors.error} textColor={colors.textInverse} />
-            <ColorSwatch label="Warning" color={colors.warning} textColor={colors.text} />
-            <ColorSwatch label="Info" color={colors.info} textColor={colors.textInverse} />
-          </View>
-        </View>
+            <Divider />
 
-        {/* Surface Cards */}
-        <View style={[styles.section, { marginTop: spacing.xl }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Surface Variants
-          </Text>
+            {/* Theming Section */}
+            {(activeSection === 'all' || activeSection === 'theming') && (
+              <VStack spacing="md">
+                <Text variant="subtitle">@rn-toolkit/theming</Text>
 
-          <View
-            style={[
-              styles.card,
-              {
-                backgroundColor: colors.surface,
-                borderColor: colors.border,
-                marginTop: spacing.md,
-              },
-            ]}
-          >
-            <Text style={[styles.cardTitle, { color: colors.text }]}>Surface</Text>
-            <Text style={[styles.cardBody, { color: colors.textSecondary }]}>
-              Basic surface color for cards and containers.
-            </Text>
-          </View>
+                {/* Color Tokens */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Color Tokens</Text>
+                    <HStack spacing="xs" style={styles.colorRow}>
+                      <ColorSwatch label="Primary" color={colors.primary} />
+                      <ColorSwatch label="Secondary" color={colors.secondary} />
+                      <ColorSwatch label="Success" color={colors.success} />
+                    </HStack>
+                    <HStack spacing="xs" style={styles.colorRow}>
+                      <ColorSwatch label="Error" color={colors.error} />
+                      <ColorSwatch label="Warning" color={colors.warning} />
+                      <ColorSwatch label="Info" color={colors.info} />
+                    </HStack>
+                  </VStack>
+                </Card>
 
-          <View
-            style={[
-              styles.card,
-              {
-                backgroundColor: colors.surfaceElevated,
-                borderColor: colors.border,
-                marginTop: spacing.md,
-              },
-            ]}
-          >
-            <Text style={[styles.cardTitle, { color: colors.text }]}>Surface Elevated</Text>
-            <Text style={[styles.cardBody, { color: colors.textSecondary }]}>
-              Elevated surface for modals and dropdowns.
-            </Text>
-          </View>
-        </View>
+                {/* Surface Variants */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Surface Variants</Text>
+                    <View style={[styles.surfaceSwatch, { backgroundColor: colors.surface }]}>
+                      <Text variant="caption">surface</Text>
+                    </View>
+                    <View style={[styles.surfaceSwatch, { backgroundColor: colors.surfaceElevated }]}>
+                      <Text variant="caption">surfaceElevated</Text>
+                    </View>
+                  </VStack>
+                </Card>
 
-        {/* Spacing Demo */}
-        <View style={[styles.section, { marginTop: spacing.xl }]}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>
-            Spacing Scale
-          </Text>
+                {/* Spacing */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Spacing Scale</Text>
+                    <SpacingDemo label="xs" size={spacing.xs} />
+                    <SpacingDemo label="sm" size={spacing.sm} />
+                    <SpacingDemo label="md" size={spacing.md} />
+                    <SpacingDemo label="lg" size={spacing.lg} />
+                    <SpacingDemo label="xl" size={spacing.xl} />
+                  </VStack>
+                </Card>
+              </VStack>
+            )}
 
-          <View style={styles.spacingDemo}>
-            <SpacingBar label="xs" size={spacing.xs} color={colors.primary} />
-            <SpacingBar label="sm" size={spacing.sm} color={colors.primary} />
-            <SpacingBar label="md" size={spacing.md} color={colors.primary} />
-            <SpacingBar label="lg" size={spacing.lg} color={colors.primary} />
-            <SpacingBar label="xl" size={spacing.xl} color={colors.primary} />
-            <SpacingBar label="xxl" size={spacing.xxl} color={colors.primary} />
-          </View>
-        </View>
+            {/* Primitives Section */}
+            {(activeSection === 'all' || activeSection === 'primitives') && (
+              <VStack spacing="md">
+                <Text variant="subtitle">@rn-toolkit/primitives</Text>
+
+                {/* Text Variants */}
+                <Card variant="outlined">
+                  <VStack spacing="xs">
+                    <Text variant="label">Text Variants</Text>
+                    <Text variant="title">Title Text</Text>
+                    <Text variant="subtitle">Subtitle Text</Text>
+                    <Text variant="body">Body Text</Text>
+                    <Text variant="caption">Caption Text</Text>
+                    <Text variant="label">Label Text</Text>
+                  </VStack>
+                </Card>
+
+                {/* Button Variants */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Button Variants</Text>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Button label="Primary" variant="primary" size="sm" onPress={() => {}} />
+                      <Button label="Secondary" variant="secondary" size="sm" onPress={() => {}} />
+                    </HStack>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Button label="Outline" variant="outline" size="sm" onPress={() => {}} />
+                      <Button label="Ghost" variant="ghost" size="sm" onPress={() => {}} />
+                    </HStack>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Button label="Small" variant="primary" size="sm" onPress={() => {}} />
+                      <Button label="Medium" variant="primary" size="md" onPress={() => {}} />
+                      <Button label="Large" variant="primary" size="lg" onPress={() => {}} />
+                    </HStack>
+                    <Button label="Disabled" variant="primary" disabled onPress={() => {}} />
+                  </VStack>
+                </Card>
+
+                {/* Card Variants */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Card Variants</Text>
+                    <Card variant="filled">
+                      <Text variant="caption">Filled Card</Text>
+                    </Card>
+                    <Card variant="outlined">
+                      <Text variant="caption">Outlined Card</Text>
+                    </Card>
+                    <Card variant="elevated">
+                      <Text variant="caption">Elevated Card</Text>
+                    </Card>
+                  </VStack>
+                </Card>
+
+                {/* Input */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Input Component</Text>
+                    <Input
+                      label="Username"
+                      placeholder="Enter username"
+                      value={inputValue}
+                      onChangeText={validateInput}
+                      error={inputError}
+                    />
+                    <Input
+                      label="Password"
+                      placeholder="Enter password"
+                      secureTextEntry
+                    />
+                    <Input
+                      label="Disabled"
+                      placeholder="Cannot edit"
+                      editable={false}
+                    />
+                  </VStack>
+                </Card>
+
+                {/* Stack Demo */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Stack Components</Text>
+                    <Text variant="caption">VStack (vertical):</Text>
+                    <VStack spacing="xs" style={styles.stackDemo}>
+                      <View style={[styles.stackItem, { backgroundColor: colors.primary }]} />
+                      <View style={[styles.stackItem, { backgroundColor: colors.secondary }]} />
+                      <View style={[styles.stackItem, { backgroundColor: colors.success }]} />
+                    </VStack>
+                    <Text variant="caption">HStack (horizontal):</Text>
+                    <HStack spacing="xs">
+                      <View style={[styles.stackItem, { backgroundColor: colors.primary }]} />
+                      <View style={[styles.stackItem, { backgroundColor: colors.secondary }]} />
+                      <View style={[styles.stackItem, { backgroundColor: colors.success }]} />
+                    </HStack>
+                  </VStack>
+                </Card>
+
+                {/* Divider */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Divider</Text>
+                    <Divider />
+                    <Text variant="caption">Above is a divider</Text>
+                  </VStack>
+                </Card>
+              </VStack>
+            )}
+
+            {/* Footer */}
+            <Divider />
+            <VStack spacing="xs" align="center">
+              <Text variant="caption">Built at Spark Labs</Text>
+              <Text variant="caption" style={{ color: colors.textMuted }}>
+                Testing: theming, primitives
+              </Text>
+            </VStack>
+          </VStack>
+        </Container>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function ColorSwatch({
-  label,
-  color,
-  textColor,
-}: {
-  label: string;
-  color: string;
-  textColor: string;
-}) {
-  const { spacing } = useTheme();
+function ColorSwatch({ label, color }: { label: string; color: string }) {
+  const { colors } = useTheme();
 
   return (
-    <View
-      style={[
-        styles.swatch,
-        {
-          backgroundColor: color,
-          marginRight: spacing.sm,
-          marginBottom: spacing.sm,
-        },
-      ]}
-    >
-      <Text style={[styles.swatchLabel, { color: textColor }]}>{label}</Text>
+    <View style={styles.colorSwatchContainer}>
+      <View style={[styles.colorSwatch, { backgroundColor: color }]} />
+      <Text variant="caption" style={{ color: colors.textSecondary }}>
+        {label}
+      </Text>
     </View>
   );
 }
 
-function SpacingBar({ label, size, color }: { label: string; size: number; color: string }) {
-  const { colors, spacing } = useTheme();
+function SpacingDemo({ label, size }: { label: string; size: number }) {
+  const { colors } = useTheme();
 
   return (
-    <View style={[styles.spacingRow, { marginBottom: spacing.xs }]}>
-      <Text style={[styles.spacingLabel, { color: colors.textSecondary, width: 30 }]}>
+    <HStack spacing="sm" align="center">
+      <Text variant="caption" style={styles.spacingLabel}>
         {label}
       </Text>
-      <View style={[styles.spacingBarBg, { backgroundColor: colors.border, flex: 1 }]}>
+      <View style={[styles.spacingBar, { backgroundColor: colors.border }]}>
         <View
           style={[
-            styles.spacingBarFill,
-            { backgroundColor: color, width: size * 3 },
+            styles.spacingFill,
+            { width: size * 3, backgroundColor: colors.primary },
           ]}
         />
       </View>
-      <Text style={[styles.spacingValue, { color: colors.textMuted, width: 30 }]}>
-        {size}
+      <Text variant="caption" style={{ color: colors.textMuted }}>
+        {size}px
       </Text>
-    </View>
+    </HStack>
   );
 }
 
@@ -167,83 +294,50 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
+  scrollContent: {
     flexGrow: 1,
   },
-  header: {
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontSize: 16,
-    marginTop: 4,
-  },
-  button: {
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  section: {},
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  swatches: {
-    flexDirection: 'row',
+  colorRow: {
     flexWrap: 'wrap',
   },
-  swatch: {
-    width: 80,
-    height: 60,
+  colorSwatchContainer: {
+    alignItems: 'center',
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  colorSwatch: {
+    width: 48,
+    height: 48,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginBottom: 4,
   },
-  swatchLabel: {
-    fontSize: 11,
-    fontWeight: '500',
-  },
-  card: {
-    padding: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  cardBody: {
-    fontSize: 14,
-    marginTop: 4,
-  },
-  spacingDemo: {},
-  spacingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  surfaceSwatch: {
+    padding: 12,
+    borderRadius: 8,
   },
   spacingLabel: {
-    fontSize: 12,
+    width: 24,
   },
-  spacingBarBg: {
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 8,
-  },
-  spacingBarFill: {
+  spacingBar: {
+    flex: 1,
     height: 8,
     borderRadius: 4,
   },
-  spacingValue: {
-    fontSize: 12,
-    textAlign: 'right',
+  spacingFill: {
+    height: 8,
+    borderRadius: 4,
+  },
+  buttonRow: {
+    flexWrap: 'wrap',
+  },
+  stackDemo: {
+    padding: 8,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 8,
+  },
+  stackItem: {
+    width: 40,
+    height: 24,
+    borderRadius: 4,
   },
 });

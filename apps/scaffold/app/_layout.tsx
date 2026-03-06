@@ -1,5 +1,6 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
 
 function ThemedStatusBar() {
@@ -9,13 +10,15 @@ function ThemedStatusBar() {
 
 export default function RootLayout() {
   return (
-    <ThemeProvider mode="auto">
-      <ThemedStatusBar />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider mode="auto">
+        <ThemedStatusBar />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

@@ -13,6 +13,9 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "^55.0.6",
+    "@rn-toolkit/i18n": "*",
+    "@rn-toolkit/performance": "*",
+    "@rn-toolkit/primitives": "*",
     "@rn-toolkit/theming": "*",
     "expo": "~50.0.0",
     "expo-router": "~3.4.0",
