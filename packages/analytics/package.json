@@ -4,6 +4,15 @@
   "description": "Analytics tracking with adapter pattern - swap providers without code changes",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "directory": "packages/analytics"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "jest",
@@ -19,8 +28,8 @@
     "tracking",
     "adapter-pattern"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "Spark Labs <hello@sparklabs.dev>",
+  "license": "Commercial",
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-native": ">=0.72.0"

@@ -4,6 +4,16 @@
   "description": "Performance monitoring with adapter pattern - memory leak detection and metrics reporting",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "directory": "packages/performance"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Spark Labs <hello@sparklabs.dev>",
+  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "jest"

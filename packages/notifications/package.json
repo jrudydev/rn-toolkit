@@ -4,6 +4,15 @@
   "description": "Firebase-powered push notifications for React Native with topic subscriptions, local notifications, and deep link integration",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "directory": "packages/notifications"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "jest"
@@ -16,8 +25,8 @@
     "fcm",
     "local-notifications"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "Spark Labs <hello@sparklabs.dev>",
+  "license": "Commercial",
   "peerDependencies": {
     "@react-native-firebase/app": ">=18.0.0",
     "@react-native-firebase/messaging": ">=18.0.0",

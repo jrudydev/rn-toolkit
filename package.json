@@ -15,7 +15,10 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules"
+    "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules",
+    "versions": "npm ls --depth=0 --workspaces",
+    "publish:free": "npm publish -w @rn-toolkit/theming --access public && npm publish -w @rn-toolkit/primitives --access public && npm publish -w @rn-toolkit/i18n --access public && npm publish -w @rn-toolkit/performance --access public && npm publish -w @rn-toolkit/testing --access public",
+    "publish:paid": "npm publish -w @rn-toolkit/sdui --registry=https://npm.pkg.github.com && npm publish -w @rn-toolkit/auth --registry=https://npm.pkg.github.com && npm publish -w @rn-toolkit/analytics --registry=https://npm.pkg.github.com && npm publish -w @rn-toolkit/deeplink --registry=https://npm.pkg.github.com && npm publish -w @rn-toolkit/notifications --registry=https://npm.pkg.github.com && npm publish -w @rn-toolkit/security --registry=https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

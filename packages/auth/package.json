@@ -4,6 +4,15 @@
   "description": "Firebase authentication for React Native with social login, email/password, and 2FA support",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "directory": "packages/auth"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -17,7 +26,7 @@
     "2fa",
     "mfa"
   ],
-  "author": "",
+  "author": "Spark Labs <hello@sparklabs.dev>",
   "license": "Commercial",
   "peerDependencies": {
     "react": ">=18.0.0",

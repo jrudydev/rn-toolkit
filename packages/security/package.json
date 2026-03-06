@@ -7,9 +7,14 @@
   "license": "Commercial",
   "repository": {
     "type": "git",
-    "url": "https://github.com/user/rn-sdui-toolkit.git",
+    "url": "https://github.com/sparklabs343/rn-toolkit.git",
     "directory": "packages/security"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "author": "Spark Labs <hello@sparklabs.dev>",
+  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
   "keywords": [
     "react-native",
     "security",
