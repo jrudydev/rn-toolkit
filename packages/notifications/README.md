@@ -1,13 +1,14 @@
 # @rn-toolkit/notifications
 
-Push notification management with Firebase Cloud Messaging integration for React Native.
+Push notification management for React Native with **adapter pattern** for swappable backends.
 
 ## Features
 
-- **FCM Integration** - Full Firebase Cloud Messaging support
+- **Adapter Pattern** - Swap notification backends (Firebase, OneSignal, Expo, etc.) without changing app code
+- **Built-in Adapters** - Firebase, Console (debug), NoOp (testing)
 - **Topic Subscriptions** - Subscribe/unsubscribe to notification topics
 - **Permission Handling** - Request and track notification permissions
-- **Token Management** - Automatic FCM token retrieval and refresh
+- **Token Management** - Automatic push token retrieval and refresh
 - **In-App Notifications** - Display notifications within the app
 - **Local Notifications** - Schedule local notifications
 - **Badge Management** - Control app badge count
@@ -19,25 +20,52 @@ Push notification management with Firebase Cloud Messaging integration for React
 npm install @rn-toolkit/notifications
 ```
 
-### Peer Dependencies
+### Peer Dependencies (Optional)
+
+Only install peer dependencies for the adapter you're using:
 
 ```bash
-# Required for push notifications
+# For FirebaseNotificationAdapter
 npm install @react-native-firebase/app @react-native-firebase/messaging
-```
 
-Follow the [Firebase setup guide](https://rnfirebase.io/) to configure your project.
+# For other adapters (OneSignal, Expo, etc.)
+# Install their respective SDKs
+```
 
 ## Quick Start
 
-### 1. Wrap your app with NotificationProvider
+### 1. Choose an adapter
 
 ```tsx
-import { NotificationProvider } from '@rn-toolkit/notifications';
+import {
+  NotificationProvider,
+  FirebaseNotificationAdapter,
+  ConsoleAdapter,
+  NoOpAdapter,
+} from '@rn-toolkit/notifications';
 
+// Production: Firebase Cloud Messaging
+const adapter = new FirebaseNotificationAdapter();
+
+// Development: Console logging (logs all calls to console)
+const adapter = new ConsoleAdapter({ prefix: '[Notifications]' });
+
+// Testing: NoOp (does nothing, configurable responses)
+const adapter = new NoOpAdapter({ initialPermission: 'granted' });
+
+// Environment-based selection
+const adapter = __DEV__
+  ? new ConsoleAdapter({ prefix: '[Notif]' })
+  : new FirebaseNotificationAdapter();
+```
+
+### 2. Wrap your app with NotificationProvider
+
+```tsx
 function App() {
   return (
     <NotificationProvider
+      adapter={adapter}
       config={{
         requestPermissionOnInit: true,
         autoSubscribeTopics: ['general', 'updates'],
@@ -52,7 +80,7 @@ function App() {
         },
         onTokenReceived: (token) => {
           // Send token to your backend
-          console.log('FCM Token:', token);
+          console.log('Push Token:', token);
         },
       }}
     >
@@ -62,7 +90,7 @@ function App() {
 }
 ```
 
-### 2. Use hooks in components
+### 3. Use hooks in components
 
 ```tsx
 import {
@@ -109,7 +137,7 @@ function NotificationSettings() {
 }
 ```
 
-### 3. Display in-app notifications
+### 4. Display in-app notifications
 
 ```tsx
 import { InAppNotification, useNotifications } from '@rn-toolkit/notifications';
@@ -135,25 +163,101 @@ function AppWithNotifications() {
 }
 ```
 
+## Adapters
+
+### FirebaseNotificationAdapter
+
+Production adapter using Firebase Cloud Messaging.
+
+```tsx
+import { FirebaseNotificationAdapter } from '@rn-toolkit/notifications';
+
+const adapter = new FirebaseNotificationAdapter();
+```
+
+**Requirements:**
+- `@react-native-firebase/app` and `@react-native-firebase/messaging` installed
+- Firebase configured in your project
+
+### ConsoleAdapter
+
+Debug adapter that logs all notification operations to the console.
+
+```tsx
+import { ConsoleAdapter } from '@rn-toolkit/notifications';
+
+const adapter = new ConsoleAdapter({
+  prefix: '[Notifications]',  // Log prefix
+  mockToken: 'debug-token',   // Token to return
+  initialPermission: 'granted', // Initial permission state
+});
+```
+
+### NoOpAdapter
+
+Testing adapter with configurable behavior. Does nothing by default.
+
+```tsx
+import { NoOpAdapter } from '@rn-toolkit/notifications';
+
+const adapter = new NoOpAdapter({
+  initialPermission: 'granted',  // 'granted' | 'denied' | 'not_determined' | 'provisional'
+  mockToken: 'test-fcm-token',   // Token to return from getToken()
+});
+```
+
+### Custom Adapters
+
+Implement the `NotificationAdapter` interface to create custom adapters:
+
+```tsx
+import type { NotificationAdapter } from '@rn-toolkit/notifications';
+
+class OneSignalAdapter implements NotificationAdapter {
+  readonly name = 'onesignal';
+
+  async initialize() {
+    // Initialize OneSignal SDK
+  }
+
+  async getPermissionStatus() {
+    // Return permission status
+  }
+
+  async requestPermission() {
+    // Request permission
+  }
+
+  async getToken() {
+    // Return push token
+  }
+
+  // ... implement all interface methods
+}
+```
+
 ## API Reference
 
 ### NotificationProvider
 
-Provider component that manages notification state and Firebase integration.
+Provider component that manages notification state.
 
 ```tsx
-<NotificationProvider config={config} messaging={customMessaging}>
+<NotificationProvider
+  adapter={adapter}     // Required: NotificationAdapter
+  config={config}       // Optional: NotificationConfig
+>
   {children}
 </NotificationProvider>
 ```
 
 #### Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `config` | `NotificationConfig` | Configuration options |
-| `messaging` | `FirebaseMessaging` | Custom messaging instance (optional) |
-| `children` | `ReactNode` | Child components |
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `adapter` | `NotificationAdapter` | Yes | Notification backend adapter |
+| `config` | `NotificationConfig` | No | Configuration options |
+| `children` | `ReactNode` | Yes | Child components |
 
 #### NotificationConfig
 
@@ -165,7 +269,7 @@ interface NotificationConfig {
   // Topics to auto-subscribe after permission granted
   autoSubscribeTopics?: string[];
 
-  // Callback when FCM token is received/refreshed
+  // Callback when push token is received/refreshed
   onTokenReceived?: (token: string) => void;
 
   // Notification handlers
@@ -186,13 +290,13 @@ Main hook providing full notification context access.
 
 ```typescript
 const {
-  token,              // FCM token (string | null)
+  token,              // Push token (string | null)
   permission,         // Permission object
   isInitialized,      // Provider initialization state
   hasPermission,      // Quick permission check
   initialNotification, // Notification that opened the app
   requestPermission,  // Request notification permission
-  getToken,           // Fetch/refresh FCM token
+  getToken,           // Fetch/refresh push token
   subscribeToTopic,   // Subscribe to a topic
   unsubscribeFromTopic, // Unsubscribe from a topic
   getTopics,          // Get subscribed topics
@@ -207,11 +311,11 @@ const {
 
 #### usePushToken
 
-Focused hook for FCM token management.
+Focused hook for push token management.
 
 ```typescript
 const {
-  token,      // Current FCM token
+  token,      // Current push token
   isLoading,  // Loading state
   error,      // Error if any
   refresh,    // Refresh token
@@ -273,6 +377,44 @@ Displays in-app notification banners.
 />
 ```
 
+### NotificationAdapter Interface
+
+```typescript
+interface NotificationAdapter {
+  readonly name: string;
+
+  // Lifecycle
+  initialize(): Promise<void>;
+
+  // Permission
+  getPermissionStatus(): Promise<NotificationPermission>;
+  requestPermission(): Promise<NotificationPermission>;
+
+  // Token
+  getToken(): Promise<string | null>;
+  deleteToken(): Promise<void>;
+  onTokenRefresh(callback: (token: string) => void): () => void;
+
+  // Topics
+  subscribeToTopic(topic: string): Promise<void>;
+  unsubscribeFromTopic(topic: string): Promise<void>;
+
+  // Notifications
+  onForegroundMessage(callback: (notification: RemoteNotification) => void): () => void;
+  onNotificationOpened(callback: (notification: RemoteNotification) => void): () => void;
+  getInitialNotification(): Promise<RemoteNotification | null>;
+
+  // Local Notifications
+  scheduleNotification(notification: LocalNotification): Promise<string>;
+  cancelNotification(id: string): Promise<void>;
+  cancelAllNotifications(): Promise<void>;
+
+  // Badge
+  getBadgeCount(): Promise<number>;
+  setBadgeCount(count: number): Promise<void>;
+}
+```
+
 ## Types
 
 ```typescript
@@ -319,36 +461,60 @@ interface NotificationPermission {
 }
 ```
 
+## Migration from v1 (Firebase-coupled)
+
+If upgrading from the Firebase-coupled version:
+
+```tsx
+// Before (v1)
+<NotificationProvider
+  messaging={messaging}  // Direct Firebase dependency
+  config={config}
+>
+
+// After (v2 - Adapter Pattern)
+import { FirebaseNotificationAdapter } from '@rn-toolkit/notifications';
+
+const adapter = new FirebaseNotificationAdapter();
+
+<NotificationProvider
+  adapter={adapter}  // Adapter abstraction
+  config={config}
+>
+```
+
 ## Platform Notes
 
 ### iOS
 
 - Requires physical device for push notifications (simulator doesn't support)
 - Add Push Notifications capability in Xcode
-- Configure APNs in Firebase Console
+- Configure APNs in your push provider (Firebase, OneSignal, etc.)
 - Provisional permission allows "quiet" notifications
 
 ### Android
 
 - Notifications work on both emulator and device
 - Create notification channels for Android 8+
-- Configure Firebase in `google-services.json`
+- Configure your push provider
 
 ## Testing
 
-The package works without Firebase installed - methods will gracefully return null/empty values. This allows for testing without Firebase setup.
+Use `NoOpAdapter` for unit tests:
 
 ```tsx
-// Mock for testing
-const mockMessaging = {
-  getToken: jest.fn().mockResolvedValue('mock-token'),
-  hasPermission: jest.fn().mockResolvedValue(1),
-  // ... other methods
-};
+import { NoOpAdapter, NotificationProvider } from '@rn-toolkit/notifications';
 
-<NotificationProvider messaging={mockMessaging}>
-  <App />
-</NotificationProvider>
+const testAdapter = new NoOpAdapter({
+  initialPermission: 'granted',
+  mockToken: 'test-token',
+});
+
+render(
+  <NotificationProvider adapter={testAdapter}>
+    <ComponentUnderTest />
+  </NotificationProvider>
+);
 ```
 
 ## License

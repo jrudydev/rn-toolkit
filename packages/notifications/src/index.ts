@@ -1,9 +1,11 @@
 /**
  * @rn-toolkit/notifications
  *
- * Push notification management with Firebase Cloud Messaging integration.
+ * Push notifications with **adapter pattern** for React Native - swap notification backends without code changes.
  *
  * Features:
+ * - **Adapter Pattern** - Swap notification backends (Firebase, OneSignal, etc.) without changing app code
+ * - **Built-in Adapters** - Firebase, Console (debug), NoOp (testing)
  * - FCM push notifications
  * - Topic-based subscriptions
  * - Local notifications
@@ -15,15 +17,24 @@
  * ```tsx
  * import {
  *   NotificationProvider,
+ *   FirebaseNotificationAdapter,
+ *   ConsoleAdapter,
+ *   NoOpAdapter,
  *   useNotifications,
  *   usePushToken,
  *   useTopics,
  * } from '@rn-toolkit/notifications';
  *
+ * // Choose adapter
+ * const adapter = __DEV__
+ *   ? new ConsoleAdapter({ prefix: '[Notif]' })
+ *   : new FirebaseNotificationAdapter();
+ *
  * // Wrap your app
  * function App() {
  *   return (
  *     <NotificationProvider
+ *       adapter={adapter}
  *       config={{
  *         requestPermissionOnInit: true,
  *         autoSubscribeTopics: ['general'],
@@ -65,6 +76,16 @@
 export { NotificationContext } from './NotificationContext';
 export { NotificationProvider } from './NotificationProvider';
 export type { NotificationProviderProps } from './NotificationProvider';
+
+// Adapters
+export {
+  NoOpAdapter,
+  ConsoleAdapter,
+  FirebaseNotificationAdapter,
+  type NotificationAdapter,
+  type NoOpAdapterOptions,
+  type ConsoleAdapterOptions,
+} from './adapters';
 
 // Hooks
 export {

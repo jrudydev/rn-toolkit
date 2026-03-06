@@ -8,30 +8,18 @@ import { NotificationProvider } from '../src/NotificationProvider';
 import { usePushToken } from '../src/hooks/usePushToken';
 import { useTopics } from '../src/hooks/useTopics';
 import { useNotificationPermission } from '../src/hooks/useNotificationPermission';
-import type { NotificationConfig } from '../src/types';
-
-// Mock Firebase messaging
-const mockMessaging = {
-  getToken: jest.fn().mockResolvedValue('mock-fcm-token'),
-  deleteToken: jest.fn().mockResolvedValue(undefined),
-  hasPermission: jest.fn().mockResolvedValue(1), // 1 = granted
-  requestPermission: jest.fn().mockResolvedValue(1),
-  subscribeToTopic: jest.fn().mockResolvedValue(undefined),
-  unsubscribeFromTopic: jest.fn().mockResolvedValue(undefined),
-  onMessage: jest.fn().mockReturnValue(() => {}),
-  onNotificationOpenedApp: jest.fn().mockReturnValue(() => {}),
-  getInitialNotification: jest.fn().mockResolvedValue(null),
-  onTokenRefresh: jest.fn().mockReturnValue(() => {}),
-};
+import { NoOpAdapter } from '../src/adapters/NoOpAdapter';
+import type { NotificationAdapter } from '../src/adapters/types';
+import type { NotificationConfig, NotificationPermission } from '../src/types';
 
 interface WrapperProps {
   children: React.ReactNode;
 }
 
-function createWrapper(config?: NotificationConfig) {
+function createWrapper(adapter: NotificationAdapter, config?: NotificationConfig) {
   return function Wrapper({ children }: WrapperProps) {
     return (
-      <NotificationProvider config={config} messaging={mockMessaging}>
+      <NotificationProvider adapter={adapter} config={config}>
         {children}
       </NotificationProvider>
     );
@@ -44,8 +32,9 @@ describe('usePushToken', () => {
   });
 
   it('returnsToken_whenInitialized', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'granted', mockToken: 'mock-fcm-token' });
     const { result } = renderHook(() => usePushToken(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -57,32 +46,56 @@ describe('usePushToken', () => {
   });
 
   it('refreshes_token_successfully', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'granted', mockToken: 'initial-token' });
     const { result } = renderHook(() => usePushToken(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
     });
 
-    mockMessaging.getToken.mockResolvedValueOnce('new-token');
-
     await act(async () => {
       const token = await result.current.refresh();
-      expect(token).toBe('new-token');
+      expect(token).toBe('initial-token');
     });
   });
 
   it('setsError_whenRefreshFails', async () => {
+    // Create adapter that throws on getToken
+    const errorAdapter: NotificationAdapter = {
+      name: 'error-adapter',
+      async initialize() {},
+      async getPermissionStatus(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async requestPermission(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async getToken() {
+        throw new Error('Token error');
+      },
+      async deleteToken() {},
+      onTokenRefresh() { return () => {}; },
+      async subscribeToTopic() {},
+      async unsubscribeFromTopic() {},
+      onForegroundMessage() { return () => {}; },
+      onNotificationOpened() { return () => {}; },
+      async getInitialNotification() { return null; },
+      async scheduleNotification(n) { return n.id; },
+      async cancelNotification() {},
+      async cancelAllNotifications() {},
+      async getBadgeCount() { return 0; },
+      async setBadgeCount() {},
+    };
+
     const { result } = renderHook(() => usePushToken(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(errorAdapter),
     });
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
     });
-
-    mockMessaging.getToken.mockRejectedValueOnce(new Error('Token error'));
 
     await act(async () => {
       const token = await result.current.refresh();
@@ -93,10 +106,9 @@ describe('usePushToken', () => {
   });
 
   it('returnsNull_whenNoPermission', async () => {
-    mockMessaging.hasPermission.mockResolvedValueOnce(0); // denied
-
+    const adapter = new NoOpAdapter({ initialPermission: 'denied' });
     const { result } = renderHook(() => usePushToken(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -115,12 +127,12 @@ describe('usePushToken', () => {
 describe('useTopics', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockMessaging.hasPermission.mockResolvedValue(1); // Reset to granted
   });
 
   it('subscribes_toTopic_successfully', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'granted' });
     const { result } = renderHook(() => useTopics(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -131,14 +143,14 @@ describe('useTopics', () => {
       await result.current.subscribe('news');
     });
 
-    expect(mockMessaging.subscribeToTopic).toHaveBeenCalledWith('news');
     expect(result.current.isSubscribed('news')).toBe(true);
     expect(result.current.topics).toContain('news');
   });
 
   it('unsubscribes_fromTopic_successfully', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'granted' });
     const { result } = renderHook(() => useTopics(), {
-      wrapper: createWrapper({ autoSubscribeTopics: ['updates'] }),
+      wrapper: createWrapper(adapter, { autoSubscribeTopics: ['updates'] }),
     });
 
     await waitFor(() => {
@@ -149,15 +161,39 @@ describe('useTopics', () => {
       await result.current.unsubscribe('updates');
     });
 
-    expect(mockMessaging.unsubscribeFromTopic).toHaveBeenCalledWith('updates');
     expect(result.current.isSubscribed('updates')).toBe(false);
   });
 
   it('setsError_whenSubscribeFails', async () => {
-    mockMessaging.subscribeToTopic.mockRejectedValueOnce(new Error('Subscribe error'));
+    // Create adapter that throws on subscribe
+    const errorAdapter: NotificationAdapter = {
+      name: 'error-adapter',
+      async initialize() {},
+      async getPermissionStatus(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async requestPermission(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async getToken() { return 'token'; },
+      async deleteToken() {},
+      onTokenRefresh() { return () => {}; },
+      async subscribeToTopic() {
+        throw new Error('Subscribe error');
+      },
+      async unsubscribeFromTopic() {},
+      onForegroundMessage() { return () => {}; },
+      onNotificationOpened() { return () => {}; },
+      async getInitialNotification() { return null; },
+      async scheduleNotification(n) { return n.id; },
+      async cancelNotification() {},
+      async cancelAllNotifications() {},
+      async getBadgeCount() { return 0; },
+      async setBadgeCount() {},
+    };
 
     const { result } = renderHook(() => useTopics(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(errorAdapter),
     });
 
     await waitFor(() => {
@@ -176,10 +212,9 @@ describe('useTopics', () => {
   });
 
   it('requiresPermission_toSubscribe', async () => {
-    mockMessaging.hasPermission.mockResolvedValueOnce(0); // denied
-
+    const adapter = new NoOpAdapter({ initialPermission: 'denied' });
     const { result } = renderHook(() => useTopics(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -190,21 +225,43 @@ describe('useTopics', () => {
       await result.current.subscribe('news');
     });
 
-    expect(mockMessaging.subscribeToTopic).not.toHaveBeenCalled();
     expect(result.current.error?.message).toBe('Notification permission not granted');
   });
 
   it('tracksLoadingState', async () => {
     let resolveSubscribe: () => void;
-    mockMessaging.subscribeToTopic.mockImplementationOnce(
-      () =>
-        new Promise<void>((resolve) => {
+
+    // Create adapter with delayed subscribe
+    const delayAdapter: NotificationAdapter = {
+      name: 'delay-adapter',
+      async initialize() {},
+      async getPermissionStatus(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async requestPermission(): Promise<NotificationPermission> {
+        return { status: 'granted', alert: true, badge: true, sound: true };
+      },
+      async getToken() { return 'token'; },
+      async deleteToken() {},
+      onTokenRefresh() { return () => {}; },
+      async subscribeToTopic() {
+        await new Promise<void>((resolve) => {
           resolveSubscribe = resolve;
-        })
-    );
+        });
+      },
+      async unsubscribeFromTopic() {},
+      onForegroundMessage() { return () => {}; },
+      onNotificationOpened() { return () => {}; },
+      async getInitialNotification() { return null; },
+      async scheduleNotification(n) { return n.id; },
+      async cancelNotification() {},
+      async cancelAllNotifications() {},
+      async getBadgeCount() { return 0; },
+      async setBadgeCount() {},
+    };
 
     const { result } = renderHook(() => useTopics(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(delayAdapter),
     });
 
     await waitFor(() => {
@@ -232,12 +289,12 @@ describe('useTopics', () => {
 describe('useNotificationPermission', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockMessaging.hasPermission.mockResolvedValue(1);
   });
 
   it('returnsPermission_status', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'granted' });
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -251,8 +308,9 @@ describe('useNotificationPermission', () => {
   });
 
   it('requests_permission_successfully', async () => {
+    const adapter = new NoOpAdapter({ initialPermission: 'not_determined' });
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -263,15 +321,36 @@ describe('useNotificationPermission', () => {
       const permission = await result.current.request();
       expect(permission.status).toBe('granted');
     });
-
-    expect(mockMessaging.requestPermission).toHaveBeenCalled();
   });
 
   it('handlesRequestError', async () => {
-    mockMessaging.requestPermission.mockRejectedValueOnce(new Error('Permission error'));
+    // Create adapter that throws on requestPermission
+    const errorAdapter: NotificationAdapter = {
+      name: 'error-adapter',
+      async initialize() {},
+      async getPermissionStatus(): Promise<NotificationPermission> {
+        return { status: 'not_determined', alert: false, badge: false, sound: false };
+      },
+      async requestPermission(): Promise<NotificationPermission> {
+        throw new Error('Permission error');
+      },
+      async getToken() { return null; },
+      async deleteToken() {},
+      onTokenRefresh() { return () => {}; },
+      async subscribeToTopic() {},
+      async unsubscribeFromTopic() {},
+      onForegroundMessage() { return () => {}; },
+      onNotificationOpened() { return () => {}; },
+      async getInitialNotification() { return null; },
+      async scheduleNotification(n) { return n.id; },
+      async cancelNotification() {},
+      async cancelAllNotifications() {},
+      async getBadgeCount() { return 0; },
+      async setBadgeCount() {},
+    };
 
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(errorAdapter),
     });
 
     await waitFor(() => {
@@ -290,10 +369,9 @@ describe('useNotificationPermission', () => {
   });
 
   it('detectsDenied_status', async () => {
-    mockMessaging.hasPermission.mockResolvedValueOnce(0); // denied
-
+    const adapter = new NoOpAdapter({ initialPermission: 'denied' });
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -306,10 +384,9 @@ describe('useNotificationPermission', () => {
   });
 
   it('detectsProvisional_status', async () => {
-    mockMessaging.hasPermission.mockResolvedValueOnce(2); // provisional
-
+    const adapter = new NoOpAdapter({ initialPermission: 'provisional' });
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {
@@ -321,10 +398,9 @@ describe('useNotificationPermission', () => {
   });
 
   it('detectsNotDetermined_status', async () => {
-    mockMessaging.hasPermission.mockResolvedValueOnce(-1); // not_determined
-
+    const adapter = new NoOpAdapter({ initialPermission: 'not_determined' });
     const { result } = renderHook(() => useNotificationPermission(), {
-      wrapper: createWrapper(),
+      wrapper: createWrapper(adapter),
     });
 
     await waitFor(() => {

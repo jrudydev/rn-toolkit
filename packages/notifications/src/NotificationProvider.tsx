@@ -1,7 +1,7 @@
 /**
  * Notification Provider
  *
- * Provides notification context with Firebase Cloud Messaging integration.
+ * Provides notification context using the adapter pattern for swappable backends.
  */
 
 import React, {
@@ -12,8 +12,9 @@ import React, {
   useState,
   type ReactNode,
 } from 'react';
-import { Platform, AppState, type AppStateStatus } from 'react-native';
+import { AppState, type AppStateStatus } from 'react-native';
 import { NotificationContext } from './NotificationContext';
+import type { NotificationAdapter } from './adapters/types';
 import type {
   NotificationConfig,
   NotificationContextValue,
@@ -22,72 +23,51 @@ import type {
   LocalNotification,
 } from './types';
 
-// Firebase types (optional peer dependency)
-type FirebaseMessaging = {
-  getToken: () => Promise<string>;
-  deleteToken: () => Promise<void>;
-  hasPermission: () => Promise<number>;
-  requestPermission: () => Promise<number>;
-  subscribeToTopic: (topic: string) => Promise<void>;
-  unsubscribeFromTopic: (topic: string) => Promise<void>;
-  onMessage: (callback: (message: FirebaseRemoteMessage) => void) => () => void;
-  onNotificationOpenedApp: (callback: (message: FirebaseRemoteMessage) => void) => () => void;
-  getInitialNotification: () => Promise<FirebaseRemoteMessage | null>;
-  onTokenRefresh: (callback: (token: string) => void) => () => void;
-};
-
-type FirebaseRemoteMessage = {
-  messageId?: string;
-  notification?: {
-    title?: string;
-    body?: string;
-    imageUrl?: string;
-  };
-  data?: Record<string, string>;
-  sentTime?: number;
-  ttl?: number;
-  collapseKey?: string;
-};
-
 export interface NotificationProviderProps {
+  /** Child components */
   children: ReactNode;
+  /** Notification adapter (required) */
+  adapter: NotificationAdapter;
+  /** Configuration options */
   config?: NotificationConfig;
-  messaging?: FirebaseMessaging;
 }
 
-function toRemoteNotification(message: FirebaseRemoteMessage): RemoteNotification {
-  return {
-    messageId: message.messageId || '',
-    title: message.notification?.title,
-    body: message.notification?.body,
-    imageUrl: message.notification?.imageUrl,
-    data: message.data,
-    sentTime: message.sentTime,
-    ttl: message.ttl,
-    collapseKey: message.collapseKey,
-    link: message.data?.link,
-  };
-}
-
-function toPermissionStatus(authStatus: number): NotificationPermission {
-  const statusMap: Record<number, NotificationPermission['status']> = {
-    [-1]: 'not_determined',
-    0: 'denied',
-    1: 'granted',
-    2: 'provisional',
-  };
-  return {
-    status: statusMap[authStatus] || 'not_determined',
-    alert: authStatus === 1,
-    badge: authStatus === 1,
-    sound: authStatus === 1,
-  };
-}
-
+/**
+ * NotificationProvider component
+ *
+ * Provides notification context to the component tree using the adapter pattern.
+ *
+ * @example
+ * ```tsx
+ * import {
+ *   NotificationProvider,
+ *   FirebaseNotificationAdapter,
+ *   ConsoleAdapter,
+ *   NoOpAdapter,
+ * } from '@rn-toolkit/notifications';
+ *
+ * // Production: Firebase Cloud Messaging
+ * const adapter = new FirebaseNotificationAdapter();
+ *
+ * // Development: Console logging
+ * const adapter = new ConsoleAdapter({ prefix: '[Notif]' });
+ *
+ * // Testing: NoOp
+ * const adapter = new NoOpAdapter();
+ *
+ * function App() {
+ *   return (
+ *     <NotificationProvider adapter={adapter}>
+ *       <MyApp />
+ *     </NotificationProvider>
+ *   );
+ * }
+ * ```
+ */
 export function NotificationProvider({
   children,
+  adapter,
   config = {},
-  messaging: customMessaging,
 }: NotificationProviderProps) {
   const [token, setToken] = useState<string | null>(null);
   const [permission, setPermission] = useState<NotificationPermission | null>(null);
@@ -95,152 +75,155 @@ export function NotificationProvider({
   const [initialNotification, setInitialNotification] = useState<RemoteNotification | null>(null);
 
   const topicsRef = useRef<Set<string>>(new Set());
-  const messagingRef = useRef<FirebaseMessaging | null>(customMessaging || null);
   const appStateRef = useRef<AppStateStatus>(AppState.currentState);
 
-  const getMessaging = useCallback((): FirebaseMessaging | null => {
-    if (messagingRef.current) return messagingRef.current;
-    try {
-      const fm = require('@react-native-firebase/messaging').default;
-      messagingRef.current = fm();
-      return messagingRef.current;
-    } catch {
-      return null;
-    }
-  }, []);
-
+  // Request permission
   const requestPermission = useCallback(async (): Promise<NotificationPermission> => {
-    const messaging = getMessaging();
-    if (!messaging) {
-      const denied: NotificationPermission = { status: 'denied', alert: false, badge: false, sound: false };
-      setPermission(denied);
-      return denied;
-    }
-    try {
-      const authStatus = await messaging.requestPermission();
-      const perm = toPermissionStatus(authStatus);
-      setPermission(perm);
-      return perm;
-    } catch {
-      const denied: NotificationPermission = { status: 'denied', alert: false, badge: false, sound: false };
-      setPermission(denied);
-      return denied;
-    }
-  }, [getMessaging]);
+    const perm = await adapter.requestPermission();
+    setPermission(perm);
+    return perm;
+  }, [adapter]);
 
+  // Get token
   const getToken = useCallback(async (): Promise<string | null> => {
-    const messaging = getMessaging();
-    if (!messaging) return null;
-    try {
-      const fcmToken = await messaging.getToken();
+    const fcmToken = await adapter.getToken();
+    if (fcmToken) {
       setToken(fcmToken);
       config.onTokenReceived?.(fcmToken);
-      return fcmToken;
-    } catch {
-      return null;
     }
-  }, [getMessaging, config]);
+    return fcmToken;
+  }, [adapter, config]);
 
+  // Subscribe to topic
   const subscribeToTopic = useCallback(async (topic: string): Promise<void> => {
-    const messaging = getMessaging();
-    if (!messaging) return;
-    await messaging.subscribeToTopic(topic);
+    await adapter.subscribeToTopic(topic);
     topicsRef.current.add(topic);
-  }, [getMessaging]);
+  }, [adapter]);
 
+  // Unsubscribe from topic
   const unsubscribeFromTopic = useCallback(async (topic: string): Promise<void> => {
-    const messaging = getMessaging();
-    if (!messaging) return;
-    await messaging.unsubscribeFromTopic(topic);
+    await adapter.unsubscribeFromTopic(topic);
     topicsRef.current.delete(topic);
-  }, [getMessaging]);
+  }, [adapter]);
 
+  // Get subscribed topics
   const getTopics = useCallback((): string[] => Array.from(topicsRef.current), []);
 
+  // Schedule local notification
   const scheduleNotification = useCallback(async (notification: LocalNotification): Promise<string> => {
-    console.log('Schedule notification:', notification.id);
-    return notification.id;
-  }, []);
+    return adapter.scheduleNotification(notification);
+  }, [adapter]);
 
+  // Cancel notification
   const cancelNotification = useCallback(async (id: string): Promise<void> => {
-    console.log('Cancel notification:', id);
-  }, []);
+    await adapter.cancelNotification(id);
+  }, [adapter]);
 
+  // Cancel all notifications
   const cancelAllNotifications = useCallback(async (): Promise<void> => {
-    console.log('Cancel all notifications');
-  }, []);
+    await adapter.cancelAllNotifications();
+  }, [adapter]);
 
-  const getBadgeCount = useCallback(async (): Promise<number> => 0, []);
+  // Get badge count
+  const getBadgeCount = useCallback(async (): Promise<number> => {
+    return adapter.getBadgeCount();
+  }, [adapter]);
 
+  // Set badge count
   const setBadgeCount = useCallback(async (count: number): Promise<void> => {
-    console.log('Set badge:', count);
-  }, []);
+    await adapter.setBadgeCount(count);
+  }, [adapter]);
 
+  // Clear badge
   const clearBadge = useCallback(async (): Promise<void> => {
     await setBadgeCount(0);
   }, [setBadgeCount]);
 
+  // Initialize adapter
   useEffect(() => {
     const init = async () => {
-      const messaging = getMessaging();
-      if (!messaging) {
-        setIsInitialized(true);
-        return;
-      }
       try {
-        const authStatus = await messaging.hasPermission();
-        const perm = toPermissionStatus(authStatus);
+        await adapter.initialize();
+
+        // Check permission status
+        const perm = await adapter.getPermissionStatus();
         setPermission(perm);
+
+        // Request permission on init if configured
         if (config.requestPermissionOnInit && perm.status === 'not_determined') {
           await requestPermission();
         }
+
+        // Get token if permission granted
         if (perm.status === 'granted' || perm.status === 'provisional') {
           await getToken();
         }
-        const initial = await messaging.getInitialNotification();
+
+        // Get initial notification
+        const initial = await adapter.getInitialNotification();
         if (initial) {
-          const notif = toRemoteNotification(initial);
-          setInitialNotification(notif);
-          config.handlers?.onNotificationOpenedApp?.(notif);
+          setInitialNotification(initial);
+          config.handlers?.onNotificationOpenedApp?.(initial);
         }
+
+        // Auto-subscribe to topics
         if (config.autoSubscribeTopics) {
           for (const topic of config.autoSubscribeTopics) {
             await subscribeToTopic(topic);
           }
         }
       } catch (e) {
-        console.warn('Notification init error:', e);
+        console.warn('[@rn-toolkit/notifications] Initialization error:', e);
       }
+
       setIsInitialized(true);
     };
+
     init();
-  }, [getMessaging, config, requestPermission, getToken, subscribeToTopic]);
+  }, [adapter, config, requestPermission, getToken, subscribeToTopic]);
 
+  // Set up notification listeners
   useEffect(() => {
-    const messaging = getMessaging();
-    if (!messaging) return;
-    const unsub1 = messaging.onMessage((msg) => {
-      config.handlers?.onForegroundMessage?.(toRemoteNotification(msg));
+    // Foreground message listener
+    const unsubForeground = adapter.onForegroundMessage((notification) => {
+      config.handlers?.onForegroundMessage?.(notification);
     });
-    const unsub2 = messaging.onNotificationOpenedApp((msg) => {
-      config.handlers?.onNotificationOpened?.(toRemoteNotification(msg));
-    });
-    const unsub3 = messaging.onTokenRefresh((t) => {
-      setToken(t);
-      config.handlers?.onTokenRefresh?.(t);
-      config.onTokenReceived?.(t);
-    });
-    return () => { unsub1(); unsub2(); unsub3(); };
-  }, [getMessaging, config]);
 
+    // Notification opened listener
+    const unsubOpened = adapter.onNotificationOpened((notification) => {
+      config.handlers?.onNotificationOpened?.(notification);
+    });
+
+    // Token refresh listener
+    const unsubToken = adapter.onTokenRefresh((newToken) => {
+      setToken(newToken);
+      config.handlers?.onTokenRefresh?.(newToken);
+      config.onTokenReceived?.(newToken);
+    });
+
+    return () => {
+      unsubForeground();
+      unsubOpened();
+      unsubToken();
+    };
+  }, [adapter, config]);
+
+  // App state listener for token refresh
   useEffect(() => {
-    const sub = AppState.addEventListener('change', (next) => {
-      if (appStateRef.current === 'background' && next === 'active' && permission?.status === 'granted') {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      if (
+        appStateRef.current === 'background' &&
+        nextAppState === 'active' &&
+        permission?.status === 'granted'
+      ) {
         getToken();
       }
-      appStateRef.current = next;
+      appStateRef.current = nextAppState;
     });
-    return () => sub?.remove?.();
+
+    return () => {
+      subscription?.remove?.();
+    };
   }, [permission, getToken]);
 
   const contextValue = useMemo<NotificationContextValue>(() => ({
@@ -260,7 +243,23 @@ export function NotificationProvider({
     getBadgeCount,
     setBadgeCount,
     clearBadge,
-  }), [token, permission, isInitialized, initialNotification, requestPermission, getToken, subscribeToTopic, unsubscribeFromTopic, getTopics, scheduleNotification, cancelNotification, cancelAllNotifications, getBadgeCount, setBadgeCount, clearBadge]);
+  }), [
+    token,
+    permission,
+    isInitialized,
+    initialNotification,
+    requestPermission,
+    getToken,
+    subscribeToTopic,
+    unsubscribeFromTopic,
+    getTopics,
+    scheduleNotification,
+    cancelNotification,
+    cancelAllNotifications,
+    getBadgeCount,
+    setBadgeCount,
+    clearBadge,
+  ]);
 
   return (
     <NotificationContext.Provider value={contextValue}>
