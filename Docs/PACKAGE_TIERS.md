@@ -104,6 +104,35 @@ npm install github:jrudydev/rn-toolkit-pro#packages/sdui
 
 ---
 
+## Split Packages (Free + Premium Tiers)
+
+Some packages offer both free core functionality and premium extensions:
+
+### Currently Split
+
+| Package | Free (npm) | Premium (GitHub) |
+|---------|------------|------------------|
+| `@rn-toolkit/testing` | `renderWithTheme`, snapshots, mocks | DSL (`dsl.component()`, `dsl.matrix()`) |
+
+### Future Considerations
+
+| Package | Potential Free Tier | Potential Premium Tier |
+|---------|---------------------|------------------------|
+| `@rn-toolkit/sdui` | Basic renderer | Advanced containers, templates |
+| `@rn-toolkit/deeplink` | Basic routing | Smart navigation, badging |
+
+**Why split packages?**
+- Lowers barrier to entry for free users
+- Showcases toolkit quality
+- Natural upgrade path to premium
+
+**Implementation:**
+- Free tier published to npm from public repo
+- Premium tier adds features via the private repo
+- Premium imports extend (not replace) free functionality
+
+---
+
 ## FAQ
 
 **Q: Can I use free packages commercially?**
