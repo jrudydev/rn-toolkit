@@ -255,3 +255,66 @@ describe('Profile SDUI', () => {
 | `unregister(type)` | Remove a component |
 | `getRegisteredTypes()` | List all registered types |
 | `clear()` | Clear all registrations |
+
+---
+
+## Coming Soon: Experience Container System
+
+A comprehensive server-driven layout system for building dynamic dashboards and feed-based UIs.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ [Section Header: "Featured"]                                │
+├─────────────────────────────────────────────────────────────┤
+│  ┌──────┐ ┌──────┐ ┌──────┐                                 │  <- CAROUSEL
+│  │Card  │ │Card  │ │Card  │  ->                             │
+│  └──────┘ └──────┘ └──────┘                                 │
+├─────────────────────────────────────────────────────────────┤
+│ [Section Footer: "See all ->"]                              │
+╞═════════════════════════════════════════════════════════════╡
+│ [Section Header: "Recent Activity"]                         │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────────────────────────────────────────────┐    │  <- LIST
+│  │ List Item                                           │    │
+│  ├─────────────────────────────────────────────────────┤    │
+│  │ List Item                                           │    │
+│  └─────────────────────────────────────────────────────┘    │
+╞═════════════════════════════════════════════════════════════╡
+│ [Section Header: "Quick Actions"]                           │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                            │  <- GRID
+│  │     │ │     │ │     │ │     │                            │
+│  └─────┘ └─────┘ └─────┘ └─────┘                            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Planned Components**:
+
+| Component | Description |
+|-----------|-------------|
+| `SDUIList` | Virtualized vertical list (FlashList) |
+| `SDUIGrid` | Grid layout with configurable columns |
+| `SDUICarousel` | Horizontal scroll with snap/autoplay |
+| `SDUISection` | Header/footer wrapper for sections |
+| Card Templates | Pre-built layouts (MediaCard, ListItemCard, etc.) |
+| Experience Registry | Domain team registration system |
+
+**Example Schema** (preview):
+
+```json
+{
+  "type": "dashboard",
+  "sections": [
+    {
+      "id": "featured",
+      "header": { "title": "Featured" },
+      "container": { "type": "carousel", "props": { "itemWidth": 280 } },
+      "cardTemplate": "MediaCard",
+      "data": { "source": "api", "endpoint": "/api/featured" },
+      "footer": { "text": "See all", "action": { "type": "navigate", "route": "/featured" } }
+    }
+  ]
+}
+```
+
+See [EXPERIENCE_CONTAINER_SYSTEM.md](/Docs/EXPERIENCE_CONTAINER_SYSTEM.md) for full design document.
