@@ -320,7 +320,7 @@ const authAdapter = __DEV__
 | 2026-03-05 | Testing basic utils FREE, DSL PAID | Users need to test free packages |
 | 2026-03-05 | Theming + Primitives FREE | Table stakes for adoption |
 | 2026-03-05 | SDUI + Deeplink PAID | Core value proposition |
-| 2026-03-05 | Add Security package (PAID) | PayPal background, enterprise focus |
+| 2026-03-05 | Add Security package (PAID) | Enterprise-grade security focus |
 | 2026-03-05 | i18n FREE | Accessibility is a right, not a feature |
 | 2026-03-05 | Performance FREE | Helps all developers |
 | 2026-03-05 | **Adapter Pattern for all Firebase services** | Zero vendor lock-in, testability |

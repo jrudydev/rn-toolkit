@@ -5,18 +5,18 @@
 ### A [Spark Labs](https://patreon.com/SparkLabs343) Project
 
 ```
-╔═══════════════════════════════════════════════════════════╗
-║                                                           ║
-║   ██████╗ ███╗   ██╗    ████████╗ ██████╗  ██████╗ ██╗    ║
-║   ██╔══██╗████╗  ██║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║    ║
-║   ██████╔╝██╔██╗ ██║       ██║   ██║   ██║██║   ██║██║    ║
-║   ██╔══██╗██║╚██╗██║       ██║   ██║   ██║██║   ██║██║    ║
-║   ██║  ██║██║ ╚████║       ██║   ╚██████╔╝╚██████╔╝███████╗║
-║   ╚═╝  ╚═╝╚═╝  ╚═══╝       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝║
-║                                                           ║
-║         Free React Native Toolkit - MIT Licensed          ║
-║                                                           ║
-╚═══════════════════════════════════════════════════════════╝
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║   ██████╗ ███╗   ██╗    ████████╗ ██████╗  ██████╗ ██╗     ██╗  ██╗██╗████████╗║
+║   ██╔══██╗████╗  ██║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║     ██║ ██╔╝██║╚══██╔══╝║
+║   ██████╔╝██╔██╗ ██║       ██║   ██║   ██║██║   ██║██║     █████╔╝ ██║   ██║   ║
+║   ██╔══██╗██║╚██╗██║       ██║   ██║   ██║██║   ██║██║     ██╔═██╗ ██║   ██║   ║
+║   ██║  ██║██║ ╚████║       ██║   ╚██████╔╝╚██████╔╝███████╗██║  ██╗██║   ██║   ║
+║   ╚═╝  ╚═╝╚═╝  ╚═══╝       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   ║
+║                                                                               ║
+║                    Free React Native Toolkit - MIT Licensed                   ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 **Build themeable, accessible React Native apps at lightning speed**
@@ -31,27 +31,115 @@
 
 ---
 
-## Features
+## Architecture Overview
 
-- **Theming** - Dark/light mode with scope-based overrides
-- **Primitives** - Theme-aware UI components out of the box
-- **i18n** - Localization and accessibility support (adapter pattern)
-- **Performance** - Memory leak detection & render tracking (adapter pattern)
-- **Testing** - Snapshot utilities & mock helpers
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                          🎨 YOUR REACT NATIVE APP 🎨                         ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║    ┌─────────────────────────────────────────────────────────────────────┐   ║
+║    │                        📦 @rn-toolkit/primitives                    │   ║
+║    │     ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐         │   ║
+║    │     │  Text  │ │ Button │ │  Card  │ │ Stack  │ │ Input  │         │   ║
+║    │     └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘         │   ║
+║    │         │          │          │          │          │               │   ║
+║    │         └──────────┴──────────┴────┬─────┴──────────┘               │   ║
+║    │                                    │                                │   ║
+║    │                              useTheme()                             │   ║
+║    │                                    │                                │   ║
+║    └────────────────────────────────────┼────────────────────────────────┘   ║
+║                                         │                                    ║
+║                                         ▼                                    ║
+║    ┌─────────────────────────────────────────────────────────────────────┐   ║
+║    │                        🎨 @rn-toolkit/theming                       │   ║
+║    │                                                                     │   ║
+║    │     ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │   ║
+║    │     │    Colors    │    │   Spacing    │    │  Typography  │       │   ║
+║    │     │  ☀️ Light    │    │  xs sm md lg │    │  title body  │       │   ║
+║    │     │  🌙 Dark     │    │     xl xxl   │    │   caption    │       │   ║
+║    │     └──────────────┘    └──────────────┘    └──────────────┘       │   ║
+║    │                                                                     │   ║
+║    │              ThemeProvider ──► useTheme() ──► Components            │   ║
+║    │                                                                     │   ║
+║    └─────────────────────────────────────────────────────────────────────┘   ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║                         🔌 ADAPTER PATTERN PACKAGES 🔌                       ║
+║                                                                              ║
+║    ┌─────────────────────────────────────────────────────────────────────┐   ║
+║    │                          @rn-toolkit/i18n                           │   ║
+║    │                                                                     │   ║
+║    │     ┌─────────────────────────────────────────────────────────┐     │   ║
+║    │     │                    I18nProvider                         │     │   ║
+║    │     │                         │                               │     │   ║
+║    │     │         ┌───────────────┼───────────────┐               │     │   ║
+║    │     │         ▼               ▼               ▼               │     │   ║
+║    │     │   ┌──────────┐   ┌──────────┐   ┌──────────┐           │     │   ║
+║    │     │   │ i18next  │   │ Console  │   │   NoOp   │           │     │   ║
+║    │     │   │ Adapter  │   │ Adapter  │   │ Adapter  │           │     │   ║
+║    │     │   │   🌐     │   │   🔧     │   │   🧪     │           │     │   ║
+║    │     │   └──────────┘   └──────────┘   └──────────┘           │     │   ║
+║    │     │    Production      Debug         Testing               │     │   ║
+║    │     └─────────────────────────────────────────────────────────┘     │   ║
+║    └─────────────────────────────────────────────────────────────────────┘   ║
+║                                                                              ║
+║    ┌─────────────────────────────────────────────────────────────────────┐   ║
+║    │                       @rn-toolkit/performance                       │   ║
+║    │                                                                     │   ║
+║    │     ┌─────────────────────────────────────────────────────────┐     │   ║
+║    │     │                 PerformanceProvider                     │     │   ║
+║    │     │                         │                               │     │   ║
+║    │     │         ┌───────────────┼───────────────┐               │     │   ║
+║    │     │         ▼               ▼               ▼               │     │   ║
+║    │     │   ┌──────────┐   ┌──────────┐   ┌──────────┐           │     │   ║
+║    │     │   │ Firebase │   │ Console  │   │   NoOp   │           │     │   ║
+║    │     │   │ Adapter  │   │ Adapter  │   │ Adapter  │           │     │   ║
+║    │     │   │   🔥     │   │   🔧     │   │   🧪     │           │     │   ║
+║    │     │   └──────────┘   └──────────┘   └──────────┘           │     │   ║
+║    │     │    Production      Debug         Testing               │     │   ║
+║    │     └─────────────────────────────────────────────────────────┘     │   ║
+║    └─────────────────────────────────────────────────────────────────────┘   ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
 
 ---
 
-## Quick Start
+## Why Adapters?
 
-```bash
-# Install free packages from npm
-npm install @rn-toolkit/theming @rn-toolkit/primitives
-
-# Or clone and run the demo
-git clone https://github.com/jrudydev/rn-toolkit.git
-cd rn-toolkit
-npm install
-cd apps/scaffold && npx expo start --web
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                        🚫 WITHOUT ADAPTERS (Locked In)                       ║
+║                                                                              ║
+║    ┌─────────────────┐         ┌─────────────────┐                          ║
+║    │   Your App      │ ──────► │   Firebase 🔒   │  Can't change!           ║
+║    └─────────────────┘         └─────────────────┘                          ║
+║                                                                              ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║                                                                              ║
+║                        ✅ WITH ADAPTERS (Freedom!)                           ║
+║                                                                              ║
+║    ┌─────────────────┐         ┌─────────────────┐                          ║
+║    │                 │ ──────► │   Firebase 🔥   │  Production              ║
+║    │   Your App      │ ──────► │   Console 🔧    │  Development             ║
+║    │                 │ ──────► │   NoOp 🧪       │  Testing                 ║
+║    │                 │ ──────► │   Custom 🔌     │  Your own!               ║
+║    └─────────────────┘         └─────────────────┘                          ║
+║                                                                              ║
+║    ┌────────────────────────────────────────────────────────────────────┐    ║
+║    │  SWAP ADAPTERS WITH ONE LINE:                                     │    ║
+║    │                                                                    │    ║
+║    │  const adapter = __DEV__                                          │    ║
+║    │    ? new ConsoleAdapter()     // 🔧 Logs everything               │    ║
+║    │    : new FirebaseAdapter();   // 🔥 Production tracking           │    ║
+║    └────────────────────────────────────────────────────────────────────┘    ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
@@ -61,16 +149,70 @@ cd apps/scaffold && npx expo start --web
 | Package | Description | Adapters |
 |---------|-------------|----------|
 | `@rn-toolkit/theming` | Theme system with dark/light mode | - |
-| `@rn-toolkit/primitives` | Theme-aware UI components (Text, Button, Card, etc.) | - |
+| `@rn-toolkit/primitives` | Theme-aware UI components | - |
 | `@rn-toolkit/i18n` | Localization & accessibility | i18next, Console, NoOp |
 | `@rn-toolkit/performance` | Memory leak detection & metrics | Firebase, Console, NoOp |
 | `@rn-toolkit/testing` | Test utilities & snapshots | - |
 
-### Premium Packages
+---
 
-Want SDUI, Auth, Analytics, Deep Linking, Notifications, and Security?
+## Quick Start
 
-**[Get Premium on Patreon](https://patreon.com/SparkLabs343)** - Access to all packages + showcase-pro app.
+```bash
+# Install from npm
+npm install @rn-toolkit/theming @rn-toolkit/primitives
+
+# Or clone the demo
+git clone https://github.com/jrudydev/rn-toolkit.git
+cd rn-toolkit && npm install
+cd apps/scaffold && npx expo start --web
+```
+
+---
+
+## Theme Flow
+
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                              🎨 THEME FLOW 🎨                                ║
+║                                                                              ║
+║     ┌─────────────┐                                                         ║
+║     │   System    │                                                         ║
+║     │  ☀️ / 🌙    │                                                         ║
+║     └──────┬──────┘                                                         ║
+║            │                                                                 ║
+║            ▼                                                                 ║
+║     ┌─────────────────────────────────────────────────────────────────┐     ║
+║     │                      ThemeProvider                              │     ║
+║     │                                                                 │     ║
+║     │   mode="auto" ───► Detects system preference                    │     ║
+║     │   mode="light" ──► Forces light mode                            │     ║
+║     │   mode="dark" ───► Forces dark mode                             │     ║
+║     │                                                                 │     ║
+║     └─────────────────────────────┬───────────────────────────────────┘     ║
+║                                   │                                         ║
+║                                   ▼                                         ║
+║     ┌─────────────────────────────────────────────────────────────────┐     ║
+║     │                        useTheme()                               │     ║
+║     │                                                                 │     ║
+║     │   const { colors, spacing, typography, shadows, mode } = ...    │     ║
+║     │                                                                 │     ║
+║     └─────────────────────────────┬───────────────────────────────────┘     ║
+║                                   │                                         ║
+║            ┌──────────────────────┼──────────────────────┐                  ║
+║            ▼                      ▼                      ▼                  ║
+║     ┌────────────┐         ┌────────────┐         ┌────────────┐           ║
+║     │   Button   │         │    Card    │         │    Text    │           ║
+║     │  primary   │         │  elevated  │         │   title    │           ║
+║     │ secondary  │         │  outlined  │         │   body     │           ║
+║     │  outline   │         │   filled   │         │  caption   │           ║
+║     └────────────┘         └────────────┘         └────────────┘           ║
+║                                                                              ║
+║                    All components auto-adapt to theme! ✨                   ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
 
 ---
 
@@ -85,15 +227,11 @@ import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
   <App />
 </ThemeProvider>
 
-// In components
 function MyComponent() {
   const { colors, spacing, mode } = useTheme();
-
   return (
-    <View style={{ backgroundColor: colors.background }}>
-      <Text style={{ color: colors.text }}>
-        Current theme: {mode}
-      </Text>
+    <View style={{ backgroundColor: colors.background, padding: spacing.md }}>
+      <Text style={{ color: colors.text }}>Theme: {mode}</Text>
     </View>
   );
 }
@@ -113,7 +251,7 @@ import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
 </VStack>
 ```
 
-### i18n with Adapter Pattern
+### i18n with Adapters
 
 ```typescript
 import { I18nProvider, useTranslation } from '@rn-toolkit/i18n';
@@ -124,12 +262,6 @@ const adapter = new I18nextAdapter({ resources, lng: 'en' });
 <I18nProvider adapter={adapter}>
   <App />
 </I18nProvider>
-
-// In components
-function Greeting() {
-  const { t, locale } = useTranslation();
-  return <Text>{t('welcome')}</Text>;
-}
 ```
 
 ### Performance Monitoring
@@ -138,34 +270,43 @@ function Greeting() {
 import { PerformanceProvider, useLeakDetector } from '@rn-toolkit/performance';
 import { ConsoleAdapter } from '@rn-toolkit/performance/adapters';
 
-const adapter = new ConsoleAdapter(); // Logs metrics to console
-
-<PerformanceProvider adapter={adapter}>
+<PerformanceProvider adapter={new ConsoleAdapter()}>
   <App />
 </PerformanceProvider>
 
-// In components - detect memory leaks
 function MyComponent() {
-  useLeakDetector('MyComponent');
+  useLeakDetector('MyComponent'); // Alerts if component leaks!
   return <View>...</View>;
 }
 ```
 
-### Testing Utilities
+---
 
-```typescript
-import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+## Want More?
 
-describe('MyComponent', () => {
-  // Auto-generate light + dark snapshots
-  createThemeSnapshot(<MyComponent />);
-
-  it('renders in dark mode', () => {
-    const { getByTestId } = renderWithTheme(<MyComponent />, 'dark');
-    expect(getByTestId('component')).toBeTruthy();
-  });
-});
 ```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                          💎 PREMIUM PACKAGES 💎                              ║
+║                                                                              ║
+║     ┌────────────────────────────────────────────────────────────────────┐   ║
+║     │                                                                    │   ║
+║     │   📡 SDUI          Render UI from JSON - server-driven magic      │   ║
+║     │   🔑 Auth          Social login, 2FA, session management          │   ║
+║     │   📊 Analytics     Event tracking with adapter pattern            │   ║
+║     │   🔗 Deep Link     Type-safe navigation + badge counts            │   ║
+║     │   🔔 Notifications Push notifications with FCM                    │   ║
+║     │   🔐 Security      Secure storage, XSS protection, validation     │   ║
+║     │   🔬 Testing DSL   Generate 24 tests from 3 lines of code!        │   ║
+║     │                                                                    │   ║
+║     └────────────────────────────────────────────────────────────────────┘   ║
+║                                                                              ║
+║                     Support development on Patreon! 🚀                       ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
+
+[![Patreon](https://img.shields.io/badge/Get_Premium_on-Patreon-FF424D?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
 
 ---
 
@@ -190,11 +331,7 @@ MIT License - Use freely in personal and commercial projects.
 
 ### Built at [Spark Labs](https://patreon.com/SparkLabs343)
 
-**Want SDUI, Auth, Analytics & more?**
-
-[![Patreon](https://img.shields.io/badge/Get_Premium_on-Patreon-FF424D?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
-
----
+**Made with ❤️ for React Native developers**
 
 [Patreon](https://patreon.com/SparkLabs343) | [GitHub](https://github.com/jrudydev)
 

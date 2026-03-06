@@ -648,4 +648,4 @@ interface SDUISectionProps {
 
 - [Shopify FlashList](https://shopify.github.io/flash-list/)
 - [React Native Reanimated Carousel](https://github.com/dohooo/react-native-reanimated-carousel)
-- Similar patterns: Netflix home feed, Spotify browse, PayPal dashboard
+- Similar patterns: Netflix home feed, Spotify browse, Airbnb explore
