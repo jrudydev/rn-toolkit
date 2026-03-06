@@ -21,6 +21,12 @@
 
 **Build themeable, accessible React Native apps at lightning speed**
 
+[![npm](https://img.shields.io/npm/v/@astacinco/rn-theming?label=theming)](https://www.npmjs.com/package/@astacinco/rn-theming)
+[![npm](https://img.shields.io/npm/v/@astacinco/rn-primitives?label=primitives)](https://www.npmjs.com/package/@astacinco/rn-primitives)
+[![npm](https://img.shields.io/npm/v/@astacinco/rn-i18n?label=i18n)](https://www.npmjs.com/package/@astacinco/rn-i18n)
+[![npm](https://img.shields.io/npm/v/@astacinco/rn-performance?label=performance)](https://www.npmjs.com/package/@astacinco/rn-performance)
+[![npm](https://img.shields.io/npm/v/@astacinco/rn-testing?label=testing)](https://www.npmjs.com/package/@astacinco/rn-testing)
+
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React Native](https://img.shields.io/badge/React_Native-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
