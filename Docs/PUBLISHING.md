@@ -1,29 +1,23 @@
 # Publishing Guide
 
-This guide covers how to publish @rn-toolkit packages to npm.
+## Overview
 
-## Package Tiers
-
-### FREE Packages (npm public)
-- `@rn-toolkit/theming` - Theme system
-- `@rn-toolkit/primitives` - UI components
-- `@rn-toolkit/i18n` - Internationalization (NoOp + Console adapters)
-- `@rn-toolkit/performance` - Performance monitoring (NoOp + Console adapters)
-- `@rn-toolkit/testing` - Basic test utilities
-
-### PAID Packages (GitHub Packages - private)
-- `@rn-toolkit/sdui` - Server-Driven UI engine
-- `@rn-toolkit/auth` - Authentication system
-- `@rn-toolkit/analytics` - Analytics (Firebase adapter)
-- `@rn-toolkit/deeplink` - Deep linking + navigation
-- `@rn-toolkit/notifications` - Push notifications
-- `@rn-toolkit/security` - Secure storage + biometrics
+Free packages are published to npm public registry. Premium packages stay in a private GitHub repo.
 
 ---
 
-## Prerequisites
+## Free Packages → npm Public
 
-### 1. npm Account Setup
+### Packages
+
+- `@rn-toolkit/theming`
+- `@rn-toolkit/primitives`
+- `@rn-toolkit/i18n`
+- `@rn-toolkit/performance`
+- `@rn-toolkit/testing`
+
+### Prerequisites
+
 ```bash
 # Login to npm
 npm login
@@ -32,64 +26,38 @@ npm login
 npm whoami
 ```
 
-### 2. GitHub Packages Setup (for PAID packages)
-```bash
-# Create a GitHub Personal Access Token with:
-# - read:packages
-# - write:packages
-# - delete:packages
+### Publishing
 
-# Add to ~/.npmrc (for publishing)
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
----
-
-## Publishing FREE Packages
-
-### Step 1: Update Version
 ```bash
 # From package directory
 cd packages/theming
 npm version patch  # or minor, major
-```
-
-### Step 2: Build (if applicable)
-```bash
-npm run build
-```
-
-### Step 3: Publish
-```bash
-# Publish to npm public registry
 npm publish --access public
 ```
 
-### All FREE packages at once:
+### All Free Packages at Once
+
 ```bash
-# From repo root
 npm run publish:free
 ```
 
 ---
 
-## Publishing PAID Packages
+## Premium Packages → Private Repo
 
-### Step 1: Update Version
+Premium packages live in `github.com/jrudydev/rn-toolkit-pro`.
+
+Patrons install directly from GitHub:
+
 ```bash
-cd packages/sdui
-npm version patch
+# Clone the repo
+git clone https://github.com/jrudydev/rn-toolkit-pro.git
+
+# Or install specific package
+npm install github:jrudydev/rn-toolkit-pro#packages/sdui
 ```
 
-### Step 2: Publish to GitHub Packages
-```bash
-npm publish --registry=https://npm.pkg.github.com
-```
-
-### All PAID packages at once:
-```bash
-npm run publish:paid
-```
+No npm publishing required - access is controlled via GitHub collaborator invites.
 
 ---
 
@@ -98,17 +66,12 @@ npm run publish:paid
 We use independent versioning (each package has its own version).
 
 ### Versioning Convention
+
 - `0.x.x` - Pre-release / beta
 - `1.0.0` - First stable release
 - Patch: Bug fixes
 - Minor: New features (backward compatible)
 - Major: Breaking changes
-
-### Checking Versions
-```bash
-# See all package versions
-npm run versions
-```
 
 ---
 
@@ -123,45 +86,10 @@ npm run versions
 
 ---
 
-## CI/CD Publishing (Future)
+<div align="center">
 
-When ready, we can automate publishing via GitHub Actions:
+**Built at [Spark Labs](https://patreon.com/SparkLabs343)**
 
-```yaml
-# .github/workflows/publish.yml
-name: Publish Packages
-on:
-  push:
-    tags:
-      - 'v*'
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: npm test
-      - run: npm run publish:free
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
 
----
-
-## Troubleshooting
-
-### "You must be logged in to publish"
-```bash
-npm login
-```
-
-### "Package name already exists"
-Ensure you're using the `@rn-toolkit/` scope and have access.
-
-### "402 Payment Required"
-Public packages are free, but private packages on npm require a paid plan.
-Use GitHub Packages for paid packages instead.
+</div>

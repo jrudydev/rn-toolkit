@@ -1,114 +1,107 @@
 # Patron Onboarding Guide
 
-Welcome to @rn-toolkit! This guide helps Patreon supporters access the paid packages.
+Welcome to @rn-toolkit premium! This guide helps Patreon supporters get access to premium packages.
 
 ---
 
-## Tier Structure
+## Patreon Tiers
 
 | Tier | Price | Access |
 |------|-------|--------|
 | **Supporter** | $5/mo | Discord access, early updates |
-| **Pro Developer** | $15/mo | All paid packages, showcase-pro app |
+| **Pro Developer** | $15/mo | All premium packages + showcase-pro |
 | **Enterprise** | $50/mo | Priority support, architecture reviews |
 
 ---
 
 ## Getting Access (Pro Developer+)
 
-### Step 1: Link Your GitHub
+### Step 1: Subscribe on Patreon
 
-After subscribing on Patreon:
-1. Go to [Patreon Settings](https://www.patreon.com/settings/apps)
-2. Connect your GitHub account
-3. DM your GitHub username on Discord or Patreon
+Subscribe at [patreon.com/SparkLabs343](https://patreon.com/SparkLabs343)
 
-### Step 2: Accept Repository Invite
+### Step 2: Share Your GitHub Username
+
+Send your GitHub username via:
+- Patreon DM
+- Discord (if you've joined)
+
+### Step 3: Accept Repository Invite
 
 Within 24 hours, you'll receive a GitHub invitation to:
-- `sparklabs343/rn-toolkit-pro` (access repo with setup instructions)
+- `github.com/jrudydev/rn-toolkit-pro`
 
-### Step 3: Generate GitHub Token
-
-1. Go to [GitHub Tokens](https://github.com/settings/tokens)
-2. Click "Generate new token (classic)"
-3. Select scopes:
-   - `read:packages`
-4. Copy the token (you won't see it again!)
-
-### Step 4: Configure npm
-
-Create or edit `~/.npmrc` in your home directory:
-
-```ini
-# GitHub Packages authentication
-@rn-toolkit:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-**For project-specific setup**, add `.npmrc` to your project root:
-```ini
-@rn-toolkit:registry=https://npm.pkg.github.com
-```
-
-Then set the token as an environment variable:
-```bash
-export NPM_TOKEN=your_github_token
-```
-
-### Step 5: Install Paid Packages
+### Step 4: Clone and Use
 
 ```bash
-# Now you can install paid packages!
-npm install @rn-toolkit/sdui
-npm install @rn-toolkit/auth
-npm install @rn-toolkit/analytics
-# etc.
-```
-
----
-
-## Accessing showcase-pro
-
-The showcase-pro app demonstrates all paid features:
-
-```bash
-# Clone the pro access repo
-git clone https://github.com/sparklabs343/rn-toolkit-pro.git
-
-# Navigate to showcase
-cd rn-toolkit-pro/showcase-pro
+# Clone the premium repo
+git clone https://github.com/jrudydev/rn-toolkit-pro.git
+cd rn-toolkit-pro
 
 # Install dependencies
 npm install
 
-# Start the app
+# Run the showcase app
+cd apps/showcase-pro
 npm start
 ```
 
 ---
 
-## Troubleshooting
+## Using Premium Packages
 
-### "404 Not Found" when installing
-- Verify your GitHub token has `read:packages` scope
-- Check your `.npmrc` is correctly configured
-- Ensure you accepted the repository invitation
+### Option A: Clone and Link Locally
 
-### "401 Unauthorized"
-- Your token may have expired - generate a new one
-- Make sure there are no extra spaces in `.npmrc`
+```bash
+# In your project
+npm link ../rn-toolkit-pro/packages/sdui
+```
 
-### Token Security
-- **Never commit tokens to git**
-- Add `.npmrc` to `.gitignore` if it contains tokens
-- Use environment variables in CI/CD
+### Option B: Install from GitHub
+
+```bash
+npm install github:jrudydev/rn-toolkit-pro#packages/sdui
+```
+
+### Option C: Copy Package into Your Project
+
+Some developers prefer to copy the package source directly.
+
+---
+
+## What's Included
+
+### Premium Packages
+
+| Package | Description |
+|---------|-------------|
+| `@rn-toolkit/sdui` | Server-Driven UI engine |
+| `@rn-toolkit/auth` | Multi-provider authentication |
+| `@rn-toolkit/analytics` | Event tracking with adapters |
+| `@rn-toolkit/deeplink` | Type-safe navigation |
+| `@rn-toolkit/notifications` | Push notifications |
+| `@rn-toolkit/security` | Secure storage & validation |
+| `@rn-toolkit/testing/dsl` | Declarative test DSL |
+
+### Showcase App
+
+`apps/showcase-pro` demonstrates all packages working together.
+
+---
+
+## Free Dependencies
+
+Premium packages use free packages internally. Install them from npm:
+
+```bash
+npm install @rn-toolkit/theming @rn-toolkit/primitives
+```
 
 ---
 
 ## Support
 
-- **Discord**: [Spark Labs Server](https://discord.gg/sparklabs)
+- **Discord**: Link in Patreon
 - **GitHub Issues**: For bugs and feature requests
 - **Patreon DM**: For account/access issues
 
@@ -118,21 +111,28 @@ npm start
 
 If you cancel your Patreon subscription:
 - GitHub access is revoked at end of billing period
-- Installed packages continue to work
-- You won't receive updates or new versions
+- Code you've already cloned continues to work
+- You won't receive future updates
 
 ---
 
 ## FAQ
 
-**Q: Can I use paid packages in commercial projects?**
+**Q: Can I use premium packages in commercial projects?**
 A: Yes! Your subscription includes a commercial license.
 
-**Q: Can I share my access with my team?**
-A: The Pro tier is per-developer. For teams, contact us about Enterprise pricing.
+**Q: Can I share access with my team?**
+A: Pro tier is per-developer. Contact for team pricing.
 
-**Q: Do I need to configure this on every machine?**
-A: Yes, each development machine needs the `.npmrc` setup.
+**Q: Can I fork the private repo?**
+A: You can clone it, but please don't redistribute.
 
-**Q: What if I need help with implementation?**
-A: Enterprise tier includes architecture reviews and priority support.
+---
+
+<div align="center">
+
+**Built at [Spark Labs](https://patreon.com/SparkLabs343)**
+
+[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
+
+</div>

@@ -2,6 +2,8 @@
 
 <div align="center">
 
+### A [Spark Labs](https://patreon.com/SparkLabs343) Project
+
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
@@ -22,7 +24,8 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React Native](https://img.shields.io/badge/React_Native-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
-[![Tests](https://img.shields.io/badge/Tests-236%20passing-brightgreen)](./packages)
+[![Tests](https://img.shields.io/badge/Tests-600%2B%20passing-brightgreen)](./packages)
+[![Patreon](https://img.shields.io/badge/Patreon-Support%20Development-FF424D?style=flat&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
 
 </div>
 
@@ -59,32 +62,42 @@ npm test
 
 ## 📦 Packages
 
-| Package | Description | Status | Tier |
-|---------|-------------|--------|------|
-| 🎨 `@rn-toolkit/theming` | Theme system with dark/light mode | ✅ Ready | 🆓 Free |
-| 🧩 `@rn-toolkit/primitives` | Theme-aware UI components | ✅ Ready | 🆓 Free |
-| 🧪 `@rn-toolkit/testing` | Basic test utilities & snapshots | ✅ Ready | 🆓 Free |
-| 📡 `@rn-toolkit/sdui` | Server-Driven UI engine | ✅ Ready | 💎 Paid |
-| 🔐 `@rn-toolkit/security` | Secure storage & validation | ✅ Ready | 💎 Paid |
-| 🔑 `@rn-toolkit/auth` | Firebase authentication | 📋 Planned | 💎 Paid |
-| 🔔 `@rn-toolkit/notifications` | Firebase push notifications | 📋 Planned | 💎 Paid |
-| 📊 `@rn-toolkit/analytics` | Firebase analytics & metrics | 📋 Planned | 💎 Paid |
-| 🔗 `@rn-toolkit/deeplink` | Type-safe navigation + badging | 📋 Planned | 💎 Paid |
-| 🌍 `@rn-toolkit/i18n` | Localization & accessibility | 📋 Planned | 🆓 Free |
-| ⚡ `@rn-toolkit/performance` | Memory leak detection | 📋 Planned | 🆓 Free |
-| 🔬 `@rn-toolkit/testing/dsl` | Declarative test DSL | 📋 Planned | 💎 Paid |
+### 🆓 Free Packages (This Repo)
+
+| Package | Description | Status |
+|---------|-------------|--------|
+| 🎨 `@rn-toolkit/theming` | Theme system with dark/light mode | ✅ Ready |
+| 🧩 `@rn-toolkit/primitives` | Theme-aware UI components | ✅ Ready |
+| 🌍 `@rn-toolkit/i18n` | Localization & accessibility | ✅ Ready |
+| ⚡ `@rn-toolkit/performance` | Memory leak detection & metrics | ✅ Ready |
+| 🧪 `@rn-toolkit/testing` | Basic test utilities & snapshots | ✅ Ready |
+
+### 💎 Premium Packages ([Patreon](https://patreon.com/SparkLabs343))
+
+| Package | Description | Status |
+|---------|-------------|--------|
+| 📡 `@rn-toolkit/sdui` | Server-Driven UI engine | ✅ Ready |
+| 🔑 `@rn-toolkit/auth` | Multi-provider authentication | ✅ Ready |
+| 📊 `@rn-toolkit/analytics` | Analytics with adapter pattern | ✅ Ready |
+| 🔗 `@rn-toolkit/deeplink` | Type-safe navigation + badging | ✅ Ready |
+| 🔔 `@rn-toolkit/notifications` | Push notifications | ✅ Ready |
+| 🔐 `@rn-toolkit/security` | Secure storage & validation | ✅ Ready |
+| 🔬 `@rn-toolkit/testing/dsl` | Declarative test DSL | ✅ Ready |
+
+> **Want premium packages?** Support development on [Patreon](https://patreon.com/SparkLabs343) and get access to all packages, the showcase-pro app, and priority support.
 
 ---
 
 ## 📊 Stats
 
 ```
-📊 Tests Passing:     236
+📊 Tests Passing:     600+
 📸 Theme Snapshots:    19
-📦 Packages Built:      6
-🎨 UI Components:      10
-🔧 Claude Skills:       3
-🔥 Firebase Powered:   Yes
+📦 Total Packages:     11
+🆓 Free Packages:       5
+💎 Premium Packages:    6
+🎨 UI Components:      10+
+🔧 Adapter Pattern:   Yes
 ```
 
 ---
@@ -215,31 +228,26 @@ npm run test:coverage # 📊 Tests with coverage
 
 ## 📋 Progress
 
-### ✅ Complete
-- [x] 🎨 Theming package (11 tests)
-- [x] 🧪 Testing utilities (35 tests)
-- [x] 🧩 Primitives package (60 tests, 16 snapshots)
-- [x] 📡 SDUI engine (31 tests, 2 snapshots)
-- [x] 🔐 Security package (99 tests)
-- [x] 📱 Scaffold app with web support
-- [x] 🤖 Claude skills (pre-commit, new-component, theme-test)
-
-### 📋 Planned (Firebase-Powered)
-- [ ] 🔑 Auth package (Firebase Authentication)
-- [ ] 🔔 Notifications package (Firebase FCM)
-- [ ] 📊 Analytics package (Firebase Analytics)
-- [ ] 🔗 Deep linking + navigation badging
-- [ ] ⚡ Performance (memory leak detection)
-- [ ] 🌍 i18n & accessibility
-- [ ] 📋 SDUIList (FlashList virtualization)
-- [ ] 🔬 Testing DSL
+### ✅ Complete (All 11 Packages!)
+- [x] 🎨 Theming - Dark/light mode, tokens, scopes
+- [x] 🧩 Primitives - Text, Button, Card, Input, Stack, etc.
+- [x] 🌍 i18n - Adapter pattern, translations, formatting
+- [x] ⚡ Performance - Render tracking, memory monitoring
+- [x] 🧪 Testing - Theme snapshots, mocks, DSL
+- [x] 📡 SDUI - Server-driven UI engine
+- [x] 🔑 Auth - Multi-provider authentication
+- [x] 📊 Analytics - Event tracking with adapters
+- [x] 🔗 Deeplink - Type-safe navigation
+- [x] 🔔 Notifications - Push notifications
+- [x] 🔐 Security - Secure storage, sanitization
+- [x] 📱 Demo apps (scaffold + showcase-pro)
 
 ---
 
 ## 📄 License
 
 - 🆓 **Free packages**: MIT License
-- 💎 **Paid packages**: Commercial (subscription required)
+- 💎 **Premium packages**: Available via [Patreon](https://patreon.com/SparkLabs343)
 
 See [Package Tiers](./Docs/PACKAGE_TIERS.md) for details.
 
@@ -247,8 +255,16 @@ See [Package Tiers](./Docs/PACKAGE_TIERS.md) for details.
 
 <div align="center">
 
+### Built at [Spark Labs](https://patreon.com/SparkLabs343)
+
+[![Patreon](https://img.shields.io/badge/Support_on-Patreon-FF424D?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
+
 **Made with ❤️ for React Native developers**
 
-*Security-first. Enterprise-ready. Built with PayPal-grade thinking.*
+*Enterprise-ready. Adapter-based. Built for scale.*
+
+---
+
+[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
 
 </div>

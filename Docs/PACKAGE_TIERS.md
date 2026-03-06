@@ -2,132 +2,105 @@
 
 ## Overview
 
-The toolkit follows an **open core** model:
-- **Free packages** are MIT licensed and publicly available
-- **Paid packages** require a subscription (Patreon or similar)
+The toolkit follows a **two-repo model**:
+- **Free packages** are MIT licensed and publicly available on GitHub
+- **Premium packages** are available to [Patreon](https://patreon.com/SparkLabs343) supporters
 
-This allows users to evaluate the toolkit with free packages while supporting development through paid advanced features.
+This allows developers to evaluate the toolkit with free packages while supporting development through premium features.
 
 ---
 
 ## Tier Breakdown
 
-### Free Tier (MIT License)
+### Free Tier (MIT License) - Public Repo
 
-| Package | Description | Why Free |
-|---------|-------------|----------|
-| `@rn-toolkit/theming` | Theme system with dark/light mode | Table stakes for any UI library |
-| `@rn-toolkit/primitives` | Basic UI components (Text, Button, Card, etc.) | Needed to use other packages |
-| `@rn-toolkit/testing` (basic) | `renderWithTheme()`, `createThemeSnapshot()`, mocks | Users must test free packages |
+| Package | Description |
+|---------|-------------|
+| `@rn-toolkit/theming` | Theme system with dark/light mode, tokens, scopes |
+| `@rn-toolkit/primitives` | Theme-aware UI components (Text, Button, Card, etc.) |
+| `@rn-toolkit/i18n` | Internationalization with adapter pattern |
+| `@rn-toolkit/performance` | Performance monitoring, render tracking |
+| `@rn-toolkit/testing` | Theme snapshots, mocks, test utilities |
 
-**What's included in free testing:**
-- `renderWithTheme(component)` - Render with ThemeProvider
-- `renderWithProviders(component)` - Render with all providers
-- `createThemeSnapshot(component)` - Generate light/dark snapshots
-- `mockNavigation()` - Navigation mock for testing
-- `mockSDUISchema()` - SDUI schema mock
+### Premium Tier (Patreon) - Private Repo
 
-### Paid Tier (Subscription Required)
+| Package | Description |
+|---------|-------------|
+| `@rn-toolkit/sdui` | Server-Driven UI engine |
+| `@rn-toolkit/auth` | Multi-provider authentication |
+| `@rn-toolkit/analytics` | Event tracking with adapter pattern |
+| `@rn-toolkit/deeplink` | Type-safe navigation & deep linking |
+| `@rn-toolkit/notifications` | Push notifications |
+| `@rn-toolkit/security` | Secure storage & validation |
+| `@rn-toolkit/testing/dsl` | Declarative test DSL |
 
-| Package | Description | Why Paid |
-|---------|-------------|----------|
-| `@rn-toolkit/sdui` | Server-Driven UI engine | Core value - dynamic UI from JSON |
-| `@rn-toolkit/deeplink` | Type-safe navigation & deep linking | Advanced navigation features |
-| `@rn-toolkit/testing/dsl` | Declarative test DSL | Developer experience enhancement |
+---
 
-**What's included in paid testing DSL:**
-```typescript
-// Fluent, declarative API
-dsl.screen('Profile')
-  .hasComponent('Avatar')
-  .withProps({ size: 'large' })
-  .isVisible()
-  .matchesSnapshot();
+## Repository Structure
 
-dsl.component('Button')
-  .when({ pressed: true })
-  .hasStyle({ opacity: 0.8 });
+```
+PUBLIC: github.com/jrudydev/rn-toolkit
+├── packages/
+│   ├── theming/        ✅ Free
+│   ├── primitives/     ✅ Free
+│   ├── i18n/           ✅ Free
+│   ├── performance/    ✅ Free
+│   └── testing/        ✅ Free (basic)
+├── apps/
+│   └── scaffold/       ✅ Free demo app
+└── README.md           → Links to Patreon
+
+PRIVATE: github.com/jrudydev/rn-toolkit-pro
+├── packages/
+│   ├── sdui/           💎 Premium
+│   ├── auth/           💎 Premium
+│   ├── analytics/      💎 Premium
+│   ├── deeplink/       💎 Premium
+│   ├── notifications/  💎 Premium
+│   ├── security/       💎 Premium
+│   └── testing/dsl/    💎 Premium
+├── apps/
+│   └── showcase-pro/   💎 Premium demo
+└── README.md           → Setup instructions
 ```
 
 ---
 
-## Repository Strategy
-
-### Option A: Separate Repos (Chosen)
-
-```
-rn-toolkit-core/        # Free packages (public, MIT)
-├── packages/theming
-├── packages/primitives
-└── packages/testing (basic)
-
-rn-toolkit-pro/         # Paid packages (private, subscription)
-├── packages/sdui
-├── packages/deeplink
-└── packages/testing/dsl
-```
-
-**Pros:**
-- Clear separation of concerns
-- Easy to manage access control
-- Public repo gets community contributions
-
-**Cons:**
-- Two repos to maintain
-- Cross-repo dependencies need care
-
-### Implementation Plan
-
-1. **Now**: Keep everything in one private repo (`rn-sdui-toolkit`)
-2. **Before public release**:
-   - Extract free packages to `rn-toolkit-core` (public)
-   - Keep paid packages in `rn-toolkit-pro` (private)
-3. **Distribution**:
-   - Free: npm public registry
-   - Paid: npm private registry or GitHub Packages
-
----
-
-## Access Control
+## Getting Access
 
 ### Free Packages
-- Published to npm public registry
-- MIT license
-- Open source contributions welcome
-- No authentication required
 
-### Paid Packages
-- Distributed via:
-  - npm private registry (organization-based)
-  - OR GitHub Packages (repo-based)
-  - OR direct download with license key
-- Subscription validated at install or runtime
-- Updates included with active subscription
+```bash
+# Install from npm (public)
+npm install @rn-toolkit/theming @rn-toolkit/primitives
+```
+
+### Premium Packages
+
+1. Subscribe on [Patreon](https://patreon.com/SparkLabs343) (Pro Developer tier)
+2. Share your GitHub username
+3. Accept the repository invite
+4. Clone and use directly:
+
+```bash
+git clone https://github.com/jrudydev/rn-toolkit-pro.git
+```
+
+Or install from GitHub:
+
+```bash
+npm install github:jrudydev/rn-toolkit-pro#packages/sdui
+```
 
 ---
 
-## Pricing Model (Future)
+## Patreon Tiers
 
 | Tier | Price | Access |
 |------|-------|--------|
-| Free | $0 | theming, primitives, basic testing |
-| Individual | $X/month | All packages, personal use |
-| Team | $Y/month | All packages, team use, priority support |
-| Enterprise | Custom | All packages, SLA, custom features |
-
----
-
-## Migration Path
-
-Users can start with free packages and upgrade:
-
-```bash
-# Start free
-npm install @rn-toolkit/theming @rn-toolkit/primitives
-
-# Add paid when ready
-npm install @rn-toolkit/sdui @rn-toolkit/deeplink --registry=https://npm.rn-toolkit.dev
-```
+| **Supporter** | $5/mo | Discord, early updates, thanks! |
+| **Pro Developer** | $15/mo | All premium packages + showcase-pro |
+| **Enterprise** | $50/mo | Priority support, architecture reviews |
 
 ---
 
@@ -136,11 +109,24 @@ npm install @rn-toolkit/sdui @rn-toolkit/deeplink --registry=https://npm.rn-tool
 **Q: Can I use free packages commercially?**
 A: Yes, MIT license allows commercial use.
 
-**Q: What happens if my subscription lapses?**
-A: You keep the version you have, but won't receive updates.
+**Q: What happens if my subscription ends?**
+A: You keep the code you have, but lose access to the private repo for updates.
+
+**Q: Do premium packages depend on free packages?**
+A: Yes! `@rn-toolkit/sdui` uses primitives and theming internally. You'll install free packages from npm.
 
 **Q: Can I contribute to free packages?**
 A: Yes! PRs welcome on the public repo.
 
-**Q: Do paid packages depend on free packages?**
-A: Yes, `@rn-toolkit/sdui` uses primitives and theming internally.
+**Q: Can potential employers see the premium code?**
+A: Yes, we can add them as temporary collaborators for review.
+
+---
+
+<div align="center">
+
+**Built at [Spark Labs](https://patreon.com/SparkLabs343)**
+
+[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
+
+</div>
