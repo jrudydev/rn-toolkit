@@ -1,4 +1,4 @@
-# 🚀 RN SDUI Toolkit
+# RN Toolkit
 
 <div align="center">
 
@@ -7,115 +7,76 @@
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║   ██████╗ ███╗   ██╗    ███████╗██████╗ ██╗   ██╗██╗      ║
-║   ██╔══██╗████╗  ██║    ██╔════╝██╔══██╗██║   ██║██║      ║
-║   ██████╔╝██╔██╗ ██║    ███████╗██║  ██║██║   ██║██║      ║
-║   ██╔══██╗██║╚██╗██║    ╚════██║██║  ██║██║   ██║██║      ║
-║   ██║  ██║██║ ╚████║    ███████║██████╔╝╚██████╔╝██║      ║
-║   ╚═╝  ╚═╝╚═╝  ╚═══╝    ╚══════╝╚═════╝  ╚═════╝ ╚═╝      ║
+║   ██████╗ ███╗   ██╗    ████████╗ ██████╗  ██████╗ ██╗    ║
+║   ██╔══██╗████╗  ██║    ╚══██╔══╝██╔═══██╗██╔═══██╗██║    ║
+║   ██████╔╝██╔██╗ ██║       ██║   ██║   ██║██║   ██║██║    ║
+║   ██╔══██╗██║╚██╗██║       ██║   ██║   ██║██║   ██║██║    ║
+║   ██║  ██║██║ ╚████║       ██║   ╚██████╔╝╚██████╔╝███████╗║
+║   ╚═╝  ╚═╝╚═╝  ╚═══╝       ╚═╝    ╚═════╝  ╚═════╝ ╚══════╝║
 ║                                                           ║
-║         Server-Driven UI Toolkit for React Native         ║
+║         Free React Native Toolkit - MIT Licensed          ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
-**Build dynamic, themeable, secure React Native apps at lightning speed**
+**Build themeable, accessible React Native apps at lightning speed**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React Native](https://img.shields.io/badge/React_Native-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
 [![Expo](https://img.shields.io/badge/Expo-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
-[![Tests](https://img.shields.io/badge/Tests-600%2B%20passing-brightgreen)](./packages)
-[![Patreon](https://img.shields.io/badge/Patreon-Support%20Development-FF424D?style=flat&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Patreon](https://img.shields.io/badge/Premium-Patreon-FF424D?style=flat&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
 
 </div>
 
 ---
 
-## ✨ Features
+## Features
 
-- 🎨 **Theming** - Dark/light mode with scope-based overrides
-- 🧩 **Primitives** - Theme-aware UI components out of the box
-- 📡 **SDUI** - Render UI from JSON schemas (server-driven)
-- 🔗 **Deep Linking** - Type-safe navigation with history
-- 🔐 **Security** - Secure storage, input sanitization, schema validation
-- 🔑 **Auth** - Firebase authentication with social login & 2FA
-- 🌍 **i18n** - Localization and accessibility support
-- 🧪 **Testing** - Snapshot utilities + declarative DSL
+- **Theming** - Dark/light mode with scope-based overrides
+- **Primitives** - Theme-aware UI components out of the box
+- **i18n** - Localization and accessibility support (adapter pattern)
+- **Performance** - Memory leak detection & render tracking (adapter pattern)
+- **Testing** - Snapshot utilities & mock helpers
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
-# Install dependencies
+# Install free packages from npm
+npm install @rn-toolkit/theming @rn-toolkit/primitives
+
+# Or clone and run the demo
+git clone https://github.com/jrudydev/rn-toolkit.git
+cd rn-toolkit
 npm install
-
-# Run scaffold app (web)
-cd apps/scaffold
-npx expo start --web
-
-# Run tests
-npm test
+cd apps/scaffold && npx expo start --web
 ```
 
 ---
 
-## 📦 Packages
+## Packages
 
-### 🆓 Free Packages (This Repo)
+| Package | Description | Adapters |
+|---------|-------------|----------|
+| `@rn-toolkit/theming` | Theme system with dark/light mode | - |
+| `@rn-toolkit/primitives` | Theme-aware UI components (Text, Button, Card, etc.) | - |
+| `@rn-toolkit/i18n` | Localization & accessibility | i18next, Console, NoOp |
+| `@rn-toolkit/performance` | Memory leak detection & metrics | Firebase, Console, NoOp |
+| `@rn-toolkit/testing` | Test utilities & snapshots | - |
 
-| Package | Description | Status |
-|---------|-------------|--------|
-| 🎨 `@rn-toolkit/theming` | Theme system with dark/light mode | ✅ Ready |
-| 🧩 `@rn-toolkit/primitives` | Theme-aware UI components | ✅ Ready |
-| 🌍 `@rn-toolkit/i18n` | Localization & accessibility | ✅ Ready |
-| ⚡ `@rn-toolkit/performance` | Memory leak detection & metrics | ✅ Ready |
-| 🧪 `@rn-toolkit/testing` | Basic test utilities & snapshots | ✅ Ready |
+### Premium Packages
 
-### 💎 Premium Packages ([Patreon](https://patreon.com/SparkLabs343))
+Want SDUI, Auth, Analytics, Deep Linking, Notifications, and Security?
 
-| Package | Description | Status |
-|---------|-------------|--------|
-| 📡 `@rn-toolkit/sdui` | Server-Driven UI engine | ✅ Ready |
-| 🔑 `@rn-toolkit/auth` | Multi-provider authentication | ✅ Ready |
-| 📊 `@rn-toolkit/analytics` | Analytics with adapter pattern | ✅ Ready |
-| 🔗 `@rn-toolkit/deeplink` | Type-safe navigation + badging | ✅ Ready |
-| 🔔 `@rn-toolkit/notifications` | Push notifications | ✅ Ready |
-| 🔐 `@rn-toolkit/security` | Secure storage & validation | ✅ Ready |
-| 🔬 `@rn-toolkit/testing/dsl` | Declarative test DSL | ✅ Ready |
-
-> **Want premium packages?** Support development on [Patreon](https://patreon.com/SparkLabs343) and get access to all packages, the showcase-pro app, and priority support.
+**[Get Premium on Patreon](https://patreon.com/SparkLabs343)** - Access to all packages + showcase-pro app.
 
 ---
 
-## 📊 Stats
+## Usage Examples
 
-```
-📊 Tests Passing:     600+
-📸 Theme Snapshots:    19
-📦 Total Packages:     11
-🆓 Free Packages:       5
-💎 Premium Packages:    6
-🎨 UI Components:      10+
-🔧 Adapter Pattern:   Yes
-```
-
----
-
-## 📚 Documentation
-
-| Doc | Description |
-|-----|-------------|
-| 📍 [Roadmap](./Docs/ROADMAP.md) | Development phases and progress |
-| 🏗️ [Architecture](./Docs/ARCHITECTURE.md) | System design and patterns |
-| 💰 [Package Tiers](./Docs/PACKAGE_TIERS.md) | Free vs Paid packages |
-| 🧪 [Testing Strategy](./Docs/TESTING_STRATEGY.md) | Testing approach |
-
----
-
-## 🎨 Usage Examples
-
-### Theming (Free)
+### Theming
 
 ```typescript
 import { ThemeProvider, useTheme } from '@rn-toolkit/theming';
@@ -138,7 +99,7 @@ function MyComponent() {
 }
 ```
 
-### Primitives (Free)
+### Primitives
 
 ```typescript
 import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
@@ -152,104 +113,76 @@ import { Text, Button, Card, VStack } from '@rn-toolkit/primitives';
 </VStack>
 ```
 
-### SDUI (Paid)
+### i18n with Adapter Pattern
 
 ```typescript
-import { SDUIRenderer } from '@rn-toolkit/sdui';
+import { I18nProvider, useTranslation } from '@rn-toolkit/i18n';
+import { I18nextAdapter } from '@rn-toolkit/i18n/adapters';
 
-// Define UI as JSON (from your backend)
-const screenSchema = {
-  type: 'screen',
-  children: [
-    { type: 'text', props: { variant: 'title', content: 'Welcome!' } },
-    { type: 'button', props: { label: 'Get Started' } }
-  ]
-};
+const adapter = new I18nextAdapter({ resources, lng: 'en' });
 
-// Render with one line
-<SDUIRenderer schema={screenSchema} />
-```
-
-### Security (Paid)
-
-```typescript
-import { SecureStorage, sanitize, validateSchema } from '@rn-toolkit/security';
-
-// Secure storage (Keychain/Keystore)
-await SecureStorage.set('auth_token', token);
-const token = await SecureStorage.get('auth_token');
-
-// Input sanitization (XSS, SQL injection, path traversal)
-const cleanInput = sanitize.text(userInput);      // Strip HTML
-const cleanHtml = sanitize.html(htmlContent);     // Safe HTML
-const cleanUrl = sanitize.url(urlInput);          // Block javascript:
-const cleanEmail = sanitize.email(emailInput);    // Validate & normalize
-
-// SDUI schema validation (block malicious payloads)
-const result = validateSchema(sduiSchema);
-if (!result.valid) {
-  console.error('Schema rejected:', result.errors);
-}
-```
-
-### Auth (Paid - Coming Soon)
-
-```typescript
-import { AuthProvider, useAuth } from '@rn-toolkit/auth';
-
-<AuthProvider config={firebaseConfig}>
+<I18nProvider adapter={adapter}>
   <App />
-</AuthProvider>
+</I18nProvider>
 
 // In components
-function Profile() {
-  const { user, signOut, signInWithGoogle } = useAuth();
-
-  if (!user) {
-    return <Button label="Sign In" onPress={signInWithGoogle} />;
-  }
-
-  return <Text>Welcome, {user.displayName}</Text>;
+function Greeting() {
+  const { t, locale } = useTranslation();
+  return <Text>{t('welcome')}</Text>;
 }
 ```
 
----
+### Performance Monitoring
 
-## 🛠️ Development
+```typescript
+import { PerformanceProvider, useLeakDetector } from '@rn-toolkit/performance';
+import { ConsoleAdapter } from '@rn-toolkit/performance/adapters';
 
-```bash
-npm run typecheck    # ✅ TypeScript check
-npm run lint         # 🔍 ESLint
-npm test             # 🧪 Run tests
-npm run test:coverage # 📊 Tests with coverage
+const adapter = new ConsoleAdapter(); // Logs metrics to console
+
+<PerformanceProvider adapter={adapter}>
+  <App />
+</PerformanceProvider>
+
+// In components - detect memory leaks
+function MyComponent() {
+  useLeakDetector('MyComponent');
+  return <View>...</View>;
+}
+```
+
+### Testing Utilities
+
+```typescript
+import { renderWithTheme, createThemeSnapshot } from '@rn-toolkit/testing';
+
+describe('MyComponent', () => {
+  // Auto-generate light + dark snapshots
+  createThemeSnapshot(<MyComponent />);
+
+  it('renders in dark mode', () => {
+    const { getByTestId } = renderWithTheme(<MyComponent />, 'dark');
+    expect(getByTestId('component')).toBeTruthy();
+  });
+});
 ```
 
 ---
 
-## 📋 Progress
+## Development
 
-### ✅ Complete (All 11 Packages!)
-- [x] 🎨 Theming - Dark/light mode, tokens, scopes
-- [x] 🧩 Primitives - Text, Button, Card, Input, Stack, etc.
-- [x] 🌍 i18n - Adapter pattern, translations, formatting
-- [x] ⚡ Performance - Render tracking, memory monitoring
-- [x] 🧪 Testing - Theme snapshots, mocks, DSL
-- [x] 📡 SDUI - Server-driven UI engine
-- [x] 🔑 Auth - Multi-provider authentication
-- [x] 📊 Analytics - Event tracking with adapters
-- [x] 🔗 Deeplink - Type-safe navigation
-- [x] 🔔 Notifications - Push notifications
-- [x] 🔐 Security - Secure storage, sanitization
-- [x] 📱 Demo apps (scaffold + showcase-pro)
+```bash
+npm run typecheck    # TypeScript check
+npm run lint         # ESLint
+npm test             # Run tests
+npm run test:coverage # Tests with coverage
+```
 
 ---
 
-## 📄 License
+## License
 
-- 🆓 **Free packages**: MIT License
-- 💎 **Premium packages**: Available via [Patreon](https://patreon.com/SparkLabs343)
-
-See [Package Tiers](./Docs/PACKAGE_TIERS.md) for details.
+MIT License - Use freely in personal and commercial projects.
 
 ---
 
@@ -257,14 +190,12 @@ See [Package Tiers](./Docs/PACKAGE_TIERS.md) for details.
 
 ### Built at [Spark Labs](https://patreon.com/SparkLabs343)
 
-[![Patreon](https://img.shields.io/badge/Support_on-Patreon-FF424D?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
+**Want SDUI, Auth, Analytics & more?**
 
-**Made with ❤️ for React Native developers**
-
-*Enterprise-ready. Adapter-based. Built for scale.*
+[![Patreon](https://img.shields.io/badge/Get_Premium_on-Patreon-FF424D?style=for-the-badge&logo=patreon&logoColor=white)](https://patreon.com/SparkLabs343)
 
 ---
 
-[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
+[Patreon](https://patreon.com/SparkLabs343) | [GitHub](https://github.com/jrudydev)
 
 </div>

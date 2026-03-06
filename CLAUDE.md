@@ -1,36 +1,36 @@
-# RN SDUI Toolkit
+# RN Toolkit (Free)
 
-Modular React Native toolkit with Server-Driven UI, deep linking, theming, and testing DSL.
+Free React Native toolkit: theming, primitives, i18n, performance monitoring, and testing utilities.
 
 ## Project Structure
 
 ```
 packages/
 ├── theming/      # Theme system (dark/light mode, tokens)
-├── sdui/         # Server-Driven UI engine
-├── deeplink/     # Type-safe navigation + deep linking
-├── testing/      # Test DSL + snapshot utilities
-└── primitives/   # Generic UI building blocks
+├── primitives/   # Theme-aware UI components
+├── i18n/         # Internationalization (adapter pattern)
+├── performance/  # Performance monitoring (adapter pattern)
+└── testing/      # Test utilities & snapshots
 
 apps/
-└── scaffold/     # Ready-to-use app template
+└── scaffold/     # Demo app
 ```
 
 ## Key Patterns
 
-### Doc-First Approach
-Create README.md before implementing each package.
-
 ### Theme-Aware Components
 All components must use `useTheme()` hook for colors/spacing.
+
+### Adapter Pattern
+i18n and Performance packages support swappable backends:
+- Production adapters (i18next, Firebase)
+- Console adapters (debug logging)
+- NoOp adapters (testing)
 
 ### Test-Driven Development
 Write tests first. Every component needs:
 - Unit tests for logic
 - Snapshot tests for both dark/light modes
-
-### Type-Safe Navigation
-Use enums for route definitions, not strings.
 
 ## Commands
 
@@ -46,7 +46,12 @@ npm run typecheck     # TypeScript check
 
 All packages use `@rn-toolkit/` scope:
 - `@rn-toolkit/theming`
-- `@rn-toolkit/sdui`
-- `@rn-toolkit/deeplink`
-- `@rn-toolkit/testing`
 - `@rn-toolkit/primitives`
+- `@rn-toolkit/i18n`
+- `@rn-toolkit/performance`
+- `@rn-toolkit/testing`
+
+## Premium Packages
+
+Premium packages (SDUI, Auth, Analytics, etc.) are available on Patreon:
+https://patreon.com/SparkLabs343

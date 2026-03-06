@@ -262,7 +262,7 @@ export class ConsoleAdapter implements I18nAdapter {
       fontScale: 1,
     };
 
-    this.log('GET_ACCESSIBILITY_SETTINGS', settings);
+    this.log('GET_ACCESSIBILITY_SETTINGS', settings as unknown as Record<string, unknown>);
     return settings;
   }
 

@@ -176,7 +176,7 @@ export class ConsoleAdapter implements PerformanceAdapter {
       }
     }
 
-    this.log('info', 'MEMORY_SNAPSHOT', snapshot);
+    this.log('info', 'MEMORY_SNAPSHOT', snapshot as unknown as Record<string, unknown>);
     return snapshot;
   }
 
