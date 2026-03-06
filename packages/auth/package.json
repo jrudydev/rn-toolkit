@@ -6,13 +6,10 @@
   "types": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "url": "https://github.com/jrudydev/rn-toolkit-pro.git",
     "directory": "packages/auth"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
+  "homepage": "https://github.com/jrudydev/rn-toolkit-pro#readme",
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",

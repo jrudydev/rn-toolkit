@@ -6,14 +6,14 @@
   "types": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "url": "https://github.com/jrudydev/rn-toolkit.git",
     "directory": "packages/performance"
   },
   "publishConfig": {
     "access": "public"
   },
   "author": "Spark Labs <hello@sparklabs.dev>",
-  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
+  "homepage": "https://github.com/jrudydev/rn-toolkit#readme",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "jest"

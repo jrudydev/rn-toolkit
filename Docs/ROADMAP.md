@@ -16,12 +16,13 @@ This toolkit is being built to support rapid React Native app development, with 
 
 | Metric | Count |
 |--------|-------|
-| Tests Passing | 500+ |
+| Tests Passing | 600+ |
 | Theme Snapshots | 19 |
-| Packages Built | 11 |
+| Total Packages | 11 |
+| Free Packages | 5 |
+| Premium Packages | 6 |
 | Packages with Adapters | 5 |
-| UI Components | 10 |
-| Claude Skills | 3 |
+| UI Components | 10+ |
 
 ---
 
@@ -324,3 +325,15 @@ const authAdapter = __DEV__
 | 2026-03-05 | Performance FREE | Helps all developers |
 | 2026-03-05 | **Adapter Pattern for all Firebase services** | Zero vendor lock-in, testability |
 | 2026-03-05 | Experience Container System as staged rollout | Complex feature, build incrementally |
+| 2026-03-06 | **Two-repo model** (public free, private premium) | Portfolio visibility + simple access control |
+| 2026-03-06 | GitHub collaborator access for Patreon | Simpler than npm private registry |
+
+---
+
+<div align="center">
+
+**Built at [Spark Labs](https://patreon.com/SparkLabs343)**
+
+[Patreon](https://patreon.com/SparkLabs343) · [GitHub](https://github.com/jrudydev)
+
+</div>

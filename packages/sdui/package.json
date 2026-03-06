@@ -6,14 +6,11 @@
   "types": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sparklabs343/rn-toolkit.git",
+    "url": "https://github.com/jrudydev/rn-toolkit-pro.git",
     "directory": "packages/sdui"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "author": "Spark Labs <hello@sparklabs.dev>",
-  "homepage": "https://github.com/sparklabs343/rn-toolkit#readme",
+  "homepage": "https://github.com/jrudydev/rn-toolkit-pro#readme",
   "scripts": {
     "build": "tsc",
     "test": "jest",
