@@ -10,6 +10,8 @@
  * - Memory leak detection
  * - Render tracking and excessive re-render warnings
  * - Network request tracing
+ * - Debounce and throttle utilities
+ * - Rate limiting for security
  * - TypeScript first
  *
  * @example
@@ -18,8 +20,9 @@
  *   PerformanceProvider,
  *   ConsoleAdapter,
  *   usePerformance,
- *   useLeakDetector,
- *   useRenderTracker,
+ *   useDebounce,
+ *   useThrottledCallback,
+ *   useRateLimiter,
  * } from '@astacinco/rn-performance';
  *
  * // Use Console adapter for debugging
@@ -33,25 +36,27 @@
  *   );
  * }
  *
- * // In components
- * function DataLoader() {
- *   const { measure, startTrace } = usePerformance();
- *   const { trackSubscription } = useLeakDetector({ componentName: 'DataLoader' });
+ * // Search with debounce
+ * function SearchInput() {
+ *   const [term, setTerm] = useState('');
+ *   const debouncedTerm = useDebounce(term, 300);
  *
  *   useEffect(() => {
- *     const fetchData = async () => {
- *       const data = await measure('fetch_data', () => api.getData(), 'network');
- *       setData(data);
- *     };
+ *     if (debouncedTerm) searchApi(debouncedTerm);
+ *   }, [debouncedTerm]);
  *
- *     fetchData();
+ *   return <TextInput value={term} onChangeText={setTerm} />;
+ * }
  *
- *     // Track subscription for leak detection
- *     const unsubscribe = api.subscribe(handleUpdate);
- *     trackSubscription('api_updates', unsubscribe);
- *   }, []);
+ * // Login with rate limiting
+ * function LoginForm() {
+ *   const limiter = useRateLimiter({ maxAttempts: 5, windowMs: 60000 });
  *
- *   return <View>...</View>;
+ *   const handleLogin = () => {
+ *     if (!limiter.canProceed('login')) return;
+ *     limiter.record('login');
+ *     attemptLogin();
+ *   };
  * }
  * ```
  */
@@ -66,13 +71,36 @@ export { NoOpAdapter, ConsoleAdapter, FirebaseAdapter } from './adapters';
 export type { ConsoleAdapterOptions } from './adapters';
 
 // Hooks
-export { usePerformance, useLeakDetector, useRenderTracker } from './hooks';
+export {
+  usePerformance,
+  useLeakDetector,
+  useRenderTracker,
+  useDebounce,
+  useDebouncedCallback,
+  useThrottle,
+  useThrottledCallback,
+} from './hooks';
 export type {
   UsePerformanceResult,
   UseLeakDetectorResult,
   UseRenderTrackerOptions,
   UseRenderTrackerResult,
+  UseDebouncedCallbackOptions,
+  UseThrottledCallbackOptions,
 } from './hooks';
+
+// Rate Limiter
+export {
+  createRateLimiter,
+  useRateLimiter,
+} from './rateLimiter';
+export type {
+  RateLimiter,
+  RateLimiterOptions,
+  RateLimitStatus,
+  UseRateLimiterOptions,
+  UseRateLimiterResult,
+} from './rateLimiter';
 
 // Types
 export type {
