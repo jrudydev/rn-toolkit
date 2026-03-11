@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
+import { Text } from '../Text';
 import type { AvatarProps, AvatarSize } from './types';
 
 const sizeMap: Record<AvatarSize, number> = {
@@ -70,7 +71,10 @@ export function Avatar({
   if (showFallback) {
     return (
       <View testID={testID} style={containerStyle}>
-        <Text style={[styles.fallbackText, { fontSize, color: txtColor }]}>
+        <Text
+          variant="body"
+          style={{ fontSize, color: txtColor, fontWeight: '600' }}
+        >
           {fallback ? getInitials(fallback) : '?'}
         </Text>
       </View>
@@ -103,8 +107,5 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'cover',
-  },
-  fallbackText: {
-    fontWeight: '600',
   },
 });

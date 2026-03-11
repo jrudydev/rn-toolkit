@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
+import { Text } from '../Text';
 import type { BadgeProps, BadgeVariant, BadgePosition, BadgeSize } from './types';
 
 const sizeConfig: Record<BadgeSize, { minWidth: number; height: number; fontSize: number; dotSize: number; padding: number }> = {
@@ -104,7 +105,15 @@ export function Badge({
       ]}
     >
       {!dot && (
-        <Text style={[styles.text, { fontSize: config.fontSize }]}>
+        <Text
+          variant="caption"
+          style={{
+            color: '#FFFFFF',
+            fontSize: config.fontSize,
+            fontWeight: '600',
+            textAlign: 'center',
+          }}
+        >
           {countText}
         </Text>
       )}
@@ -137,10 +146,5 @@ const styles = StyleSheet.create({
   positioned: {
     position: 'absolute',
     zIndex: 1,
-  },
-  text: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    textAlign: 'center',
   },
 });

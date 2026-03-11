@@ -12,6 +12,10 @@ import {
   Input,
   Divider,
   Container,
+  Tag,
+  Timer,
+  Tabs,
+  type TabOption,
 } from '@astacinco/rn-primitives';
 import {
   I18nProvider,
@@ -284,6 +288,48 @@ function HomeScreen() {
                     </HStack>
                   </VStack>
                 </Card>
+
+                {/* Tag Demo */}
+                <Card variant="outlined">
+                  <VStack spacing="sm">
+                    <Text variant="label">Tag Component</Text>
+                    <Text variant="caption">Colors (outlined):</Text>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Tag label="Default" color="default" />
+                      <Tag label="Primary" color="primary" />
+                      <Tag label="Success" color="success" />
+                    </HStack>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Tag label="Warning" color="warning" />
+                      <Tag label="Error" color="error" />
+                      <Tag label="Info" color="info" />
+                    </HStack>
+                    <Text variant="caption">Filled variant:</Text>
+                    <HStack spacing="sm" style={styles.buttonRow}>
+                      <Tag label="Easy" color="success" variant="filled" />
+                      <Tag label="Medium" color="warning" variant="filled" />
+                      <Tag label="Hard" color="error" variant="filled" />
+                    </HStack>
+                    <Text variant="caption">Sizes:</Text>
+                    <HStack spacing="sm" align="center">
+                      <Tag label="Small" color="primary" size="sm" />
+                      <Tag label="Medium" color="primary" size="md" />
+                      <Tag label="Large" color="primary" size="lg" />
+                    </HStack>
+                  </VStack>
+                </Card>
+
+                {/* Tabs Demo */}
+                <TabsDemo />
+
+                {/* Timer Demo */}
+                <VStack spacing="sm">
+                  <Text variant="label">Timer Component</Text>
+                  <Text variant="caption">
+                    Countdown timer with pause/resume/reset controls
+                  </Text>
+                  <Timer durationMinutes={1} showProgress={true} />
+                </VStack>
               </VStack>
             )}
 
@@ -502,6 +548,58 @@ function PerformanceDemo() {
         </VStack>
       </Card>
     </VStack>
+  );
+}
+
+function TabsDemo() {
+  const [selectedTab, setSelectedTab] = useState<string>('all');
+  const [selectedVariant, setSelectedVariant] = useState<string>('pills');
+
+  const tabOptions: TabOption<string>[] = [
+    { value: 'all', label: 'All' },
+    { value: 'active', label: 'Active' },
+    { value: 'completed', label: 'Completed' },
+  ];
+
+  const variantOptions: TabOption<string>[] = [
+    { value: 'pills', label: 'Pills' },
+    { value: 'outlined', label: 'Outlined' },
+    { value: 'filled', label: 'Filled' },
+  ];
+
+  return (
+    <Card variant="outlined">
+      <VStack spacing="sm">
+        <Text variant="label">Tabs Component</Text>
+        <Text variant="caption">Pills variant (default):</Text>
+        <Tabs
+          options={tabOptions}
+          selected={selectedTab}
+          onSelect={setSelectedTab}
+          variant="pills"
+        />
+        <Text variant="caption">Outlined variant:</Text>
+        <Tabs
+          options={tabOptions}
+          selected={selectedTab}
+          onSelect={setSelectedTab}
+          variant="outlined"
+        />
+        <Text variant="caption">Filled variant:</Text>
+        <Tabs
+          options={tabOptions}
+          selected={selectedTab}
+          onSelect={setSelectedTab}
+          variant="filled"
+        />
+        <Text variant="caption">Sizes:</Text>
+        <VStack spacing="xs">
+          <Tabs options={variantOptions} selected={selectedVariant} onSelect={setSelectedVariant} size="sm" />
+          <Tabs options={variantOptions} selected={selectedVariant} onSelect={setSelectedVariant} size="md" />
+          <Tabs options={variantOptions} selected={selectedVariant} onSelect={setSelectedVariant} size="lg" />
+        </VStack>
+      </VStack>
+    </Card>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
+import { View, TextInput, StyleSheet, NativeSyntheticEvent, TextInputFocusEventData } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
+import { Text } from '../Text';
 import type { InputProps } from './types';
 
 export function Input({
@@ -36,14 +37,9 @@ export function Input({
     <View style={styles.container}>
       {label && (
         <Text
-          style={[
-            styles.label,
-            {
-              color: colors.textSecondary,
-              fontSize: typography.fontSize.sm,
-              marginBottom: spacing.xs,
-            },
-          ]}
+          variant="label"
+          color={colors.textSecondary}
+          style={{ marginBottom: spacing.xs }}
         >
           {label}
         </Text>
@@ -70,14 +66,9 @@ export function Input({
       />
       {error && (
         <Text
-          style={[
-            styles.error,
-            {
-              color: colors.error,
-              fontSize: typography.fontSize.sm,
-              marginTop: spacing.xs,
-            },
-          ]}
+          variant="caption"
+          color={colors.error}
+          style={{ marginTop: spacing.xs }}
         >
           {error}
         </Text>
@@ -90,14 +81,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
-  label: {
-    fontWeight: '500',
-  },
   input: {
     borderWidth: 1,
     borderRadius: 8,
-  },
-  error: {
-    // Error text styles
   },
 });

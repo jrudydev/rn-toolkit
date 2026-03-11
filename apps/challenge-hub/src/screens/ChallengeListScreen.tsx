@@ -7,7 +7,7 @@
 import React, { useState, useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, VStack, HStack, Button } from '@astacinco/rn-primitives';
+import { Text, VStack, HStack, Button, Tag } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
@@ -139,11 +139,12 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
               <VStack spacing="md">
                 <HStack spacing="sm" align="center">
                   <Text variant="subtitle">Assessments</Text>
-                  <View style={[styles.countBadge, { backgroundColor: colors.primary }]}>
-                    <Text variant="caption" style={{ color: '#fff' }}>
-                      {assessments.length}
-                    </Text>
-                  </View>
+                  <Tag
+                    label={String(assessments.length)}
+                    color="primary"
+                    size="sm"
+                    variant="filled"
+                  />
                 </HStack>
                 <Text variant="caption" color={colors.textMuted}>
                   Full timed challenges with specific use cases
@@ -163,11 +164,12 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
               <VStack spacing="md">
                 <HStack spacing="sm" align="center">
                   <Text variant="subtitle">Generic Challenges</Text>
-                  <View style={[styles.countBadge, { backgroundColor: colors.secondary }]}>
-                    <Text variant="caption" style={{ color: '#fff' }}>
-                      {challenges.length}
-                    </Text>
-                  </View>
+                  <Tag
+                    label={String(challenges.length)}
+                    color="secondary"
+                    size="sm"
+                    variant="filled"
+                  />
                 </HStack>
                 <Text variant="caption" color={colors.textMuted}>
                   Reusable features you can apply to any assessment
@@ -219,10 +221,5 @@ const styles = StyleSheet.create({
   emptyState: {
     padding: 40,
     alignItems: 'center',
-  },
-  countBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 10,
   },
 });

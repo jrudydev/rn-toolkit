@@ -1,18 +1,15 @@
 /**
  * Filter tabs for challenge list
+ * Wrapper around the packaged Tabs component
  */
 
 import React from 'react';
-import { ScrollView, Pressable, StyleSheet } from 'react-native';
-import { Text, HStack } from '@astacinco/rn-primitives';
-import { useTheme } from '@astacinco/rn-theming';
+import { Tabs, type TabOption } from '@astacinco/rn-primitives';
 
-export interface FilterOption<T> {
-  value: T;
-  label: string;
-}
+// Re-export TabOption as FilterOption for backwards compatibility
+export type FilterOption<T> = TabOption<T>;
 
-interface FilterTabsProps<T> {
+interface FilterTabsProps<T extends string> {
   options: FilterOption<T>[];
   selected: T;
   onSelect: (value: T) => void;
@@ -23,56 +20,13 @@ export function FilterTabs<T extends string>({
   selected,
   onSelect,
 }: FilterTabsProps<T>) {
-  const { colors } = useTheme();
-
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <HStack spacing="sm">
-        {options.map(option => {
-          const isSelected = option.value === selected;
-
-          return (
-            <Pressable
-              key={option.value}
-              onPress={() => onSelect(option.value)}
-              style={[
-                styles.tab,
-                {
-                  backgroundColor: isSelected ? colors.primary : colors.surface,
-                  borderColor: isSelected ? colors.primary : colors.border,
-                },
-              ]}
-            >
-              <Text
-                variant="body"
-                color={isSelected ? '#FFFFFF' : colors.text}
-                style={styles.tabText}
-              >
-                {option.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </HStack>
-    </ScrollView>
+    <Tabs
+      options={options}
+      selected={selected}
+      onSelect={onSelect}
+      variant="pills"
+      size="md"
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 4,
-  },
-  tab: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-  },
-  tabText: {
-    fontWeight: '500',
-  },
-});

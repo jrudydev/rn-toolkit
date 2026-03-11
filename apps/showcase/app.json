@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "RN SDUI Toolkit Demo",
-    "slug": "rn-sdui-toolkit-demo",
+    "name": "RN Toolkit Showcase",
+    "slug": "rn-toolkit-showcase",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

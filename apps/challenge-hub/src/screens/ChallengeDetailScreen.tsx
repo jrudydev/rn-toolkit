@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, VStack, HStack, Button, Card, Divider } from '@astacinco/rn-primitives';
+import { Text, VStack, HStack, Button, Card, Divider, Tag } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
@@ -95,13 +95,12 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
         <VStack spacing="sm">
           <HStack justify="space-between" align="center">
             <HStack spacing="sm" align="center">
-              <View style={[styles.typeBadge, {
-                backgroundColor: isAssessment ? colors.primary : colors.secondary
-              }]}>
-                <Text variant="caption" style={{ color: '#fff', fontSize: 10 }}>
-                  {isAssessment ? 'ASSESSMENT' : 'CHALLENGE'}
-                </Text>
-              </View>
+              <Tag
+                label={isAssessment ? 'ASSESSMENT' : 'CHALLENGE'}
+                color={isAssessment ? 'primary' : 'secondary'}
+                size="sm"
+                variant="filled"
+              />
               <DifficultyBadge difficulty={item.difficulty} />
             </HStack>
             <Button
@@ -170,14 +169,13 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
             <Text variant="label">Packages used:</Text>
             <View style={styles.tagsGrid}>
               {packages.map(pkg => (
-                <View
+                <Tag
                   key={pkg.id}
-                  style={[styles.tag, { backgroundColor: colors.primary + '20' }]}
-                >
-                  <Text variant="caption" color={colors.primary}>
-                    {pkg.displayName}
-                  </Text>
-                </View>
+                  label={pkg.displayName}
+                  color="primary"
+                  size="sm"
+                  variant="outlined"
+                />
               ))}
             </View>
           </VStack>
@@ -189,14 +187,13 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
             <Text variant="label">Skills tested:</Text>
             <View style={styles.tagsGrid}>
               {item.skills.map((skill, index) => (
-                <View
+                <Tag
                   key={index}
-                  style={[styles.tag, { backgroundColor: colors.surface }]}
-                >
-                  <Text variant="caption" color={colors.textSecondary}>
-                    {skill}
-                  </Text>
-                </View>
+                  label={skill}
+                  color="default"
+                  size="sm"
+                  variant="outlined"
+                />
               ))}
             </View>
           </VStack>
@@ -393,19 +390,9 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 20,
   },
-  typeBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
   tagsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 6,
-  },
-  tag: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 4,
   },
 });

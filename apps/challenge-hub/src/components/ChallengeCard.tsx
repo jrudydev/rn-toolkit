@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Text, Card, HStack, VStack } from '@astacinco/rn-primitives';
+import { Text, Card, HStack, VStack, Tag } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { DifficultyBadge } from './DifficultyBadge';
 import type { ChallengeItem, ChallengeStatus, Assessment } from '../types';
@@ -45,13 +45,12 @@ export function ChallengeCard({ item, status = 'not_started', onPress }: Challen
             <HStack justify="space-between" align="center">
               <HStack spacing="sm" align="center">
                 {/* Type badge */}
-                <View style={[styles.typeBadge, {
-                  backgroundColor: isAssessmentType ? colors.primary : colors.secondary
-                }]}>
-                  <Text variant="caption" style={{ color: '#fff', fontSize: 10 }}>
-                    {isAssessmentType ? 'ASSESSMENT' : 'CHALLENGE'}
-                  </Text>
-                </View>
+                <Tag
+                  label={isAssessmentType ? 'ASSESSMENT' : 'CHALLENGE'}
+                  color={isAssessmentType ? 'primary' : 'secondary'}
+                  size="sm"
+                  variant="filled"
+                />
                 <DifficultyBadge difficulty={item.difficulty} size="sm" />
               </HStack>
               {statusInfo && (
@@ -93,14 +92,13 @@ export function ChallengeCard({ item, status = 'not_started', onPress }: Challen
             {/* Skills */}
             <View style={styles.skillsContainer}>
               {item.skills.slice(0, 3).map((skill, index) => (
-                <View
+                <Tag
                   key={index}
-                  style={[styles.skillTag, { backgroundColor: colors.surface }]}
-                >
-                  <Text variant="caption" color={colors.textSecondary}>
-                    {skill}
-                  </Text>
-                </View>
+                  label={skill}
+                  color="default"
+                  size="sm"
+                  variant="outlined"
+                />
               ))}
               {item.skills.length > 3 && (
                 <Text variant="caption" color={colors.textMuted}>
@@ -128,15 +126,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: 6,
     alignItems: 'center',
-  },
-  skillTag: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  typeBadge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
   },
 });

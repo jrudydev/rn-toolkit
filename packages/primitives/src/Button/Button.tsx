@@ -1,6 +1,7 @@
 import React from 'react';
-import { Pressable, Text, StyleSheet, ActivityIndicator, ViewStyle, StyleProp } from 'react-native';
+import { Pressable, StyleSheet, ActivityIndicator, ViewStyle, StyleProp } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
+import { Text } from '../Text';
 import type { ButtonProps, ButtonVariant, ButtonSize } from './types';
 
 const sizeStyles: Record<ButtonSize, { paddingVertical: number; paddingHorizontal: number; fontSize: number }> = {
@@ -89,13 +90,13 @@ export function Button({
           <ActivityIndicator color={variantStyle.textColor} size="small" />
         ) : (
           <Text
-            style={[
-              styles.label,
-              {
-                color: variantStyle.textColor,
-                fontSize: sizeStyle.fontSize,
-              },
-            ]}
+            variant="body"
+            style={{
+              color: variantStyle.textColor,
+              fontSize: sizeStyle.fontSize,
+              fontWeight: '600',
+              textAlign: 'center',
+            }}
           >
             {label}
           </Text>
@@ -111,9 +112,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-  },
-  label: {
-    fontWeight: '600',
-    textAlign: 'center',
   },
 });

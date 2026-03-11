@@ -1,13 +1,13 @@
-# Scaffold
+# Showcase
 
-A minimal Expo app pre-configured with all @astacinco free packages. Use this as a template for new practice apps or feature development.
+The official showcase app for @astacinco React Native packages. Demonstrates all components and features with interactive examples.
 
 ## Overview
 
-The scaffold app demonstrates all free packages working together:
+The showcase app demonstrates all free packages working together:
 
 - **Theming**: Light/dark mode with color tokens
-- **Primitives**: Text, Button, Card, Input, VStack, HStack
+- **Primitives**: Text, Button, Card, Input, Tag, Timer, Tabs, and more
 - **i18n**: Translations, pluralization, locale formatting
 - **Performance**: Render tracking, measurement, tracing
 
@@ -26,6 +26,26 @@ npm run android
 npm run web
 ```
 
+## Components Demonstrated
+
+### Core Primitives
+- `Text` - Themed text with variants (title, subtitle, body, caption, label)
+- `Button` - Themed buttons with variants (primary, secondary, outline, ghost)
+- `Card` - Container cards with variants (filled, outlined, elevated)
+- `Input` - Form inputs with labels and error states
+- `VStack` / `HStack` - Vertical and horizontal stacks with spacing
+- `Container` - Padded content container
+- `Divider` - Horizontal separator
+- `Switch` - Toggle switch
+- `Avatar` - User avatar with fallback initials
+- `Badge` - Notification badge (positioned on icons)
+
+### New Components
+- `Tag` - Inline labels/tags for categories, status, difficulty
+- `Timer` - Countdown timer with controls
+- `Tabs` - Horizontal tab selector (pills, outlined, filled)
+- `MarkdownViewer` - Render markdown with theme styling
+
 ## Pre-Configured Packages
 
 ### @astacinco/rn-theming
@@ -38,8 +58,9 @@ const { colors, spacing, mode, setMode } = useTheme();
 ### @astacinco/rn-primitives
 ```tsx
 import {
-  Text, Button, Card, Input,
-  VStack, HStack, Container, Divider
+  Text, Button, Card, Input, Tag, Timer, Tabs,
+  VStack, HStack, Container, Divider, Switch,
+  Avatar, Badge, MarkdownViewer
 } from '@astacinco/rn-primitives';
 ```
 
@@ -65,25 +86,10 @@ const { measure, startTrace } = usePerformance();
 const renderInfo = useRenderTracker({ componentName: 'MyComponent' });
 ```
 
-## Use as Template
-
-Copy this scaffold to create new practice apps:
-
-```bash
-# From monorepo root
-cp -r apps/scaffold apps/my-new-app
-cd apps/my-new-app
-
-# Update app.json with new name/slug
-# Update package.json name
-npm install
-npm start
-```
-
 ## Structure
 
 ```
-scaffold/
+showcase/
 ├── App.tsx           # Main app with all demos
 ├── app/              # Expo Router pages
 │   ├── _layout.tsx
@@ -107,6 +113,9 @@ scaffold/
 | Button variants | primitives | primary, secondary, outline, ghost |
 | Card variants | primitives | filled, outlined, elevated |
 | Input validation | primitives | error state, labels |
+| Tag colors | primitives | success, warning, error, info |
+| Timer | primitives | Countdown with pause/resume |
+| Tabs | primitives | Pills, outlined, filled variants |
 | Locale switching | i18n | EN, ES, FR |
 | Translations | i18n | t() with interpolation |
 | Pluralization | i18n | tp() with count |
@@ -114,27 +123,6 @@ scaffold/
 | Render tracking | performance | Count, duration |
 | Measurement | performance | Async operation timing |
 | Tracing | performance | Manual start/stop |
-
-## Adapters (Console-based)
-
-Both i18n and performance use ConsoleAdapter for development:
-
-```tsx
-// i18n adapter
-const i18nAdapter = new I18nConsoleAdapter({
-  defaultLocale: 'en',
-  supportedLocales: ['en', 'es', 'fr'],
-  resources: { ... }
-});
-
-// Performance adapter
-const perfAdapter = new PerfConsoleAdapter({ prefix: '[Perf]' });
-```
-
-Production apps should use:
-- Firebase adapters
-- Analytics adapters
-- Custom adapters
 
 ## Related
 
