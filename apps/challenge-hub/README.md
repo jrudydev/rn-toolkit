@@ -34,19 +34,26 @@ Location: `apps/assessment-practice/`
 
 | File | Status | Description |
 |------|--------|-------------|
-| `CHEATSHEET.md` | ✅ | Complete reference for all 4 free packages |
-| `CHALLENGE.md` | ✅ | Link Management Screen requirements |
+| `CHEATSHEET.md` | ✅ | Reference for @astacinco packages |
+| `CHEATSHEET_NATIVE.md` | ✅ | Reference for native RN patterns |
+| `CHALLENGE.md` | ✅ | Packaged version requirements (90 min) |
+| `CHALLENGE_NATIVE.md` | ✅ | Native version requirements (120 min) |
+| `SOLUTION.md` | ✅ | Packaged solution (~150 lines) |
+| `SOLUTION_NATIVE.md` | ✅ | Native solution (~340 lines) |
 | `App.tsx` | ✅ | Starter code with numbered TODOs |
 | `data/links.ts` | ✅ | Mock link data (8 Linktree-style links) |
 | `i18n/en.ts` | ✅ | English + Spanish translations |
-| `SOLUTION.md` | ✅ | Reference solution (view after attempt) |
 | `package.json` | ✅ | Pre-configured with all packages |
 
 **Challenge 1: Link Management Screen**
-- Time: 90 minutes
-- Difficulty: Medium
-- Packages: rn-primitives, rn-theming, rn-i18n, rn-performance
+
+| Version | Time | Difficulty | Description |
+|---------|------|------------|-------------|
+| Packaged | 90 min | Medium | Uses @astacinco packages |
+| Native | 120 min | Hard | Pure React Native, build everything |
+
 - Aligned with: Linktree Senior Mobile Engineer role
+- Native version demonstrates: 2.3x more code, same functionality
 
 ### Phase 2: Build Missing Components ✅ PARTIAL
 
