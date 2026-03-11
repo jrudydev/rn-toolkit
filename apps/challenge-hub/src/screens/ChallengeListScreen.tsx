@@ -1,7 +1,7 @@
 /**
  * Challenge List Screen
  *
- * Shows all available challenges with filtering by tier and difficulty.
+ * Shows assessments and challenges with filtering.
  */
 
 import React, { useState, useMemo } from 'react';
@@ -12,15 +12,21 @@ import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
 import { ChallengeCard, FilterTabs, type FilterOption } from '../components';
-import { challengeRegistry, type Difficulty, type PackageTier, type Challenge } from '../data';
+import {
+  challengeRegistry,
+  getAllItems,
+  type Difficulty,
+  type ChallengeItem,
+  type ItemType,
+} from '../data';
 
-type TierFilter = 'all' | PackageTier;
+type TypeFilter = 'all' | ItemType;
 type DifficultyFilter = 'all' | Difficulty;
 
-const tierOptions: FilterOption<TierFilter>[] = [
+const typeOptions: FilterOption<TypeFilter>[] = [
   { value: 'all', label: 'All' },
-  { value: 'free', label: 'Free' },
-  { value: 'pro', label: 'Pro' },
+  { value: 'assessment', label: 'Assessments' },
+  { value: 'challenge', label: 'Challenges' },
 ];
 
 const difficultyOptions: FilterOption<DifficultyFilter>[] = [
@@ -31,45 +37,52 @@ const difficultyOptions: FilterOption<DifficultyFilter>[] = [
 ];
 
 interface ChallengeListScreenProps {
-  navigation: any; // Typed properly with react-navigation types
+  navigation: any;
 }
 
 export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
   const { colors, mode, setMode } = useTheme();
 
-  const [tierFilter, setTierFilter] = useState<TierFilter>('all');
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>('all');
 
-  // Filter challenges
-  const filteredChallenges = useMemo(() => {
-    return challengeRegistry.challenges.filter(challenge => {
-      if (tierFilter !== 'all' && challenge.tier !== tierFilter) {
+  // Get all items
+  const allItems = useMemo(() => getAllItems(challengeRegistry), []);
+
+  // Filter items
+  const filteredItems = useMemo(() => {
+    return allItems.filter(item => {
+      if (typeFilter !== 'all' && item.type !== typeFilter) {
         return false;
       }
-      if (difficultyFilter !== 'all' && challenge.difficulty !== difficultyFilter) {
+      if (difficultyFilter !== 'all' && item.difficulty !== difficultyFilter) {
         return false;
       }
       return true;
     });
-  }, [tierFilter, difficultyFilter]);
+  }, [allItems, typeFilter, difficultyFilter]);
 
-  // Group by difficulty for display
-  const groupedChallenges = useMemo(() => {
-    const groups: Record<Difficulty, Challenge[]> = {
-      easy: [],
-      medium: [],
-      hard: [],
-    };
+  // Separate assessments and challenges for grouped view
+  const { assessments, challenges } = useMemo(() => {
+    const assessments: ChallengeItem[] = [];
+    const challenges: ChallengeItem[] = [];
 
-    filteredChallenges.forEach(challenge => {
-      groups[challenge.difficulty].push(challenge);
+    filteredItems.forEach(item => {
+      if (item.type === 'assessment') {
+        assessments.push(item);
+      } else {
+        challenges.push(item);
+      }
     });
 
-    return groups;
-  }, [filteredChallenges]);
+    return { assessments, challenges };
+  }, [filteredItems]);
 
-  const handleChallengePress = (challenge: Challenge) => {
-    navigation.navigate('ChallengeDetail', { challengeId: challenge.id });
+  const handleItemPress = (item: ChallengeItem) => {
+    navigation.navigate('ChallengeDetail', {
+      itemId: item.id,
+      itemType: item.type,
+    });
   };
 
   return (
@@ -82,7 +95,7 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
           <VStack spacing="xs">
             <Text variant="title">Challenge Hub</Text>
             <Text variant="caption" color={colors.textSecondary}>
-              {filteredChallenges.length} challenges available
+              {challengeRegistry.assessments.length} assessments • {challengeRegistry.challenges.length} challenges
             </Text>
           </VStack>
           <Button
@@ -93,21 +106,22 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
           />
         </HStack>
 
-        {/* Filters */}
+        {/* Type Filter */}
         <VStack spacing="sm">
           <Text variant="label" color={colors.textSecondary}>
-            Filter by tier
+            Type
           </Text>
           <FilterTabs
-            options={tierOptions}
-            selected={tierFilter}
-            onSelect={setTierFilter}
+            options={typeOptions}
+            selected={typeFilter}
+            onSelect={setTypeFilter}
           />
         </VStack>
 
+        {/* Difficulty Filter */}
         <VStack spacing="sm">
           <Text variant="label" color={colors.textSecondary}>
-            Filter by difficulty
+            Difficulty
           </Text>
           <FilterTabs
             options={difficultyOptions}
@@ -116,48 +130,76 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
           />
         </VStack>
 
-        {/* Challenge List */}
-        {difficultyFilter === 'all' ? (
-          // Show grouped by difficulty
+        {/* Content */}
+        {typeFilter === 'all' ? (
+          // Grouped view
           <VStack spacing="lg">
-            {(['easy', 'medium', 'hard'] as Difficulty[]).map(difficulty => {
-              const challenges = groupedChallenges[difficulty];
-              if (challenges.length === 0) return null;
+            {/* Assessments Section */}
+            {assessments.length > 0 && (
+              <VStack spacing="md">
+                <HStack spacing="sm" align="center">
+                  <Text variant="subtitle">Assessments</Text>
+                  <View style={[styles.countBadge, { backgroundColor: colors.primary }]}>
+                    <Text variant="caption" style={{ color: '#fff' }}>
+                      {assessments.length}
+                    </Text>
+                  </View>
+                </HStack>
+                <Text variant="caption" color={colors.textMuted}>
+                  Full timed challenges with specific use cases
+                </Text>
+                {assessments.map(item => (
+                  <ChallengeCard
+                    key={item.id}
+                    item={item}
+                    onPress={() => handleItemPress(item)}
+                  />
+                ))}
+              </VStack>
+            )}
 
-              return (
-                <VStack key={difficulty} spacing="md">
-                  <Text variant="subtitle" style={styles.sectionTitle}>
-                    {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-                  </Text>
-                  {challenges.map(challenge => (
-                    <ChallengeCard
-                      key={challenge.id}
-                      challenge={challenge}
-                      onPress={() => handleChallengePress(challenge)}
-                    />
-                  ))}
-                </VStack>
-              );
-            })}
+            {/* Challenges Section */}
+            {challenges.length > 0 && (
+              <VStack spacing="md">
+                <HStack spacing="sm" align="center">
+                  <Text variant="subtitle">Generic Challenges</Text>
+                  <View style={[styles.countBadge, { backgroundColor: colors.secondary }]}>
+                    <Text variant="caption" style={{ color: '#fff' }}>
+                      {challenges.length}
+                    </Text>
+                  </View>
+                </HStack>
+                <Text variant="caption" color={colors.textMuted}>
+                  Reusable features you can apply to any assessment
+                </Text>
+                {challenges.map(item => (
+                  <ChallengeCard
+                    key={item.id}
+                    item={item}
+                    onPress={() => handleItemPress(item)}
+                  />
+                ))}
+              </VStack>
+            )}
           </VStack>
         ) : (
-          // Show flat list
+          // Flat list view
           <VStack spacing="md">
-            {filteredChallenges.map(challenge => (
+            {filteredItems.map(item => (
               <ChallengeCard
-                key={challenge.id}
-                challenge={challenge}
-                onPress={() => handleChallengePress(challenge)}
+                key={item.id}
+                item={item}
+                onPress={() => handleItemPress(item)}
               />
             ))}
           </VStack>
         )}
 
         {/* Empty state */}
-        {filteredChallenges.length === 0 && (
+        {filteredItems.length === 0 && (
           <View style={styles.emptyState}>
             <Text variant="body" color={colors.textMuted}>
-              No challenges match your filters
+              No items match your filters
             </Text>
           </View>
         )}
@@ -174,11 +216,13 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 20,
   },
-  sectionTitle: {
-    textTransform: 'capitalize',
-  },
   emptyState: {
     padding: 40,
     alignItems: 'center',
+  },
+  countBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
   },
 });

@@ -1,33 +1,37 @@
 /**
  * Challenge card for list display
+ * Handles both Assessment and GenericChallenge types
  */
 
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Text, Card, HStack, VStack, Badge } from '@astacinco/rn-primitives';
+import { Text, Card, HStack, VStack } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { DifficultyBadge } from './DifficultyBadge';
-import type { Challenge, ChallengeStatus } from '../types';
+import type { ChallengeItem, ChallengeStatus, Assessment } from '../types';
 
 interface ChallengeCardProps {
-  challenge: Challenge;
+  item: ChallengeItem;
   status?: ChallengeStatus;
   onPress: () => void;
 }
 
-export function ChallengeCard({ challenge, status = 'not_started', onPress }: ChallengeCardProps) {
+export function ChallengeCard({ item, status = 'not_started', onPress }: ChallengeCardProps) {
   const { colors } = useTheme();
+  const isAssessmentType = item.type === 'assessment';
 
-  const getStatusBadge = () => {
+  const getStatusLabel = () => {
     switch (status) {
       case 'completed':
-        return <Badge label="Done" variant="success" size="sm" standalone />;
+        return { label: 'Done', color: colors.success };
       case 'in_progress':
-        return <Badge label="In Progress" variant="warning" size="sm" standalone />;
+        return { label: 'In Progress', color: colors.warning };
       default:
         return null;
     }
   };
+
+  const statusInfo = getStatusLabel();
 
   return (
     <Pressable onPress={onPress}>
@@ -40,37 +44,46 @@ export function ChallengeCard({ challenge, status = 'not_started', onPress }: Ch
             {/* Header */}
             <HStack justify="space-between" align="center">
               <HStack spacing="sm" align="center">
-                <DifficultyBadge difficulty={challenge.difficulty} size="sm" />
-                {challenge.tier === 'pro' && (
-                  <Badge label="PRO" variant="primary" size="sm" standalone />
-                )}
+                {/* Type badge */}
+                <View style={[styles.typeBadge, {
+                  backgroundColor: isAssessmentType ? colors.primary : colors.secondary
+                }]}>
+                  <Text variant="caption" style={{ color: '#fff', fontSize: 10 }}>
+                    {isAssessmentType ? 'ASSESSMENT' : 'CHALLENGE'}
+                  </Text>
+                </View>
+                <DifficultyBadge difficulty={item.difficulty} size="sm" />
               </HStack>
-              {getStatusBadge()}
+              {statusInfo && (
+                <Text variant="caption" style={{ color: statusInfo.color }}>
+                  {statusInfo.label}
+                </Text>
+              )}
             </HStack>
 
             {/* Title */}
-            <Text variant="subtitle">{challenge.title}</Text>
+            <Text variant="subtitle">{item.title}</Text>
 
             {/* Description */}
             <Text variant="body" color={colors.textSecondary} numberOfLines={2}>
-              {challenge.description}
+              {item.description}
             </Text>
 
             {/* Footer */}
             <HStack justify="space-between" align="center">
               <HStack spacing="xs" align="center">
                 <Text variant="caption" color={colors.textMuted}>
-                  {challenge.timeMinutes} min
+                  {item.timeMinutes} min
                 </Text>
                 <Text variant="caption" color={colors.textMuted}>
                   •
                 </Text>
                 <Text variant="caption" color={colors.textMuted}>
-                  {challenge.packages.length} packages
+                  {item.packages.length} packages
                 </Text>
               </HStack>
 
-              {challenge.hasNativeVersion && (
+              {isAssessmentType && (item as Assessment).hasNativeVersion && (
                 <Text variant="caption" color={colors.primary}>
                   + Native version
                 </Text>
@@ -79,7 +92,7 @@ export function ChallengeCard({ challenge, status = 'not_started', onPress }: Ch
 
             {/* Skills */}
             <View style={styles.skillsContainer}>
-              {challenge.skills.slice(0, 3).map((skill, index) => (
+              {item.skills.slice(0, 3).map((skill, index) => (
                 <View
                   key={index}
                   style={[styles.skillTag, { backgroundColor: colors.surface }]}
@@ -89,12 +102,19 @@ export function ChallengeCard({ challenge, status = 'not_started', onPress }: Ch
                   </Text>
                 </View>
               ))}
-              {challenge.skills.length > 3 && (
+              {item.skills.length > 3 && (
                 <Text variant="caption" color={colors.textMuted}>
-                  +{challenge.skills.length - 3} more
+                  +{item.skills.length - 3} more
                 </Text>
               )}
             </View>
+
+            {/* Required challenges indicator for assessments */}
+            {isAssessmentType && (item as Assessment).requiredChallenges.length > 0 && (
+              <Text variant="caption" color={colors.info}>
+                Includes {(item as Assessment).requiredChallenges.length} required challenges
+              </Text>
+            )}
           </VStack>
         </Card>
       )}
@@ -111,6 +131,11 @@ const styles = StyleSheet.create({
   },
   skillTag: {
     paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  typeBadge: {
+    paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
   },

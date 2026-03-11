@@ -1,4 +1,4 @@
-# Assessment Challenge: Link Management Screen
+# Assessment: Link Management Screen
 
 **Time Limit:** 90 minutes
 **Difficulty:** Medium
@@ -14,50 +14,78 @@ and search through their links.
 
 ---
 
-## What You're Building
+## Assessment Structure
 
-A mobile screen that displays:
-1. A header with theme toggle
-2. A search bar to filter links
-3. A count showing "X of Y links"
-4. A scrollable list of link cards
-5. An "Add Link" button/form
+| Section | Time | Status |
+|---------|------|--------|
+| **Core Domain Tasks** | ~45 min | Required |
+| **Required Challenges** | ~30 min | Required |
+| **Bonus Challenges** | ~15+ min | Optional |
 
 ---
 
-## Functional Requirements
+## Core Domain Tasks (Required)
 
-### FR1: Link List Display
+These are specific to the Linktree use case.
+
+### Task 1: Link List Display
 - [ ] Display links from provided mock data as cards
 - [ ] Each card shows: title, URL, and enabled status
 - [ ] Cards should be visually distinct (use Card component)
 
-### FR2: Toggle Link Visibility
+### Task 2: Toggle Link Visibility
 - [ ] Each card has a toggle switch (use RN's Switch for now)
 - [ ] Toggling updates the link's `enabled` state
 - [ ] Visual feedback when toggled (styling change)
 
-### FR3: Search/Filter
-- [ ] Search input at top of screen
-- [ ] Filters links by title (case-insensitive)
-- [ ] Search MUST be debounced (300ms)
-- [ ] Show filtered results immediately after debounce
-
-### FR4: Link Count with Pluralization
+### Task 3: Link Count with Pluralization
 - [ ] Display "Showing X of Y links" text
 - [ ] Must use i18n pluralization
 - [ ] Examples: "Showing 1 of 5 links", "Showing 3 of 5 links"
 
-### FR5: Add Link
+### Task 4: Add Link
 - [ ] Button to add a new link
 - [ ] Simple form with title and URL inputs
 - [ ] New link appears in the list
-- [ ] Basic validation (non-empty fields)
 
-### FR6: Theme Support
+---
+
+## Required Challenges (Required)
+
+These are generic challenges that must be completed for this assessment.
+See the Companion App for detailed instructions.
+
+### Challenge: Debounced Search
+- [ ] Search input at top of screen
+- [ ] Filters links by title (case-insensitive)
+- [ ] Search MUST be debounced (300ms) using `useDebounce`
+- [ ] Show filtered results immediately after debounce
+
+### Challenge: Dark Mode Toggle
 - [ ] Toggle button to switch light/dark mode
 - [ ] All components adapt to theme
-- [ ] Background, text, cards all change
+- [ ] Background, text, cards all change appropriately
+
+---
+
+## Bonus Challenges (Optional)
+
+Complete these if you finish early or want extra practice.
+
+### Challenge: Form Validation
+- [ ] Validate title and URL fields are non-empty
+- [ ] Show error states on invalid inputs
+- [ ] Prevent form submission until valid
+
+### Challenge: Loading States
+- [ ] Show loading indicator when adding a link
+- [ ] Simulate async delay (500ms)
+- [ ] Disable form during loading
+
+### Challenge: Empty States
+- [ ] Show "No links yet" when list is empty
+- [ ] Show "No results found" when search has no matches
+- [ ] Include call-to-action in empty states
 
 ---
 
@@ -116,31 +144,32 @@ See `data/links.ts` for sample data.
 
 | Criteria | Points | What We're Looking For |
 |----------|--------|------------------------|
-| **Core Functionality** | 40 | List renders, search filters, toggle works, add works |
-| **Package Integration** | 25 | Correct use of primitives, hooks, providers |
-| **TypeScript Quality** | 15 | Proper types, interfaces, no `any` |
-| **Theme Support** | 10 | Dark/light works, colors adapt correctly |
-| **Edge Cases** | 10 | Empty state, no results, form validation |
+| **Core Domain Tasks** | 35 | List renders, toggle works, add works, count shows |
+| **Required Challenges** | 30 | Debounced search works, theme toggle works |
+| **Package Integration** | 15 | Correct use of primitives, hooks, providers |
+| **TypeScript Quality** | 10 | Proper types, interfaces, no `any` |
+| **Bonus Challenges** | 10 | Form validation, loading states, empty states |
 
 ---
 
 ## Getting Started
 
 1. **Read the cheatsheet** - `CHEATSHEET.md` has all imports and patterns
-2. **Check the mock data** - `data/links.ts`
-3. **Check translations** - `i18n/en.ts`
-4. **Start in App.tsx** - Basic structure is provided
-5. **Use the timer** - Set a 90-minute timer!
+2. **Open Companion App** - Have it ready on your phone for reference
+3. **Check the mock data** - `data/links.ts`
+4. **Check translations** - `i18n/en.ts`
+5. **Start in App.tsx** - Basic structure is provided
+6. **Start the timer** - 90 minutes!
 
 ---
 
 ## Tips
 
 - **Start with rendering** - Get the list displaying first
-- **Add features incrementally** - Don't try to do everything at once
+- **Core tasks first** - Complete all core domain tasks before challenges
 - **Test as you go** - Run the app frequently
 - **Use the cheatsheet** - Don't waste time remembering imports
-- **Handle edge cases last** - Get core functionality working first
+- **Bonus is bonus** - Only attempt if core + required are done
 
 ---
 
@@ -149,7 +178,7 @@ See `data/links.ts` for sample data.
 1. Review your solution against `SOLUTION.md`
 2. Note what was easy vs. hard
 3. Identify components that would have helped
-4. This feedback drives Phase 2 component building
+4. Try the bonus challenges if time permits
 
 ---
 
