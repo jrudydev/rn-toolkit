@@ -23,20 +23,25 @@ npm install @astacinco/rn-performance
 ### For Firebase Performance (production)
 
 ```bash
-npm install @react-native-firebase/perf
+npm install @react-native-firebase/app @react-native-firebase/perf
 ```
+
+> **Note:** FirebaseAdapter is exported separately to avoid bundling Firebase dependencies when not needed.
 
 ## Quick Start
 
 ### 1. Choose your adapter
 
 ```tsx
+// Development & Testing adapters (no extra dependencies)
 import {
   PerformanceProvider,
-  FirebaseAdapter,
   ConsoleAdapter,
   NoOpAdapter,
 } from '@astacinco/rn-performance';
+
+// Firebase adapter (requires @react-native-firebase/perf)
+import { FirebaseAdapter } from '@astacinco/rn-performance/firebase';
 
 // Production: Firebase Performance
 const adapter = new FirebaseAdapter();
@@ -51,6 +56,9 @@ const adapter = new NoOpAdapter();
 ### 2. Wrap your app
 
 ```tsx
+import { PerformanceProvider, ConsoleAdapter } from '@astacinco/rn-performance';
+import { FirebaseAdapter } from '@astacinco/rn-performance/firebase';
+
 function App() {
   const adapter = __DEV__
     ? new ConsoleAdapter({ prefix: '[Perf]' })
@@ -172,10 +180,11 @@ const adapter = new NoOpAdapter();
 #### FirebaseAdapter (Production)
 
 ```typescript
-import { FirebaseAdapter } from '@astacinco/rn-performance';
+// Import from separate entry point to avoid bundling Firebase when not used
+import { FirebaseAdapter } from '@astacinco/rn-performance/firebase';
 
 const adapter = new FirebaseAdapter();
-// Requires @react-native-firebase/perf
+// Requires @react-native-firebase/app and @react-native-firebase/perf
 ```
 
 ### Creating Custom Adapters
@@ -663,6 +672,9 @@ The adapter pattern allows you to:
 4. **Create custom adapters** - Build adapters for Sentry, New Relic, etc.
 
 ```typescript
+import { ConsoleAdapter, NoOpAdapter } from '@astacinco/rn-performance';
+import { FirebaseAdapter } from '@astacinco/rn-performance/firebase';
+
 // Switch providers without changing any component code:
 
 // Development

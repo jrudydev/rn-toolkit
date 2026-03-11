@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#6366F1"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rntoolkit.demo"
@@ -26,6 +28,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "rntoolkit"
+    "scheme": "rntoolkit",
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }

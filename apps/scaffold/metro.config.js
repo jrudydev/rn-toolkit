@@ -1,23 +1,24 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
 
+// Get the project root (this app folder)
 const projectRoot = __dirname;
-const workspaceRoot = path.resolve(projectRoot, '../..');
+
+// Get the monorepo root
+const monorepoRoot = path.resolve(projectRoot, '../..');
 
 const config = getDefaultConfig(projectRoot);
 
-// Watch all files in the monorepo
-config.watchFolders = [workspaceRoot];
+// 1. Watch all files in the monorepo
+config.watchFolders = [monorepoRoot];
 
-// Resolve modules from both the project and workspace root
+// 2. Let Metro know where to resolve packages
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, 'node_modules'),
-  path.resolve(workspaceRoot, 'node_modules'),
+  path.resolve(monorepoRoot, 'node_modules'),
 ];
 
-// Map workspace packages
-config.resolver.extraNodeModules = {
-  '@rn-toolkit/theming': path.resolve(workspaceRoot, 'packages/theming/src'),
-};
+// 3. Force resolving from projectRoot for the app entry
+config.resolver.disableHierarchicalLookup = true;
 
 module.exports = config;

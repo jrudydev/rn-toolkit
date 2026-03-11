@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { registerRootComponent } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -612,7 +611,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-
-registerRootComponent(App);
 
 export default App;

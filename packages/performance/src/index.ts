@@ -66,8 +66,8 @@ export { PerformanceContext } from './PerformanceContext';
 export { PerformanceProvider } from './PerformanceProvider';
 export type { PerformanceProviderProps } from './PerformanceProvider';
 
-// Adapters
-export { NoOpAdapter, ConsoleAdapter, FirebaseAdapter } from './adapters';
+// Adapters (FirebaseAdapter requires Firebase - import from '@astacinco/rn-performance/firebase')
+export { NoOpAdapter, ConsoleAdapter } from './adapters';
 export type { ConsoleAdapterOptions } from './adapters';
 
 // Hooks
