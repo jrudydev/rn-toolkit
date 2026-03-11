@@ -15,12 +15,12 @@ This is the reference solution for the Link Management Screen challenge.
  */
 
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 // Package imports
 import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
-import { Text, Button, Card, VStack, HStack, Container, Input, Divider } from '@astacinco/rn-primitives';
+import { Text, Button, Card, VStack, HStack, Container, Input, Divider, Switch, Avatar, Badge } from '@astacinco/rn-primitives';
 import { I18nProvider, ConsoleAdapter, useTranslation } from '@astacinco/rn-i18n';
 import { useDebounce } from '@astacinco/rn-performance';
 
@@ -68,8 +68,6 @@ function LinkCard({ link, onToggle }: LinkCardProps) {
           <Switch
             value={link.enabled}
             onValueChange={() => onToggle(link.id)}
-            trackColor={{ false: colors.border, true: colors.primary }}
-            thumbColor={link.enabled ? colors.surface : colors.textMuted}
           />
           <Text variant="caption" color={colors.textSecondary}>
             {link.enabled ? t('links.enabled') : t('links.disabled')}
@@ -343,11 +341,18 @@ const handleToggle = (id: string) => {
 
 ### 5. Theme-Aware Switch
 ```tsx
+// Using @astacinco/rn-primitives Switch (auto-themed)
 <Switch
   value={link.enabled}
   onValueChange={() => onToggle(link.id)}
-  trackColor={{ false: colors.border, true: colors.primary }}
-  thumbColor={link.enabled ? colors.surface : colors.textMuted}
+/>
+
+// Or with custom colors
+<Switch
+  value={link.enabled}
+  onValueChange={() => onToggle(link.id)}
+  activeColor={colors.success}
+  inactiveColor={colors.border}
 />
 ```
 
@@ -421,11 +426,14 @@ Based on how the challenge went:
 
 ## Phase 2: Component Building
 
-After completing the challenge, identify what would have helped:
+These components are now available in `@astacinco/rn-primitives`:
 
-- **Switch component** - Theme-aware, proper styling
-- **Avatar component** - For link thumbnails
-- **Badge component** - For click counts
+- **Switch** - Theme-aware toggle (replaces RN Switch fallback)
+- **Avatar** - For link thumbnails with fallback initials
+- **Badge** - For click counts, notifications, indicators
+
+Still to build:
 - **Modal component** - For add link form
+- **Icon component** - For UI icons
 
-Build these components, then redo the challenge using them!
+Redo the challenge using these packaged components!

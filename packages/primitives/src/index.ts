@@ -49,3 +49,15 @@ export type { InputProps } from './Input';
 // Divider
 export { Divider } from './Divider';
 export type { DividerProps, DividerVariant } from './Divider';
+
+// Switch
+export { Switch } from './Switch';
+export type { SwitchProps, SwitchSize } from './Switch';
+
+// Avatar
+export { Avatar } from './Avatar';
+export type { AvatarProps, AvatarSize } from './Avatar';
+
+// Badge
+export { Badge } from './Badge';
+export type { BadgeProps, BadgeVariant, BadgePosition, BadgeSize } from './Badge';

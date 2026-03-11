@@ -43,7 +43,10 @@ import {
   HStack,
   Container,
   Input,
-  Divider
+  Divider,
+  Switch,
+  Avatar,
+  Badge
 } from '@astacinco/rn-primitives';
 ```
 
@@ -124,6 +127,64 @@ color?: string  // override theme color
 ```tsx
 <Divider variant="thin" />
 <Divider variant="thick" />
+```
+
+### Switch
+```tsx
+<Switch
+  value={isEnabled}
+  onValueChange={setIsEnabled}
+  size="md"
+  label="Enable feature"
+  labelPosition="right"
+/>
+
+// Sizes: 'sm' | 'md' | 'lg'
+// labelPosition: 'left' | 'right'
+// activeColor?: string (override theme)
+// inactiveColor?: string (override theme)
+```
+
+### Avatar
+```tsx
+// With image
+<Avatar
+  source={{ uri: 'https://example.com/photo.jpg' }}
+  size="md"
+/>
+
+// With fallback initials
+<Avatar
+  fallback="John Doe"
+  size="lg"
+/>
+
+// Sizes: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+// rounded?: boolean (default: true)
+// borderWidth?: number
+// customSize?: number (override size prop)
+```
+
+### Badge
+```tsx
+// Count badge on avatar
+<Badge count={5} position="top-right">
+  <Avatar source={...} />
+</Badge>
+
+// Dot badge
+<Badge dot variant="error">
+  <Icon name="bell" />
+</Badge>
+
+// Standalone badge
+<Badge count={99} maxCount={99} standalone />
+
+// Variants: 'default' | 'primary' | 'error' | 'success' | 'warning'
+// Positions: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
+// Sizes: 'sm' | 'md' | 'lg'
+// showZero?: boolean (show badge when count is 0)
+// offset?: [x, y] (fine-tune position)
 ```
 
 ---

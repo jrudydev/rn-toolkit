@@ -48,17 +48,17 @@ Location: `apps/assessment-practice/`
 - Packages: rn-primitives, rn-theming, rn-i18n, rn-performance
 - Aligned with: Linktree Senior Mobile Engineer role
 
-### Phase 2: Build Missing Components ⏳ PENDING
+### Phase 2: Build Missing Components ✅ PARTIAL
 
 Components identified during Phase 1 challenge design:
 
-| Component | Package | Use Case | Priority |
-|-----------|---------|----------|----------|
-| **Switch** | rn-primitives | Link visibility toggle | High |
-| **Avatar** | rn-primitives | Link thumbnails, user profiles | High |
-| **Badge** | rn-primitives | Click counts, notifications | High |
-| **Icon** | rn-primitives | UI icons throughout | Medium |
-| **Modal** | rn-primitives | Add link form, confirmations | Medium |
+| Component | Package | Use Case | Status |
+|-----------|---------|----------|--------|
+| **Switch** | rn-primitives | Link visibility toggle | ✅ Built |
+| **Avatar** | rn-primitives | Link thumbnails, user profiles | ✅ Built |
+| **Badge** | rn-primitives | Click counts, notifications | ✅ Built |
+| **Icon** | rn-primitives | UI icons throughout | ⏳ Pending |
+| **Modal** | rn-primitives | Add link form, confirmations | ⏳ Pending |
 
 **Badge Component Notes:**
 Based on PayPal navigation badge SDUI framework experience:
