@@ -34,7 +34,7 @@ These are specific to the Linktree use case.
 - [ ] Cards should be visually distinct (use Card component)
 
 ### Task 2: Toggle Link Visibility
-- [ ] Each card has a toggle switch (use RN's Switch for now)
+- [ ] Each card has a toggle switch (use `Switch` from primitives)
 - [ ] Toggling updates the link's `enabled` state
 - [ ] Visual feedback when toggled (styling change)
 
@@ -95,12 +95,9 @@ Complete these if you finish early or want extra practice.
 ```tsx
 // REQUIRED imports
 import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
-import { Text, Button, Card, VStack, HStack, Container, Input, Divider } from '@astacinco/rn-primitives';
+import { Text, Button, Card, VStack, HStack, Container, Input, Divider, Switch } from '@astacinco/rn-primitives';
 import { I18nProvider, ConsoleAdapter, useTranslation } from '@astacinco/rn-i18n';
 import { useDebounce } from '@astacinco/rn-performance';
-
-// For toggle (fallback until we build Switch)
-import { Switch } from 'react-native';
 ```
 
 ### TR2: TypeScript

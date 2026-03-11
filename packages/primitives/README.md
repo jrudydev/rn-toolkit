@@ -172,6 +172,201 @@ Themed horizontal divider.
 - `variant` - `'thin' | 'thick'` (default: `'thin'`)
 - `color` - Override divider color
 
+### Switch
+
+Themed toggle switch.
+
+```typescript
+<Switch
+  value={isEnabled}
+  onValueChange={setIsEnabled}
+/>
+
+<Switch
+  value={isEnabled}
+  onValueChange={setIsEnabled}
+  label="Enable notifications"
+  labelPosition="right"
+  size="lg"
+/>
+```
+
+**Props:**
+- `value` - Current switch state (required)
+- `onValueChange` - Callback when toggled (required)
+- `label` - Optional label text
+- `labelPosition` - `'left' | 'right'` (default: `'right'`)
+- `size` - `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `disabled` - Disable the switch
+- `activeColor` - Override active track color
+- `inactiveColor` - Override inactive track color
+
+### Avatar
+
+User avatar with image or fallback initials.
+
+```typescript
+// With image
+<Avatar
+  source={{ uri: 'https://example.com/photo.jpg' }}
+  size="md"
+/>
+
+// With fallback initials
+<Avatar
+  fallback="John Doe"
+  size="lg"
+/>
+```
+
+**Props:**
+- `source` - Image source (same as RN Image)
+- `fallback` - Name to generate initials from
+- `size` - `'xs' | 'sm' | 'md' | 'lg' | 'xl'` (default: `'md'`)
+- `rounded` - Circular shape (default: `true`)
+- `borderWidth` - Border width in pixels
+- `customSize` - Override size with exact pixels
+
+### Badge
+
+Notification badge, positioned on children or standalone.
+
+```typescript
+// Count badge on avatar
+<Badge count={5} position="top-right">
+  <Avatar source={...} />
+</Badge>
+
+// Dot badge
+<Badge dot variant="error">
+  <Icon name="bell" />
+</Badge>
+
+// Standalone badge
+<Badge count={99} maxCount={99} standalone />
+```
+
+**Props:**
+- `count` - Number to display
+- `dot` - Show as dot instead of count
+- `variant` - `'default' | 'primary' | 'error' | 'success' | 'warning'`
+- `position` - `'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'`
+- `size` - `'sm' | 'md' | 'lg'`
+- `maxCount` - Max number before showing "99+"
+- `showZero` - Show badge when count is 0
+- `standalone` - Render without positioning on children
+- `offset` - `[x, y]` fine-tune position
+
+### Tag
+
+Inline label for categories, status, or attributes.
+
+```typescript
+// Basic usage
+<Tag label="New" />
+
+// With color
+<Tag label="Success" color="success" />
+<Tag label="Warning" color="warning" />
+<Tag label="Error" color="error" />
+
+// Filled variant
+<Tag label="Active" color="primary" variant="filled" />
+
+// Sizes
+<Tag label="Small" size="sm" />
+<Tag label="Large" size="lg" />
+```
+
+**Props:**
+- `label` - Tag text (required)
+- `color` - `'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'`
+- `variant` - `'outlined' | 'filled'` (default: `'outlined'`)
+- `size` - `'sm' | 'md' | 'lg'` (default: `'md'`)
+
+### Timer
+
+Countdown timer with controls.
+
+```typescript
+// Basic timer
+<Timer durationMinutes={5} />
+
+// With callbacks
+<Timer
+  durationMinutes={90}
+  onStart={() => console.log('Started')}
+  onComplete={() => console.log('Done!')}
+  onPause={() => console.log('Paused')}
+  showProgress
+  showControls
+/>
+
+// Auto-start timer
+<Timer durationMinutes={60} autoStart />
+```
+
+**Props:**
+- `durationMinutes` - Timer duration in minutes (required)
+- `autoStart` - Start automatically (default: `false`)
+- `showControls` - Show start/pause/reset buttons (default: `true`)
+- `showProgress` - Show progress bar (default: `true`)
+- `lowTimeThreshold` - Seconds remaining for low-time warning (default: `300`)
+- `onStart` - Callback when timer starts
+- `onPause` - Callback when timer pauses
+- `onReset` - Callback when timer resets
+- `onComplete` - Callback when timer reaches zero
+- `onTick` - Callback each second with remaining time
+
+### Tabs
+
+Horizontal tab selector.
+
+```typescript
+const options = [
+  { value: 'all', label: 'All' },
+  { value: 'active', label: 'Active' },
+  { value: 'completed', label: 'Completed' },
+];
+
+<Tabs
+  options={options}
+  selected={selectedTab}
+  onSelect={setSelectedTab}
+/>
+
+// Variants
+<Tabs options={options} selected={tab} onSelect={setTab} variant="pills" />
+<Tabs options={options} selected={tab} onSelect={setTab} variant="outlined" />
+<Tabs options={options} selected={tab} onSelect={setTab} variant="filled" />
+
+// Sizes
+<Tabs options={options} selected={tab} onSelect={setTab} size="sm" />
+<Tabs options={options} selected={tab} onSelect={setTab} size="lg" />
+```
+
+**Props:**
+- `options` - Array of `{ value: T, label: string }` (required)
+- `selected` - Currently selected value (required)
+- `onSelect` - Callback when tab is selected (required)
+- `variant` - `'pills' | 'outlined' | 'filled'` (default: `'pills'`)
+- `size` - `'sm' | 'md' | 'lg'` (default: `'md'`)
+- `scrollable` - Enable horizontal scrolling (default: `true`)
+
+### MarkdownViewer
+
+Render markdown content with theme styling.
+
+```typescript
+<MarkdownViewer content="# Hello\n\nThis is **bold** text." />
+```
+
+**Props:**
+- `content` - Markdown string to render (required)
+- `style` - Override container style
+
+**Note:** Requires `react-native-markdown-display` as an optional peer dependency. Falls back to plain text if not installed.
+
 ## Theme Integration
 
 All components use the `useTheme()` hook from `@astacinco/rn-theming`. They automatically:

@@ -46,7 +46,11 @@ import {
   Divider,
   Switch,
   Avatar,
-  Badge
+  Badge,
+  Tag,
+  Timer,
+  Tabs,
+  MarkdownViewer
 } from '@astacinco/rn-primitives';
 ```
 
@@ -185,6 +189,67 @@ color?: string  // override theme color
 // Sizes: 'sm' | 'md' | 'lg'
 // showZero?: boolean (show badge when count is 0)
 // offset?: [x, y] (fine-tune position)
+```
+
+### Tag
+```tsx
+// Inline label for categories, status, attributes
+<Tag label="New" />
+<Tag label="Easy" color="success" />
+<Tag label="Hard" color="error" variant="filled" />
+
+// Colors: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'
+// Variants: 'outlined' | 'filled'
+// Sizes: 'sm' | 'md' | 'lg'
+```
+
+### Timer
+```tsx
+// Countdown timer with controls
+<Timer durationMinutes={90} />
+
+<Timer
+  durationMinutes={60}
+  autoStart={false}
+  showControls={true}
+  showProgress={true}
+  onStart={() => console.log('Started')}
+  onPause={() => console.log('Paused')}
+  onComplete={() => console.log('Done!')}
+  onTick={(remaining) => console.log(remaining)}
+/>
+
+// lowTimeThreshold?: number (seconds, default 300)
+```
+
+### Tabs
+```tsx
+const options = [
+  { value: 'all', label: 'All' },
+  { value: 'active', label: 'Active' },
+  { value: 'done', label: 'Done' },
+];
+
+<Tabs
+  options={options}
+  selected={selectedTab}
+  onSelect={setSelectedTab}
+  variant="pills"
+  size="md"
+/>
+
+// Variants: 'pills' | 'outlined' | 'filled'
+// Sizes: 'sm' | 'md' | 'lg'
+// scrollable?: boolean (default true)
+```
+
+### MarkdownViewer
+```tsx
+// Render markdown with theme styling
+<MarkdownViewer content="# Title\n\nSome **bold** text." />
+
+// Note: Requires react-native-markdown-display (optional peer dep)
+// Falls back to plain text if not installed
 ```
 
 ---
