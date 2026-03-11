@@ -66,13 +66,25 @@ export interface GenericChallenge {
   title: string;
   description: string;
   difficulty: Difficulty;
-  timeMinutes: number; // Estimated time to complete
+  timeMinutes: number; // Estimated time to complete (packaged version)
   packages: string[]; // Package IDs used
   tier: PackageTier;
 
-  // Instructions and solution
-  instructions: string; // Markdown content or file reference
-  solutionHints?: string;
+  // Instructions (shared between versions)
+  instructions: string; // Requirements, acceptance criteria
+
+  // Packaged solution (using @astacinco packages)
+  solution: string; // Complete working code with packages
+  cheatsheet?: string; // Quick API reference for packages used
+
+  // Native solution (using raw React Native - no packages)
+  nativeTimeMinutes?: number; // Usually longer than packaged
+  nativeSolution?: string; // Complete working code without packages
+  nativeCheatsheet?: string; // React Native API reference
+
+  // Future: Reactive solution (RxJS, MobX, etc.)
+  // reactiveSolution?: string;
+  // reactiveCheatsheet?: string;
 
   // Skills practiced
   skills: string[];

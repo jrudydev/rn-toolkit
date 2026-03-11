@@ -65,9 +65,16 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
     item.packages.includes(p.id)
   );
 
-  // Calculate time for assessments with native version
-  const timeMinutes = isAssessment && assessment?.hasNativeVersion && selectedVersion === 'native'
-    ? Math.round(item.timeMinutes * 1.33)
+  // Check if challenge has native version
+  const hasNativeVersion = isAssessment
+    ? assessment?.hasNativeVersion
+    : !!challenge?.nativeSolution;
+
+  // Calculate time based on selected version
+  const timeMinutes = selectedVersion === 'native'
+    ? (isAssessment
+        ? Math.round(item.timeMinutes * 1.33)
+        : challenge?.nativeTimeMinutes ?? item.timeMinutes)
     : item.timeMinutes;
 
   // Get required/bonus challenges for assessments
@@ -122,8 +129,8 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
 
         <Divider />
 
-        {/* Version Toggle - Assessments only */}
-        {isAssessment && assessment?.hasNativeVersion && (
+        {/* Version Toggle - Show for items with native versions */}
+        {hasNativeVersion && (
           <Card variant="outlined">
             <VStack spacing="sm">
               <Text variant="label">Choose version:</Text>
@@ -135,7 +142,7 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
                   onPress={() => setSelectedVersion('packaged')}
                 />
                 <Button
-                  label={`Native (${Math.round(item.timeMinutes * 1.33)} min)`}
+                  label={`Native (${isAssessment ? Math.round(item.timeMinutes * 1.33) : challenge?.nativeTimeMinutes ?? item.timeMinutes} min)`}
                   variant={selectedVersion === 'native' ? 'primary' : 'outline'}
                   size="sm"
                   onPress={() => setSelectedVersion('native')}
@@ -237,20 +244,66 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
 
         <Divider />
 
-        {/* Instructions - GenericChallenge only */}
-        {!isAssessment && challenge?.instructions && (
+        {/* Instructions & Solutions - GenericChallenge only */}
+        {!isAssessment && challenge && (
           <VStack spacing="md">
-            <Button
-              label={showInstructions ? "Hide Instructions" : "Show Instructions"}
-              variant="outline"
-              onPress={() => setShowInstructions(!showInstructions)}
-            />
-            {showInstructions && (
-              <Card variant="filled">
-                <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 12 }}>
-                  {challenge.instructions}
-                </Text>
+            {/* Instructions */}
+            {challenge.instructions && (
+              <>
+                <Button
+                  label={showInstructions ? "Hide Instructions" : "📋 Show Instructions"}
+                  variant="primary"
+                  onPress={() => setShowInstructions(!showInstructions)}
+                />
+                {showInstructions && (
+                  <Card variant="filled">
+                    <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 12 }}>
+                      {challenge.instructions}
+                    </Text>
+                  </Card>
+                )}
+              </>
+            )}
+
+            {/* Cheatsheet */}
+            {(selectedVersion === 'packaged' ? challenge.cheatsheet : challenge.nativeCheatsheet) && (
+              <Card variant="outlined">
+                <VStack spacing="sm">
+                  <HStack justify="space-between" align="center">
+                    <Text variant="label">
+                      {selectedVersion === 'packaged' ? '📖 Package Cheatsheet' : '📖 Native Cheatsheet'}
+                    </Text>
+                  </HStack>
+                  <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 11 }}>
+                    {selectedVersion === 'packaged' ? challenge.cheatsheet : challenge.nativeCheatsheet}
+                  </Text>
+                </VStack>
               </Card>
+            )}
+
+            {/* Solution - Show after timer completes or if not started */}
+            {(showSolution || !timerStarted) && (
+              <VStack spacing="sm">
+                <Button
+                  label={showSolution ? "✅ View Solution" : "👀 Peek at Solution"}
+                  variant="ghost"
+                  onPress={() => setShowSolution(true)}
+                />
+                {showSolution && (
+                  <Card variant="filled">
+                    <VStack spacing="sm">
+                      <Text variant="label">
+                        {selectedVersion === 'packaged' ? 'Packaged Solution' : 'Native Solution'}
+                      </Text>
+                      <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 11 }}>
+                        {selectedVersion === 'packaged'
+                          ? challenge.solution
+                          : challenge.nativeSolution ?? 'Native solution not available'}
+                      </Text>
+                    </VStack>
+                  </Card>
+                )}
+              </VStack>
             )}
           </VStack>
         )}

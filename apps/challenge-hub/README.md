@@ -1,18 +1,32 @@
 # Challenge Hub
 
-A React Native app for browsing and completing coding challenges using @astacinco packages.
+A React Native app for browsing and completing coding challenges using @astacinco packages. Features a two-tier challenge system with full assessments and reusable generic challenges.
+
+## Two-Tier Challenge System
+
+### Assessments
+Full timed challenges with specific use cases:
+- Have their own app folder (e.g., `assessment-practice/`)
+- Include requirements, cheatsheet, and solution files
+- Reference required and bonus generic challenges
+- Support both packaged and native versions
+- Aligned with real job roles (e.g., "Linktree Senior Mobile Engineer")
+
+### Generic Challenges
+Reusable features that can be applied to any assessment:
+- Self-contained with inline instructions and solutions
+- Include both packaged and native implementations
+- Can be practiced standalone or as part of assessments
+- Examples: debounced search, dark mode toggle, form validation
 
 ## Features
 
-- **Challenge Browser** - Filter by tier (free/pro) and difficulty
+- **Challenge Browser** - Filter by type (assessment/challenge), tier (free/pro), and difficulty
 - **Built-in Timer** - Countdown with pause/resume
 - **Version Toggle** - Switch between packaged and native versions
+- **Inline Solutions** - View cheatsheets and solutions directly in the app
 - **Progress Tracking** - Track completed challenges (coming soon)
 - **Extensible** - Pro repo can add its own challenges
-
-## Screenshots
-
-Coming soon...
 
 ## Architecture
 
@@ -29,12 +43,99 @@ apps/challenge-hub/
 │   │   ├── ChallengeListScreen.tsx
 │   │   └── ChallengeDetailScreen.tsx
 │   ├── data/
-│   │   ├── free-challenges.ts  # Free tier challenges
+│   │   ├── free-challenges.ts  # Free tier data
 │   │   └── index.ts            # Registry merger
 │   └── types/
 │       └── challenge.ts        # TypeScript interfaces
 └── package.json
 ```
+
+## Data Types
+
+### Assessment
+```typescript
+interface Assessment {
+  type: 'assessment';
+  id: string;
+  title: string;
+  description: string;
+  scenario: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  timeMinutes: number;
+  packages: string[];
+  tier: 'free' | 'pro';
+
+  // App folder reference
+  appFolder: string; // e.g., 'assessment-practice'
+
+  // File references (relative to app folder)
+  challengeFile: string;
+  cheatsheetFile: string;
+  solutionFile?: string;
+
+  // Native version support
+  hasNativeVersion?: boolean;
+  nativeChallengeFile?: string;
+  nativeCheatsheetFile?: string;
+  nativeSolutionFile?: string;
+
+  // Required generic challenges
+  requiredChallenges: string[];
+  bonusChallenges?: string[];
+
+  // Metadata
+  skills: string[];
+  alignedWith?: string;
+}
+```
+
+### Generic Challenge
+```typescript
+interface GenericChallenge {
+  type: 'challenge';
+  id: string;
+  title: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  timeMinutes: number;
+  packages: string[];
+  tier: 'free' | 'pro';
+
+  // Instructions (shared)
+  instructions: string;
+
+  // Packaged solution
+  solution: string;
+  cheatsheet?: string;
+
+  // Native solution
+  nativeTimeMinutes?: number;
+  nativeSolution?: string;
+  nativeCheatsheet?: string;
+
+  // Metadata
+  skills: string[];
+}
+```
+
+## Available Challenges
+
+### Free Tier Assessments
+| Assessment | Difficulty | Time | Packages |
+|------------|------------|------|----------|
+| Link Management Screen | Medium | 90 min | 4 |
+
+### Free Tier Generic Challenges
+| Challenge | Difficulty | Time | Native Time |
+|-----------|------------|------|-------------|
+| Debounced Search | Easy | 15 min | 20 min |
+| Dark Mode Toggle | Easy | 10 min | 15 min |
+| Form Validation | Easy | 15 min | 20 min |
+| Loading States | Easy | 10 min | 12 min |
+| Empty States | Easy | 10 min | 12 min |
+| Settings Screen | Easy | 45 min | 60 min |
+| Login Form | Medium | 45 min | 60 min |
+| Analytics Dashboard | Hard | 60 min | 80 min |
 
 ## Extending with Pro Challenges
 
@@ -49,14 +150,8 @@ export const proRegistry: ChallengeRegistry = {
     { id: 'analytics', name: '@astacinco/rn-analytics', ... },
     { id: 'sdui', name: '@astacinco/rn-sdui', ... },
   ],
-  challenges: [
-    {
-      id: 'analytics-integration',
-      title: 'Analytics Integration',
-      tier: 'pro',
-      // ...
-    },
-  ],
+  assessments: [...],
+  challenges: [...],
 };
 ```
 
@@ -80,34 +175,6 @@ npm install
 npx expo start
 ```
 
-## Challenge Data Structure
-
-```typescript
-interface Challenge {
-  id: string;
-  title: string;
-  description: string;
-  scenario: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  timeMinutes: number;
-  packages: string[];
-  tier: 'free' | 'pro';
-
-  // File references
-  challengeFile: string;
-  cheatsheetFile: string;
-  solutionFile?: string;
-
-  // Native version
-  hasNativeVersion?: boolean;
-  nativeChallengeFile?: string;
-
-  // Metadata
-  skills: string[];
-  alignedWith?: string;
-}
-```
-
 ## Components
 
 ### Timer
@@ -122,13 +189,13 @@ Countdown timer with pause, resume, and reset:
 ```
 
 ### ChallengeCard
-Card for list display:
+Card for list display (handles both Assessment and GenericChallenge):
 
 ```tsx
 <ChallengeCard
-  challenge={challenge}
+  item={challengeItem}
   status="not_started"
-  onPress={() => navigate('Detail', { id: challenge.id })}
+  onPress={() => navigate('Detail', { itemId, itemType })}
 />
 ```
 
@@ -153,8 +220,9 @@ This app dogfoods the @astacinco packages:
 
 ## Future Enhancements
 
-- [ ] Markdown viewer for challenge files
+- [ ] Markdown viewer for inline solutions
 - [ ] Persistent progress storage
 - [ ] Challenge completion stats
 - [ ] Share challenge results
 - [ ] Code editor integration (web)
+- [ ] Reactive framework solutions (RxJS, MobX)
