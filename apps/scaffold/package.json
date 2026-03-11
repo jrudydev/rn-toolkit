@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astacinco/rn-i18n": "*",
+    "@astacinco/rn-logging": "*",
     "@astacinco/rn-performance": "*",
     "@astacinco/rn-primitives": "*",
     "@astacinco/rn-theming": "*",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@astacinco/rn-theming';
@@ -12,8 +12,9 @@ import {
   Divider,
   Container,
 } from '@astacinco/rn-primitives';
+import { useLogger } from '@astacinco/rn-logging';
 
-type DemoSection = 'theming' | 'primitives' | 'all';
+type DemoSection = 'theming' | 'primitives' | 'logging' | 'all';
 
 export default function HomeScreen() {
   const { colors, spacing, mode, setMode } = useTheme();
@@ -59,7 +60,7 @@ export default function HomeScreen() {
             />
 
             {/* Section Tabs */}
-            <HStack spacing="sm">
+            <HStack spacing="sm" style={styles.buttonRow}>
               <Button
                 label="All"
                 variant={activeSection === 'all' ? 'primary' : 'outline'}
@@ -77,6 +78,12 @@ export default function HomeScreen() {
                 variant={activeSection === 'primitives' ? 'primary' : 'outline'}
                 size="sm"
                 onPress={() => setActiveSection('primitives')}
+              />
+              <Button
+                label="Logging"
+                variant={activeSection === 'logging' ? 'primary' : 'outline'}
+                size="sm"
+                onPress={() => setActiveSection('logging')}
               />
             </HStack>
 
@@ -239,12 +246,17 @@ export default function HomeScreen() {
               </VStack>
             )}
 
+            {/* Logging Section */}
+            {(activeSection === 'all' || activeSection === 'logging') && (
+              <LoggingDemo />
+            )}
+
             {/* Footer */}
             <Divider />
             <VStack spacing="xs" align="center">
               <Text variant="caption">Built at Spark Labs</Text>
               <Text variant="caption" style={{ color: colors.textMuted }}>
-                Testing: theming, primitives
+                Testing: theming, primitives, logging
               </Text>
             </VStack>
           </VStack>
@@ -290,6 +302,116 @@ function SpacingDemo({ label, size }: { label: string; size: number }) {
   );
 }
 
+function LoggingDemo() {
+  const { colors } = useTheme();
+  const logger = useLogger('LoggingDemo');
+  const [logHistory, setLogHistory] = useState<Array<{ level: string; message: string }>>([]);
+
+  useEffect(() => {
+    logger.info('LoggingDemo mounted');
+    return () => logger.debug('LoggingDemo unmounted');
+  }, []);
+
+  const addLogEntry = (level: string, message: string) => {
+    setLogHistory((prev) => [...prev.slice(-4), { level, message }]);
+  };
+
+  const handleDebug = () => {
+    logger.debug('Debug message', { timestamp: Date.now() });
+    addLogEntry('debug', 'Debug message logged');
+  };
+
+  const handleInfo = () => {
+    logger.info('Info message', { action: 'button_press' });
+    addLogEntry('info', 'Info message logged');
+  };
+
+  const handleWarn = () => {
+    logger.warn('Warning message', { reason: 'demo' });
+    addLogEntry('warn', 'Warning message logged');
+  };
+
+  const handleError = () => {
+    logger.error('Error message', { error: 'simulated_error' });
+    addLogEntry('error', 'Error message logged');
+  };
+
+  const getLevelColor = (level: string) => {
+    switch (level) {
+      case 'debug':
+        return colors.textMuted;
+      case 'info':
+        return colors.info;
+      case 'warn':
+        return colors.warning;
+      case 'error':
+        return colors.error;
+      default:
+        return colors.text;
+    }
+  };
+
+  return (
+    <VStack spacing="md">
+      <Text variant="subtitle">@astacinco/rn-logging</Text>
+
+      {/* Log Level Buttons */}
+      <Card variant="outlined">
+        <VStack spacing="sm">
+          <Text variant="label">Log Levels</Text>
+          <Text variant="caption">Tap buttons to log messages (check console)</Text>
+          <HStack spacing="sm" style={styles.buttonRow}>
+            <Button label="Debug" variant="ghost" size="sm" onPress={handleDebug} />
+            <Button label="Info" variant="outline" size="sm" onPress={handleInfo} />
+            <Button label="Warn" variant="secondary" size="sm" onPress={handleWarn} />
+            <Button label="Error" variant="primary" size="sm" onPress={handleError} />
+          </HStack>
+        </VStack>
+      </Card>
+
+      {/* Log History Display */}
+      <Card variant="outlined">
+        <VStack spacing="sm">
+          <Text variant="label">Recent Logs</Text>
+          {logHistory.length === 0 ? (
+            <Text variant="caption" style={{ color: colors.textMuted }}>
+              No logs yet. Tap a button above.
+            </Text>
+          ) : (
+            logHistory.map((log, index) => (
+              <HStack key={index} spacing="sm" align="center">
+                <View
+                  style={[
+                    styles.logDot,
+                    { backgroundColor: getLevelColor(log.level) },
+                  ]}
+                />
+                <Text variant="caption" style={{ color: getLevelColor(log.level) }}>
+                  [{log.level.toUpperCase()}]
+                </Text>
+                <Text variant="caption">{log.message}</Text>
+              </HStack>
+            ))
+          )}
+        </VStack>
+      </Card>
+
+      {/* Usage Info */}
+      <Card variant="filled">
+        <VStack spacing="xs">
+          <Text variant="label">Usage</Text>
+          <Text variant="caption" style={{ fontFamily: 'monospace' }}>
+            {'const logger = useLogger("Component");'}
+          </Text>
+          <Text variant="caption" style={{ fontFamily: 'monospace' }}>
+            {'logger.info("message", { meta });'}
+          </Text>
+        </VStack>
+      </Card>
+    </VStack>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -329,6 +451,7 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     flexWrap: 'wrap',
+    rowGap: 8,
   },
   stackDemo: {
     padding: 8,
@@ -338,6 +461,11 @@ const styles = StyleSheet.create({
   stackItem: {
     width: 40,
     height: 24,
+    borderRadius: 4,
+  },
+  logDot: {
+    width: 8,
+    height: 8,
     borderRadius: 4,
   },
 });
