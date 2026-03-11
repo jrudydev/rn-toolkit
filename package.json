@@ -20,6 +20,7 @@
     "publish:all": "npm publish -w @astacinco/rn-theming --access public && npm publish -w @astacinco/rn-primitives --access public && npm publish -w @astacinco/rn-i18n --access public && npm publish -w @astacinco/rn-performance --access public && npm publish -w @astacinco/rn-testing --access public"
   },
   "devDependencies": {
+    "@react-native/babel-preset": "^0.84.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.0",
     "@types/react": "~19.1.0",
@@ -35,6 +36,5 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "dependencies": {}
+  }
 }
