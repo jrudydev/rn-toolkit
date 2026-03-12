@@ -17,9 +17,11 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules",
     "versions": "npm ls --depth=0 --workspaces",
-    "publish:all": "npm publish -w @astacinco/rn-theming --access public && npm publish -w @astacinco/rn-primitives --access public && npm publish -w @astacinco/rn-i18n --access public && npm publish -w @astacinco/rn-performance --access public && npm publish -w @astacinco/rn-testing --access public"
+    "publish:all": "npm publish -w @astacinco/rn-theming --access public && npm publish -w @astacinco/rn-primitives --access public && npm publish -w @astacinco/rn-i18n --access public && npm publish -w @astacinco/rn-performance --access public && npm publish -w @astacinco/rn-testing --access public",
+    "generate-icons": "node scripts/generate-icons.mjs"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.0",
     "@react-native/babel-preset": "^0.84.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.0",
