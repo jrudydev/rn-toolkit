@@ -69,10 +69,14 @@ export function Switch({
     <Pressable
       onPress={handlePress}
       disabled={disabled}
+      // @ts-expect-error - cursor is web-only, ignored on native
       style={[
         styles.container,
         styles.withLabel,
-        { opacity: disabled ? 0.5 : 1 },
+        {
+          opacity: disabled ? 0.5 : 1,
+          cursor: disabled ? 'not-allowed' : 'pointer',
+        },
         style,
       ]}
     >

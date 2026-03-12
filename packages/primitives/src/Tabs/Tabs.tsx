@@ -24,32 +24,32 @@ export function Tabs<T extends string>({
   const { colors } = useTheme();
   const config = sizeConfig[size];
 
-  const getTabStyles = (isSelected: boolean, isDisabled: boolean) => {
+  const getTabStyles = (isSelected: boolean, isDisabled: boolean, isHovered: boolean) => {
     const opacity = isDisabled ? 0.5 : 1;
 
     switch (variant) {
       case 'filled':
         return {
-          backgroundColor: isSelected ? colors.primary : colors.surface,
+          backgroundColor: isSelected ? colors.primary : isHovered ? colors.surface : colors.surface,
           borderWidth: 0,
           textColor: isSelected ? '#FFFFFF' : colors.text,
           opacity,
         };
       case 'outlined':
         return {
-          backgroundColor: isSelected ? colors.primary + '10' : 'transparent',
+          backgroundColor: isSelected ? colors.primary + '10' : isHovered ? colors.surface : 'transparent',
           borderWidth: 1,
-          borderColor: isSelected ? colors.primary : colors.border,
-          textColor: isSelected ? colors.primary : colors.text,
+          borderColor: isSelected ? colors.primary : isHovered ? colors.primary : colors.border,
+          textColor: isSelected ? colors.primary : isHovered ? colors.primary : colors.text,
           opacity,
         };
       case 'pills':
       default:
         return {
-          backgroundColor: isSelected ? colors.primary : colors.surface,
+          backgroundColor: isSelected ? colors.primary : isHovered ? colors.surfaceElevated : colors.surface,
           borderWidth: 1,
-          borderColor: isSelected ? colors.primary : colors.border,
-          textColor: isSelected ? '#FFFFFF' : colors.text,
+          borderColor: isSelected ? colors.primary : isHovered ? colors.primary : colors.border,
+          textColor: isSelected ? '#FFFFFF' : isHovered ? colors.primary : colors.text,
           opacity,
         };
     }
@@ -58,35 +58,44 @@ export function Tabs<T extends string>({
   const renderTab = (option: TabOption<T>) => {
     const isSelected = option.value === selected;
     const isDisabled = option.disabled ?? false;
-    const tabStyle = getTabStyles(isSelected, isDisabled);
 
     return (
       <Pressable
         key={option.value}
         onPress={() => !isDisabled && onSelect(option.value)}
         disabled={isDisabled}
-        style={[
-          styles.tab,
-          {
-            backgroundColor: tabStyle.backgroundColor,
-            borderWidth: tabStyle.borderWidth,
-            borderColor: tabStyle.borderColor,
-            paddingHorizontal: config.paddingH,
-            paddingVertical: config.paddingV,
-            opacity: tabStyle.opacity,
-          },
-        ]}
+        // @ts-expect-error - cursor is web-only, ignored on native
+        style={({ hovered }) => {
+          const tabStyle = getTabStyles(isSelected, isDisabled, hovered ?? false);
+          return [
+            styles.tab,
+            {
+              backgroundColor: tabStyle.backgroundColor,
+              borderWidth: tabStyle.borderWidth,
+              borderColor: tabStyle.borderColor,
+              paddingHorizontal: config.paddingH,
+              paddingVertical: config.paddingV,
+              opacity: tabStyle.opacity,
+              cursor: isDisabled ? 'not-allowed' : 'pointer',
+            },
+          ];
+        }}
       >
-        <Text
-          variant="body"
-          style={{
-            color: tabStyle.textColor,
-            fontSize: config.fontSize,
-            fontWeight: '500',
-          }}
-        >
-          {option.label}
-        </Text>
+        {({ hovered }) => {
+          const tabStyle = getTabStyles(isSelected, isDisabled, hovered ?? false);
+          return (
+            <Text
+              variant="body"
+              style={{
+                color: tabStyle.textColor,
+                fontSize: config.fontSize,
+                fontWeight: '500',
+              }}
+            >
+              {option.label}
+            </Text>
+          );
+        }}
       </Pressable>
     );
   };

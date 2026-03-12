@@ -2,6 +2,7 @@
 export { ThemeProvider } from './ThemeProvider';
 export { useTheme } from './useTheme';
 export { useColorScheme } from './useColorScheme';
+export { useResponsive, breakpoints } from './useResponsive';
 export { ThemeContext } from './ThemeContext';
 
 // Theme exports
@@ -19,3 +20,5 @@ export type {
   ThemeContextValue,
   ThemeProviderProps,
 } from './types';
+
+export type { Breakpoint, ResponsiveInfo } from './useResponsive';

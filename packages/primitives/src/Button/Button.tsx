@@ -24,7 +24,7 @@ export function Button({
   const { colors } = useTheme();
   const sizeStyle = sizeStyles[size];
 
-  const getVariantStyles = (v: ButtonVariant, pressed: boolean) => {
+  const getVariantStyles = (v: ButtonVariant, pressed: boolean, hovered: boolean) => {
     const opacity = pressed ? 0.8 : 1;
 
     switch (v) {
@@ -34,6 +34,8 @@ export function Button({
           borderWidth: 0,
           textColor: colors.textInverse,
           opacity,
+          // Web hover: slight scale up
+          transform: hovered && !pressed ? [{ scale: 1.02 }] : undefined,
         };
       case 'secondary':
         return {
@@ -41,21 +43,24 @@ export function Button({
           borderWidth: 0,
           textColor: colors.textInverse,
           opacity,
+          transform: hovered && !pressed ? [{ scale: 1.02 }] : undefined,
         };
       case 'outline':
         return {
-          backgroundColor: 'transparent',
+          backgroundColor: hovered ? colors.primary + '10' : 'transparent',
           borderWidth: 1,
           borderColor: colors.primary,
           textColor: colors.primary,
           opacity,
+          transform: undefined,
         };
       case 'ghost':
         return {
-          backgroundColor: pressed ? colors.surface : 'transparent',
+          backgroundColor: pressed ? colors.surface : hovered ? colors.surface : 'transparent',
           borderWidth: 0,
           textColor: colors.primary,
           opacity: 1,
+          transform: undefined,
         };
     }
   };
@@ -67,8 +72,9 @@ export function Button({
       testID={testID}
       onPress={onPress}
       disabled={isDisabled}
-      style={({ pressed }): StyleProp<ViewStyle> => {
-        const variantStyle = getVariantStyles(variant, pressed);
+      // @ts-expect-error - cursor is web-only, ignored on native
+      style={({ pressed, hovered }): StyleProp<ViewStyle> => {
+        const variantStyle = getVariantStyles(variant, pressed, hovered ?? false);
         return [
           styles.base,
           {
@@ -78,14 +84,17 @@ export function Button({
             paddingVertical: sizeStyle.paddingVertical,
             paddingHorizontal: sizeStyle.paddingHorizontal,
             opacity: isDisabled ? 0.5 : variantStyle.opacity,
-          },
+            transform: variantStyle.transform,
+            // Web-only: cursor style (ignored on native)
+            cursor: isDisabled ? 'not-allowed' : 'pointer',
+          } as ViewStyle,
           style as ViewStyle,
         ];
       }}
       {...props}
     >
-      {({ pressed }) => {
-        const variantStyle = getVariantStyles(variant, pressed);
+      {({ pressed, hovered }) => {
+        const variantStyle = getVariantStyles(variant, pressed, hovered ?? false);
         return loading ? (
           <ActivityIndicator color={variantStyle.textColor} size="small" />
         ) : (
