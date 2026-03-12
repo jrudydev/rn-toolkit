@@ -250,15 +250,13 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
             {challenge.instructions && (
               <>
                 <Button
-                  label={showInstructions ? "Hide Instructions" : "📋 Show Instructions"}
+                  label={showInstructions ? "📋 Hide Instructions" : "📋 Show Instructions"}
                   variant="primary"
                   onPress={() => setShowInstructions(!showInstructions)}
                 />
                 {showInstructions && (
                   <Card variant="filled">
-                    <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 12 }}>
-                      {challenge.instructions}
-                    </Text>
+                    <MarkdownViewer content={challenge.instructions} />
                   </Card>
                 )}
               </>
@@ -266,43 +264,42 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
 
             {/* Cheatsheet */}
             {(selectedVersion === 'packaged' ? challenge.cheatsheet : challenge.nativeCheatsheet) && (
-              <Card variant="outlined">
-                <VStack spacing="sm">
-                  <HStack justify="space-between" align="center">
-                    <Text variant="label">
-                      {selectedVersion === 'packaged' ? '📖 Package Cheatsheet' : '📖 Native Cheatsheet'}
-                    </Text>
-                  </HStack>
-                  <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 11 }}>
-                    {selectedVersion === 'packaged' ? challenge.cheatsheet : challenge.nativeCheatsheet}
-                  </Text>
-                </VStack>
-              </Card>
+              <>
+                <Button
+                  label={showCheatsheet ? "📖 Hide Cheatsheet" : "📖 View Cheatsheet"}
+                  variant="outline"
+                  onPress={() => setShowCheatsheet(!showCheatsheet)}
+                />
+                {showCheatsheet && (
+                  <Card variant="filled">
+                    <MarkdownViewer
+                      content={selectedVersion === 'packaged' ? challenge.cheatsheet! : challenge.nativeCheatsheet!}
+                    />
+                  </Card>
+                )}
+              </>
             )}
 
             {/* Solution - Show after timer completes or if not started */}
             {(showSolution || !timerStarted) && (
-              <VStack spacing="sm">
+              <>
                 <Button
-                  label={showSolution ? "✅ View Solution" : "👀 Peek at Solution"}
+                  label={showSolution ? "✅ Hide Solution" : "👀 Peek at Solution"}
                   variant="ghost"
-                  onPress={() => setShowSolution(true)}
+                  onPress={() => setShowSolution(!showSolution)}
                 />
                 {showSolution && (
                   <Card variant="filled">
-                    <VStack spacing="sm">
-                      <Text variant="label">
-                        {selectedVersion === 'packaged' ? 'Packaged Solution' : 'Native Solution'}
-                      </Text>
-                      <Text variant="body" style={{ fontFamily: 'monospace', fontSize: 11 }}>
-                        {selectedVersion === 'packaged'
+                    <MarkdownViewer
+                      content={
+                        selectedVersion === 'packaged'
                           ? challenge.solution
-                          : challenge.nativeSolution ?? 'Native solution not available'}
-                      </Text>
-                    </VStack>
+                          : challenge.nativeSolution ?? 'Native solution not available'
+                      }
+                    />
                   </Card>
                 )}
-              </VStack>
+              </>
             )}
           </VStack>
         )}

@@ -105,25 +105,39 @@ export const freeChallenges: GenericChallenge[] = [
     packages: ['primitives', 'performance'],
     tier: 'free',
     instructions: `
-## Debounced Search
+# 🔍 Debounced Search
 
 Add a search input that filters a list with debouncing to prevent excessive re-renders.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Add a search Input at the top of your screen
 - Use \`useDebounce\` from \`@astacinco/rn-performance\`
 - Set debounce delay to 300ms
 - Filter results case-insensitively
 - Show filtered count
 
-### Acceptance Criteria
-- [ ] Search input is visible
-- [ ] Typing triggers debounce (no immediate filter)
-- [ ] Results filter after 300ms delay
-- [ ] Filter is case-insensitive
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Search input is visible | ⬜ |
+| Typing triggers debounce (no immediate filter) | ⬜ |
+| Results filter after 300ms delay | ⬜ |
+| Filter is case-insensitive | ⬜ |
+
+---
+
+> 💡 **Tip:** The key insight is that \`searchText\` updates immediately for responsive UX, but filtering uses the \`debouncedSearch\` value.
     `,
     solution: `
-## Solution: Debounced Search
+# ✅ Solution: Debounced Search
+
+## 📦 Complete Code
 
 \`\`\`tsx
 import React, { useState, useMemo } from 'react';
@@ -357,25 +371,37 @@ import { TextInput } from 'react-native';
     packages: ['primitives', 'theming'],
     tier: 'free',
     instructions: `
-## Dark Mode Toggle
+# 🌓 Dark Mode Toggle
 
 Add a button or switch to toggle between light and dark themes.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Add a theme toggle button in the header
 - Use \`useTheme\` from \`@astacinco/rn-theming\`
 - All components should adapt to theme change
 - Persist theme choice (optional bonus)
 
-### Acceptance Criteria
-- [ ] Toggle button is visible
-- [ ] Pressing toggles between light/dark
-- [ ] Background color changes
-- [ ] Text colors adapt
-- [ ] All Card/Button components update
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Toggle button is visible | ⬜ |
+| Pressing toggles between light/dark | ⬜ |
+| Background color changes | ⬜ |
+| Text colors adapt | ⬜ |
+| All Card/Button components update | ⬜ |
+
+---
+
+> 💡 **Tip:** Use \`mode === 'light' ? '🌙' : '☀️'\` for a nice toggle icon!
     `,
     solution: `
-## Solution: Dark Mode Toggle
+# ✅ Solution: Dark Mode Toggle
 
 \`\`\`tsx
 import React from 'react';
@@ -668,24 +694,36 @@ const darkColors = { ... };
     packages: ['primitives'],
     tier: 'free',
     instructions: `
-## Form Validation
+# 📝 Form Validation
 
 Add validation to form inputs with visual error feedback.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Validate required fields are not empty
 - Show error message below invalid inputs
 - Disable submit button until form is valid
 - Use Input component's \`error\` prop
 
-### Acceptance Criteria
-- [ ] Empty fields show error on blur/submit
-- [ ] Error message appears below input
-- [ ] Submit button disabled when invalid
-- [ ] Errors clear when corrected
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Empty fields show error on blur/submit | ⬜ |
+| Error message appears below input | ⬜ |
+| Submit button disabled when invalid | ⬜ |
+| Errors clear when corrected | ⬜ |
+
+---
+
+> 💡 **Tip:** Validate on blur for better UX - don't show errors while the user is still typing!
     `,
     solution: `
-## Solution: Form Validation
+# ✅ Solution: Form Validation
 
 \`\`\`tsx
 import React, { useState, useMemo } from 'react';
@@ -1013,24 +1051,36 @@ const styles = StyleSheet.create({
     packages: ['primitives'],
     tier: 'free',
     instructions: `
-## Loading States
+# ⏳ Loading States
 
 Show loading feedback during async operations.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Show loading indicator when submitting
 - Disable form inputs during loading
 - Simulate async delay (500ms)
 - Clear loading state on completion
 
-### Acceptance Criteria
-- [ ] Button shows "Loading..." or similar
-- [ ] Button is disabled during loading
-- [ ] Inputs are disabled during loading
-- [ ] Loading clears after operation
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Button shows spinner or "Loading..." | ⬜ |
+| Button is disabled during loading | ⬜ |
+| Inputs are disabled during loading | ⬜ |
+| Loading clears after operation | ⬜ |
+
+---
+
+> 💡 **Tip:** Use the Button's \`loading\` prop - it handles the spinner and disabled state automatically!
     `,
     solution: `
-## Solution: Loading States
+# ✅ Solution: Loading States
 
 \`\`\`tsx
 import React, { useState } from 'react';
@@ -1324,23 +1374,35 @@ try {
     packages: ['primitives'],
     tier: 'free',
     instructions: `
-## Empty States
+# 📭 Empty States
 
 Handle empty lists and no-results gracefully.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Show message when list is empty
 - Show different message when search has no results
 - Include call-to-action where appropriate
 
-### Acceptance Criteria
-- [ ] Empty list shows "No items" message
-- [ ] No search results shows "No results for X"
-- [ ] CTA button is present
-- [ ] Messages are styled appropriately
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Empty list shows "No items" message | ⬜ |
+| No search results shows "No results for X" | ⬜ |
+| CTA button is present | ⬜ |
+| Messages are styled appropriately | ⬜ |
+
+---
+
+> 💡 **Tip:** Different empty states need different messages - "No links yet" vs "No results for 'xyz'" helps users understand what to do next!
     `,
     solution: `
-## Solution: Empty States
+# ✅ Solution: Empty States
 
 \`\`\`tsx
 import React, { useState } from 'react';
@@ -1670,33 +1732,50 @@ return <List items={filtered} />;
     packages: ['primitives', 'theming', 'i18n'],
     tier: 'free',
     instructions: `
-## Settings Screen
+# ⚙️ Settings Screen
 
 Build a complete settings screen with multiple preference sections.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Theme toggle (light/dark/auto)
 - Language selector with i18n
 - Notification preference toggles
 - User profile card
 - About section with version info
 
-### Sections to Build
-1. **Profile Card** - Avatar, name, email
-2. **Appearance** - Theme toggle
-3. **Language** - Language selector
-4. **Notifications** - Push, email, marketing toggles
-5. **About** - Version, privacy, terms links
+---
 
-### Acceptance Criteria
-- [ ] All sections render
-- [ ] Theme toggle works
-- [ ] Language changes text (if i18n configured)
-- [ ] Toggles persist state
-- [ ] Clean visual hierarchy
+## 🏗️ Sections to Build
+
+| Section | Components |
+|---------|------------|
+| 👤 **Profile Card** | Avatar, name, email |
+| 🎨 **Appearance** | Theme toggle |
+| 🌐 **Language** | Language selector |
+| 🔔 **Notifications** | Push, email, marketing toggles |
+| ℹ️ **About** | Version, privacy, terms links |
+
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| All sections render | ⬜ |
+| Theme toggle works | ⬜ |
+| Language changes text (if i18n configured) | ⬜ |
+| Toggles persist state | ⬜ |
+| Clean visual hierarchy | ⬜ |
+
+---
+
+> 💡 **Tip:** Group related settings in Cards with consistent spacing using VStack!
     `,
     solution: `
-## Solution: Settings Screen
+# ✅ Solution: Settings Screen
 
 \`\`\`tsx
 import React, { useState } from 'react';
@@ -2077,36 +2156,51 @@ const system = useColorScheme(); // 'light' | 'dark' | null
     packages: ['primitives', 'theming', 'performance'],
     tier: 'free',
     instructions: `
-## Login Form
+# 🔐 Login Form
 
 Build a complete login form with proper validation and UX.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Email and password inputs
 - Email format validation
 - Password minimum length (8 chars)
-- Show/hide password toggle
+- Show/hide password toggle 👁️
 - Remember me checkbox
 - Loading state on submit
 - Error message display
 - Debounced email validation
 
-### Implementation Notes
+---
+
+## 🛠️ Implementation Notes
+
 - Use Input component with \`secureTextEntry\`
 - Validate email with regex
 - Show inline errors
 - Disable submit until valid
 
-### Acceptance Criteria
-- [ ] Email validates format
-- [ ] Password validates length
-- [ ] Password visibility toggle works
-- [ ] Submit disabled until valid
-- [ ] Loading state shows on submit
-- [ ] Errors display appropriately
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Email validates format | ⬜ |
+| Password validates length (8+ chars) | ⬜ |
+| Password visibility toggle works | ⬜ |
+| Submit disabled until valid | ⬜ |
+| Loading state shows on submit | ⬜ |
+| Errors display appropriately | ⬜ |
+
+---
+
+> 💡 **Tip:** Use \`useDebounce\` for email validation so errors don't flash while typing!
     `,
     solution: `
-## Solution: Login Form
+# ✅ Solution: Login Form
 
 \`\`\`tsx
 import React, { useState, useMemo } from 'react';
@@ -2439,11 +2533,14 @@ const styles = StyleSheet.create({
     packages: ['primitives', 'theming', 'i18n', 'performance'],
     tier: 'free',
     instructions: `
-## Analytics Dashboard
+# 📊 Analytics Dashboard
 
 Build a dashboard displaying metrics and activity.
 
-### Requirements
+---
+
+## ✅ Requirements
+
 - Summary cards (views, clicks, revenue)
 - Time period filter (Today, Week, Month, Year)
 - Activity feed/timeline
@@ -2451,22 +2548,36 @@ Build a dashboard displaying metrics and activity.
 - Currency formatting
 - Refresh functionality
 
-### Sections to Build
-1. **Summary Row** - 3-4 metric cards
-2. **Time Filter** - Button group for period
-3. **Chart Area** - Placeholder or simple bar
-4. **Activity Feed** - Recent events list
+---
 
-### Acceptance Criteria
-- [ ] Metric cards show values
-- [ ] Time filter updates data
-- [ ] Numbers are formatted (1,234)
-- [ ] Currency shows symbol
-- [ ] Activity feed scrolls
-- [ ] Theme adapts all sections
+## 🏗️ Sections to Build
+
+| Section | Components |
+|---------|------------|
+| 📈 **Summary Row** | 3-4 metric cards |
+| 🗓️ **Time Filter** | Button group for period |
+| 📉 **Chart Area** | Placeholder or simple bar |
+| 📝 **Activity Feed** | Recent events list |
+
+---
+
+## 📋 Acceptance Criteria
+
+| Task | Done? |
+|------|:-----:|
+| Metric cards show values | ⬜ |
+| Time filter updates data | ⬜ |
+| Numbers are formatted (1,234) | ⬜ |
+| Currency shows symbol ($99.99) | ⬜ |
+| Activity feed scrolls | ⬜ |
+| Theme adapts all sections | ⬜ |
+
+---
+
+> 💡 **Tip:** Use \`useLocale().formatNumber()\` and \`formatCurrency()\` from i18n for proper number formatting!
     `,
     solution: `
-## Solution: Analytics Dashboard
+# ✅ Solution: Analytics Dashboard
 
 \`\`\`tsx
 import React, { useState, useCallback } from 'react';

@@ -4,15 +4,15 @@
  * Embedded markdown content for in-app display using MarkdownViewer.
  */
 
-export const challengeContent = `# Assessment: Link Management Screen
+export const challengeContent = `# 🔗 Link Management Screen
 
-**Time Limit:** 90 minutes
-**Difficulty:** Medium
-**Packages:** 4 of 5 free packages
+| ⏱️ Time | 📊 Difficulty | 📦 Packages |
+|---------|---------------|-------------|
+| 90 min  | Medium        | 4 of 5 free |
 
 ---
 
-## Scenario
+## 📖 Scenario
 
 You're building the Link Management screen for a "link in bio" app (similar to Linktree).
 Creators use this screen to manage their profile links - view, add, toggle visibility,
@@ -20,92 +20,121 @@ and search through their links.
 
 ---
 
-## Assessment Structure
+## 🏗️ Assessment Structure
 
 | Section | Time | Status |
 |---------|------|--------|
-| **Core Domain Tasks** | ~45 min | Required |
-| **Required Challenges** | ~30 min | Required |
-| **Bonus Challenges** | ~15+ min | Optional |
+| 🎯 **Core Domain Tasks** | ~45 min | Required |
+| ⚡ **Required Challenges** | ~30 min | Required |
+| ⭐ **Bonus Challenges** | ~15+ min | Optional |
 
 ---
 
-## Core Domain Tasks (Required)
+## 🎯 Core Domain Tasks (Required)
 
 These are specific to the Linktree use case.
 
-### Task 1: Link List Display
-- [ ] Display links from provided mock data as cards
-- [ ] Each card shows: title, URL, and enabled status
-- [ ] Cards should be visually distinct (use Card component)
+### 📋 Task 1: Link List Display
 
-### Task 2: Toggle Link Visibility
-- [ ] Each card has a toggle switch (use \`Switch\` from primitives)
-- [ ] Toggling updates the link's \`enabled\` state
-- [ ] Visual feedback when toggled (styling change)
+| Requirement | Done? |
+|-------------|:-----:|
+| Display links from provided mock data as cards | ⬜ |
+| Each card shows: title, URL, and enabled status | ⬜ |
+| Cards should be visually distinct (use Card component) | ⬜ |
 
-### Task 3: Link Count with Pluralization
-- [ ] Display "Showing X of Y links" text
-- [ ] Must use i18n pluralization
-- [ ] Examples: "Showing 1 of 5 links", "Showing 3 of 5 links"
+### 🔀 Task 2: Toggle Link Visibility
 
-### Task 4: Add Link
-- [ ] Button to add a new link
-- [ ] Simple form with title and URL inputs
-- [ ] New link appears in the list
+| Requirement | Done? |
+|-------------|:-----:|
+| Each card has a toggle switch (use \`Switch\`) | ⬜ |
+| Toggling updates the link's \`enabled\` state | ⬜ |
+| Visual feedback when toggled (styling change) | ⬜ |
 
----
+### 🔢 Task 3: Link Count with Pluralization
 
-## Required Challenges (Required)
+| Requirement | Done? |
+|-------------|:-----:|
+| Display "Showing X of Y links" text | ⬜ |
+| Must use i18n pluralization | ⬜ |
+| Examples: "1 link" vs "5 links" | ⬜ |
 
-These are generic challenges that must be completed for this assessment.
+### ➕ Task 4: Add Link
 
-### Challenge: Debounced Search
-- [ ] Search input at top of screen
-- [ ] Filters links by title (case-insensitive)
-- [ ] Search MUST be debounced (300ms) using \`useDebounce\`
-- [ ] Show filtered results immediately after debounce
-
-### Challenge: Dark Mode Toggle
-- [ ] Toggle button to switch light/dark mode
-- [ ] All components adapt to theme
-- [ ] Background, text, cards all change appropriately
+| Requirement | Done? |
+|-------------|:-----:|
+| Button to add a new link | ⬜ |
+| Simple form with title and URL inputs | ⬜ |
+| New link appears in the list | ⬜ |
 
 ---
 
-## Bonus Challenges (Optional)
+## ⚡ Required Challenges
 
-Complete these if you finish early or want extra practice.
+These generic challenges must be completed for this assessment.
 
-### Challenge: Form Validation
-- [ ] Validate title and URL fields are non-empty
-- [ ] Show error states on invalid inputs
-- [ ] Prevent form submission until valid
+### 🔍 Debounced Search
 
-### Challenge: Loading States
-- [ ] Show loading indicator when adding a link
-- [ ] Simulate async delay (500ms)
-- [ ] Disable form during loading
+| Requirement | Done? |
+|-------------|:-----:|
+| Search input at top of screen | ⬜ |
+| Filters links by title (case-insensitive) | ⬜ |
+| Search MUST be debounced (300ms) | ⬜ |
+| Show filtered results after debounce | ⬜ |
 
-### Challenge: Empty States
-- [ ] Show "No links yet" when list is empty
-- [ ] Show "No results found" when search has no matches
-- [ ] Include call-to-action in empty states
+### 🌓 Dark Mode Toggle
+
+| Requirement | Done? |
+|-------------|:-----:|
+| Toggle button to switch light/dark mode | ⬜ |
+| All components adapt to theme | ⬜ |
+| Background, text, cards all change | ⬜ |
 
 ---
 
-## Technical Requirements
+## ⭐ Bonus Challenges (Optional)
 
-### TR1: Use Package Components
+Complete these if you finish early!
+
+### 📝 Form Validation
+
+| Requirement | Done? |
+|-------------|:-----:|
+| Validate title and URL non-empty | ⬜ |
+| Show error states on invalid inputs | ⬜ |
+| Prevent submission until valid | ⬜ |
+
+### ⏳ Loading States
+
+| Requirement | Done? |
+|-------------|:-----:|
+| Show loading indicator when adding | ⬜ |
+| Simulate async delay (500ms) | ⬜ |
+| Disable form during loading | ⬜ |
+
+### 📭 Empty States
+
+| Requirement | Done? |
+|-------------|:-----:|
+| Show "No links yet" when empty | ⬜ |
+| Show "No results found" for search | ⬜ |
+| Include call-to-action | ⬜ |
+
+---
+
+## 🛠️ Technical Requirements
+
+### 📦 Use Package Components
+
 \`\`\`tsx
 // REQUIRED imports
 import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
-import { Text, Button, Card, VStack, HStack, Container, Input, Divider, Switch } from '@astacinco/rn-primitives';
+import { Text, Button, Card, VStack, HStack, Input, Switch } from '@astacinco/rn-primitives';
 import { I18nProvider, ConsoleAdapter, useTranslation } from '@astacinco/rn-i18n';
 import { useDebounce } from '@astacinco/rn-performance';
 \`\`\`
 
-### TR2: TypeScript
+### 📘 TypeScript
+
 - All code must be TypeScript
 - Define proper interfaces for Link type
 - No \`any\` types
@@ -113,7 +142,7 @@ import { useDebounce } from '@astacinco/rn-performance';
 
 ---
 
-## Mock Data Structure
+## 📊 Mock Data Structure
 
 \`\`\`typescript
 interface Link {
@@ -128,25 +157,33 @@ interface Link {
 
 ---
 
-## Grading Rubric
+## 🏆 Grading Rubric
 
 | Criteria | Points | What We're Looking For |
-|----------|--------|------------------------|
-| **Core Domain Tasks** | 35 | List renders, toggle works, add works, count shows |
-| **Required Challenges** | 30 | Debounced search works, theme toggle works |
-| **Package Integration** | 15 | Correct use of primitives, hooks, providers |
-| **TypeScript Quality** | 10 | Proper types, interfaces, no \`any\` |
-| **Bonus Challenges** | 10 | Form validation, loading states, empty states |
+|----------|:------:|------------------------|
+| 🎯 **Core Tasks** | 35 | List, toggle, add, count |
+| ⚡ **Required Challenges** | 30 | Debounce, theme toggle |
+| 📦 **Package Integration** | 15 | Correct hook/component usage |
+| 📘 **TypeScript Quality** | 10 | Types, interfaces, no \`any\` |
+| ⭐ **Bonus Challenges** | 10 | Validation, loading, empty |
 
 ---
 
-## Tips
+## 💡 Tips
 
-- **Start with rendering** - Get the list displaying first
-- **Core tasks first** - Complete all core domain tasks before challenges
-- **Test as you go** - Run the app frequently
-- **Use the cheatsheet** - Don't waste time remembering imports
-- **Bonus is bonus** - Only attempt if core + required are done
+> 🚀 **Start with rendering** - Get the list displaying first
+
+> 🎯 **Core tasks first** - Complete all core domain tasks before challenges
+
+> 🔄 **Test as you go** - Run the app frequently
+
+> 📖 **Use the cheatsheet** - Don't waste time remembering imports
+
+> ⭐ **Bonus is bonus** - Only attempt if core + required are done
+
+---
+
+**Good luck! You've got this! 🎉**
 `;
 
 export const cheatsheetContent = `# React Native Toolkit Cheatsheet
