@@ -9,6 +9,14 @@
  */
 
 import type { ChallengeRegistry, Package, Assessment, GenericChallenge } from '../types';
+import {
+  challengeContent,
+  cheatsheetContent,
+  solutionContent,
+  nativeChallengeContent,
+  nativeCheatsheetContent,
+  nativeSolutionContent,
+} from './content';
 
 export const freePackages: Package[] = [
   {
@@ -62,10 +70,18 @@ export const freeAssessments: Assessment[] = [
     challengeFile: 'CHALLENGE.md',
     cheatsheetFile: 'CHEATSHEET.md',
     solutionFile: 'SOLUTION.md',
+    // Inline content for in-app display
+    challengeContent,
+    cheatsheetContent,
+    solutionContent,
     hasNativeVersion: true,
     nativeChallengeFile: 'CHALLENGE_NATIVE.md',
     nativeCheatsheetFile: 'CHEATSHEET_NATIVE.md',
     nativeSolutionFile: 'SOLUTION_NATIVE.md',
+    // Native inline content
+    nativeChallengeContent,
+    nativeCheatsheetContent,
+    nativeSolutionContent,
     requiredChallenges: ['debounced-search', 'dark-mode-toggle'],
     bonusChallenges: ['form-validation', 'loading-states', 'empty-states'],
     skills: ['CRUD operations', 'Search/filter', 'Toggle state', 'Form handling'],

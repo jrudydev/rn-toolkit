@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, VStack, HStack, Button, Card, Divider, Tag } from '@astacinco/rn-primitives';
+import { Text, VStack, HStack, Button, Card, Divider, Tag, MarkdownViewer } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
@@ -39,6 +39,8 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
   const [timerStarted, setTimerStarted] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showRequirements, setShowRequirements] = useState(false);
+  const [showCheatsheet, setShowCheatsheet] = useState(false);
 
   // Find item based on type
   const item = itemType === 'assessment'
@@ -305,47 +307,65 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
           </VStack>
         )}
 
-        {/* Action Buttons - Assessments */}
+        {/* Action Buttons & Content - Assessments */}
         {isAssessment && (
           <VStack spacing="md">
-            <Text variant="label">Challenge files:</Text>
-
+            {/* Requirements */}
             <Button
-              label="📋 View Requirements"
+              label={showRequirements ? "📋 Hide Requirements" : "📋 View Requirements"}
               variant="primary"
-              onPress={() => {
-                const file = selectedVersion === 'native' && assessment?.nativeChallengeFile
-                  ? assessment.nativeChallengeFile
-                  : assessment?.challengeFile;
-                console.log('Open:', file);
-              }}
+              onPress={() => setShowRequirements(!showRequirements)}
             />
-
-            <Button
-              label="📖 Open Cheatsheet"
-              variant="outline"
-              onPress={() => {
-                const file = selectedVersion === 'native' && assessment?.nativeCheatsheetFile
-                  ? assessment.nativeCheatsheetFile
-                  : assessment?.cheatsheetFile;
-                console.log('Open:', file);
-              }}
-            />
-
-            {(showSolution || !timerStarted) && assessment?.solutionFile && (
-              <Button
-                label={showSolution ? "✅ View Solution" : "👀 Peek at Solution"}
-                variant="ghost"
-                onPress={() => {
-                  if (!showSolution) {
-                    setShowSolution(true);
+            {showRequirements && (
+              <Card variant="filled">
+                <MarkdownViewer
+                  content={
+                    selectedVersion === 'native' && assessment?.nativeChallengeContent
+                      ? assessment.nativeChallengeContent
+                      : assessment?.challengeContent ?? 'Requirements not available'
                   }
-                  const file = selectedVersion === 'native' && assessment?.nativeSolutionFile
-                    ? assessment.nativeSolutionFile
-                    : assessment?.solutionFile;
-                  console.log('Open:', file);
-                }}
-              />
+                />
+              </Card>
+            )}
+
+            {/* Cheatsheet */}
+            <Button
+              label={showCheatsheet ? "📖 Hide Cheatsheet" : "📖 View Cheatsheet"}
+              variant="outline"
+              onPress={() => setShowCheatsheet(!showCheatsheet)}
+            />
+            {showCheatsheet && (
+              <Card variant="filled">
+                <MarkdownViewer
+                  content={
+                    selectedVersion === 'native' && assessment?.nativeCheatsheetContent
+                      ? assessment.nativeCheatsheetContent
+                      : assessment?.cheatsheetContent ?? 'Cheatsheet not available'
+                  }
+                />
+              </Card>
+            )}
+
+            {/* Solution - Show after timer completes or if not started */}
+            {(showSolution || !timerStarted) && assessment?.solutionContent && (
+              <>
+                <Button
+                  label={showSolution ? "✅ Hide Solution" : "👀 Peek at Solution"}
+                  variant="ghost"
+                  onPress={() => setShowSolution(!showSolution)}
+                />
+                {showSolution && (
+                  <Card variant="filled">
+                    <MarkdownViewer
+                      content={
+                        selectedVersion === 'native' && assessment?.nativeSolutionContent
+                          ? assessment.nativeSolutionContent
+                          : assessment?.solutionContent ?? 'Solution not available'
+                      }
+                    />
+                  </Card>
+                )}
+              </>
             )}
           </VStack>
         )}

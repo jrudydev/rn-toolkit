@@ -41,11 +41,21 @@ export interface Assessment {
   cheatsheetFile: string;
   solutionFile?: string;
 
+  // Inline content (embedded from files for in-app display)
+  challengeContent?: string;
+  cheatsheetContent?: string;
+  solutionContent?: string;
+
   // Native version (without packages)
   hasNativeVersion?: boolean;
   nativeChallengeFile?: string;
   nativeCheatsheetFile?: string;
   nativeSolutionFile?: string;
+
+  // Native inline content
+  nativeChallengeContent?: string;
+  nativeCheatsheetContent?: string;
+  nativeSolutionContent?: string;
 
   // Required generic challenges for this assessment
   requiredChallenges: string[]; // GenericChallenge IDs
