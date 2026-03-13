@@ -80,7 +80,7 @@ export type { MarkdownViewerProps } from './MarkdownViewer';
 
 // AppHeader
 export { AppHeader } from './AppHeader';
-export type { AppHeaderProps } from './AppHeader';
+export type { AppHeaderProps, ThemeVariant } from './AppHeader';
 
 // AppFooter
 export { AppFooter } from './AppFooter';

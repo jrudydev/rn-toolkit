@@ -94,15 +94,6 @@ function HomeScreen({ themeVariant, onThemeVariantChange }: HomeScreenProps) {
     }
   };
 
-  const themeToggleButton = (
-    <Button
-      label={themeVariant === 'default' ? '✨ SparkLabs' : '🎨 Default'}
-      variant="ghost"
-      size="sm"
-      onPress={() => onThemeVariantChange(themeVariant === 'default' ? 'sparklabs' : 'default')}
-    />
-  );
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       {/* App Header */}
@@ -110,7 +101,9 @@ function HomeScreen({ themeVariant, onThemeVariantChange }: HomeScreenProps) {
         title="RN SDUI Toolkit"
         subtitle="Free Packages Demo"
         glow={themeVariant === 'sparklabs'}
-        actions={themeToggleButton}
+        showThemeVariant
+        themeVariant={themeVariant}
+        onThemeVariantChange={onThemeVariantChange}
       />
 
       <ScrollView contentContainerStyle={styles.scrollContent}>

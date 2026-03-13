@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Pressable, Linking } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
 import { Text } from '../Text';
 import { HStack } from '../Stack';
+import { Avatar } from '../Avatar';
 import type { AppHeaderProps } from './types';
 
 /**
@@ -10,22 +11,28 @@ import type { AppHeaderProps } from './types';
  *
  * Features:
  * - App title with optional glow effect
+ * - Theme variant toggle (default/sparklabs)
  * - Theme mode toggle (light/dark)
- * - Optional theme variant selector
- * - Optional Patreon link
+ * - Optional profile button (top right)
  * - Optional custom actions
  */
 export function AppHeader({
   title = 'SparkLabs',
   subtitle,
   showThemeToggle = true,
-  showPatreonLink = true,
+  showThemeVariant = false,
+  themeVariant = 'default',
+  onThemeVariantChange,
   onThemeChange,
+  showProfile = false,
+  profileImageUrl,
+  profileFallback = '?',
+  onProfilePress,
   glow = false,
   actions,
   testID,
 }: AppHeaderProps) {
-  const { colors, mode, setMode, spacing, shadows } = useTheme();
+  const { colors, mode, setMode, spacing } = useTheme();
 
   const handleThemeToggle = () => {
     const newMode = mode === 'light' ? 'dark' : 'light';
@@ -33,8 +40,9 @@ export function AppHeader({
     onThemeChange?.(newMode);
   };
 
-  const handlePatreonPress = () => {
-    Linking.openURL('https://patreon.com/SparkLabs343');
+  const handleThemeVariantToggle = () => {
+    const newVariant = themeVariant === 'default' ? 'sparklabs' : 'default';
+    onThemeVariantChange?.(newVariant);
   };
 
   const glowStyle = glow && mode === 'dark' ? {
@@ -78,11 +86,13 @@ export function AppHeader({
 
         {/* Right: Actions */}
         <HStack spacing="sm" align="center">
+          {/* Custom actions */}
           {actions}
 
-          {showPatreonLink && (
+          {/* Theme variant toggle */}
+          {showThemeVariant && (
             <Pressable
-              onPress={handlePatreonPress}
+              onPress={handleThemeVariantToggle}
               style={({ pressed }) => [
                 styles.iconButton,
                 {
@@ -90,13 +100,16 @@ export function AppHeader({
                   borderColor: colors.border,
                 },
               ]}
+              accessibilityLabel={`Switch to ${themeVariant === 'default' ? 'SparkLabs' : 'Default'} theme`}
+              accessibilityRole="button"
             >
               <Text variant="caption" color={colors.primary}>
-                ⚡ Patreon
+                {themeVariant === 'default' ? '✨ Spark' : '🎨 Default'}
               </Text>
             </Pressable>
           )}
 
+          {/* Light/dark mode toggle */}
           {showThemeToggle && (
             <Pressable
               onPress={handleThemeToggle}
@@ -113,6 +126,17 @@ export function AppHeader({
               <Text variant="body">
                 {mode === 'light' ? '🌙' : '☀️'}
               </Text>
+            </Pressable>
+          )}
+
+          {/* Profile button */}
+          {showProfile && (
+            <Pressable onPress={onProfilePress}>
+              <Avatar
+                source={profileImageUrl ? { uri: profileImageUrl } : undefined}
+                fallback={profileFallback}
+                size="sm"
+              />
             </Pressable>
           )}
         </HStack>
