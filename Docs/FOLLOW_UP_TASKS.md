@@ -42,6 +42,13 @@ Tracks pending work for the Challenge Hub Pro enhancement and related updates.
 - [ ] Linktree behavioral questions
 - [ ] System design questions
 
+### Pro Assessment (Pairs with Free Linktree Assessment)
+- [ ] Create pro assessment that uses pro packages (auth, etc.)
+- [ ] Same Linktree scenario but demonstrates pro tooling
+- [ ] Free assessment = free packages only
+- [ ] Pro assessment = free + pro packages (auth, analytics, etc.)
+- [ ] Shows value proposition of upgrading to pro tier
+
 ---
 
 ## Package Tier Audit (Future)

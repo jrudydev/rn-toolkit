@@ -7,7 +7,7 @@
 import React, { useState, useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, VStack, HStack, Button, Tag } from '@astacinco/rn-primitives';
+import { Text, VStack, HStack, Button, Tag, AppHeader, AppFooter } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
@@ -89,22 +89,16 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar style={mode === 'light' ? 'dark' : 'light'} />
 
+      {/* Header */}
+      <AppHeader
+        title="Challenge Hub"
+        subtitle={`${challengeRegistry.assessments.length} assessments • ${challengeRegistry.challenges.length} challenges`}
+        showThemeToggle
+        showPatreonLink
+        glow={mode === 'dark'}
+      />
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
-        <HStack justify="space-between" align="center">
-          <VStack spacing="xs">
-            <Text variant="title">Challenge Hub</Text>
-            <Text variant="caption" color={colors.textSecondary}>
-              {challengeRegistry.assessments.length} assessments • {challengeRegistry.challenges.length} challenges
-            </Text>
-          </VStack>
-          <Button
-            label={mode === 'light' ? '🌙' : '☀️'}
-            variant="ghost"
-            size="sm"
-            onPress={() => setMode(mode === 'light' ? 'dark' : 'light')}
-          />
-        </HStack>
 
         {/* Type Filter */}
         <VStack spacing="sm">
@@ -206,6 +200,9 @@ export function ChallengeListScreen({ navigation }: ChallengeListScreenProps) {
           </View>
         )}
       </ScrollView>
+
+      {/* Footer */}
+      <AppFooter />
     </SafeAreaView>
   );
 }

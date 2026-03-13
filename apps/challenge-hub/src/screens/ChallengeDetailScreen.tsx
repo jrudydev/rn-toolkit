@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, VStack, HStack, Button, Card, Divider, Tag, MarkdownViewer } from '@astacinco/rn-primitives';
+import { Text, VStack, HStack, Button, Card, Divider, Tag, MarkdownViewer, AppHeader, AppFooter } from '@astacinco/rn-primitives';
 import { useTheme } from '@astacinco/rn-theming';
 import { StatusBar } from 'expo-status-bar';
 
@@ -92,25 +92,25 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <StatusBar style={mode === 'light' ? 'dark' : 'light'} />
 
+      {/* Header */}
+      <AppHeader
+        title="Challenge Hub"
+        showThemeToggle
+        showPatreonLink
+        glow={mode === 'dark'}
+      />
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* Header */}
+        {/* Item Type & Difficulty */}
         <VStack spacing="sm">
-          <HStack justify="space-between" align="center">
-            <HStack spacing="sm" align="center">
-              <Tag
-                label={isAssessment ? 'ASSESSMENT' : 'CHALLENGE'}
-                color={isAssessment ? 'primary' : 'secondary'}
-                size="sm"
-                variant="filled"
-              />
-              <DifficultyBadge difficulty={item.difficulty} />
-            </HStack>
-            <Button
-              label={mode === 'light' ? '🌙' : '☀️'}
-              variant="ghost"
+          <HStack spacing="sm" align="center">
+            <Tag
+              label={isAssessment ? 'ASSESSMENT' : 'CHALLENGE'}
+              color={isAssessment ? 'primary' : 'secondary'}
               size="sm"
-              onPress={() => setMode(mode === 'light' ? 'dark' : 'light')}
+              variant="filled"
             />
+            <DifficultyBadge difficulty={item.difficulty} />
           </HStack>
 
           <Text variant="title">{item.title}</Text>
@@ -395,6 +395,9 @@ export function ChallengeDetailScreen({ route, navigation }: ChallengeDetailScre
           onPress={() => navigation.goBack()}
         />
       </ScrollView>
+
+      {/* Footer */}
+      <AppFooter />
     </SafeAreaView>
   );
 }
