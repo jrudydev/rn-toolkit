@@ -7,6 +7,14 @@ export { ThemeContext } from './ThemeContext';
 
 // Theme exports
 export { defaultTheme, lightColors, darkColors, spacing, typography } from './themes/default';
+export {
+  sparkLabsTheme,
+  sparkLabsLightColors,
+  sparkLabsDarkColors,
+  sparkLabsAccents,
+  sparkLabsSpacing,
+  sparkLabsTypography,
+} from './themes/sparklabs';
 
 // Type exports
 export type {

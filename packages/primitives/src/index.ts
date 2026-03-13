@@ -77,3 +77,11 @@ export type { TabsProps, TabOption, TabsSize, TabsVariant } from './Tabs';
 // MarkdownViewer
 export { MarkdownViewer } from './MarkdownViewer';
 export type { MarkdownViewerProps } from './MarkdownViewer';
+
+// AppHeader
+export { AppHeader } from './AppHeader';
+export type { AppHeaderProps } from './AppHeader';
+
+// AppFooter
+export { AppFooter } from './AppFooter';
+export type { AppFooterProps, FooterLink } from './AppFooter';

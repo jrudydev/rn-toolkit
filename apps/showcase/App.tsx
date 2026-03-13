@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
+import { ThemeProvider, useTheme, defaultTheme, sparkLabsTheme } from '@astacinco/rn-theming';
 import {
   Text,
   Button,
@@ -15,6 +15,8 @@ import {
   Tag,
   Timer,
   Tabs,
+  AppHeader,
+  AppFooter,
   type TabOption,
 } from '@astacinco/rn-primitives';
 import {
@@ -72,15 +74,16 @@ function ThemedStatusBar() {
 
 type DemoSection = 'theming' | 'primitives' | 'i18n' | 'performance' | 'all';
 
-function HomeScreen() {
+interface HomeScreenProps {
+  themeVariant: ThemeVariant;
+  onThemeVariantChange: (variant: ThemeVariant) => void;
+}
+
+function HomeScreen({ themeVariant, onThemeVariantChange }: HomeScreenProps) {
   const { colors, spacing, mode, setMode } = useTheme();
   const [activeSection, setActiveSection] = useState<DemoSection>('all');
   const [inputValue, setInputValue] = useState('');
   const [inputError, setInputError] = useState<string | undefined>();
-
-  const toggleTheme = () => {
-    setMode(mode === 'light' ? 'dark' : 'light');
-  };
 
   const validateInput = (value: string) => {
     setInputValue(value);
@@ -91,29 +94,39 @@ function HomeScreen() {
     }
   };
 
+  const themeToggleButton = (
+    <Button
+      label={themeVariant === 'default' ? '✨ SparkLabs' : '🎨 Default'}
+      variant="ghost"
+      size="sm"
+      onPress={() => onThemeVariantChange(themeVariant === 'default' ? 'sparklabs' : 'default')}
+    />
+  );
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* App Header */}
+      <AppHeader
+        title="RN SDUI Toolkit"
+        subtitle="Free Packages Demo"
+        glow={themeVariant === 'sparklabs'}
+        actions={themeToggleButton}
+      />
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Container padding={spacing.lg}>
           <VStack spacing="lg">
-            {/* Header */}
-            <VStack spacing="xs" align="center">
-              <Text variant="title">RN SDUI Toolkit</Text>
-              <Text variant="caption">Free Packages Demo</Text>
-              <HStack spacing="sm">
-                <Text variant="label">Theme:</Text>
-                <Text variant="body" style={{ color: colors.primary }}>
-                  {mode.toUpperCase()}
-                </Text>
+            {/* Theme Info Card */}
+            <Card variant="outlined">
+              <HStack justify="space-between" align="center">
+                <VStack spacing="xs">
+                  <Text variant="label">Active Theme</Text>
+                  <Text variant="body" style={{ color: colors.primary }}>
+                    {themeVariant === 'sparklabs' ? 'SparkLabs' : 'Default'} · {mode.toUpperCase()}
+                  </Text>
+                </VStack>
               </HStack>
-            </VStack>
-
-            {/* Theme Toggle */}
-            <Button
-              label={`Switch to ${mode === 'light' ? 'Dark' : 'Light'} Mode`}
-              variant="primary"
-              onPress={toggleTheme}
-            />
+            </Card>
 
             {/* Section Tabs */}
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -343,17 +356,12 @@ function HomeScreen() {
               <PerformanceDemo />
             )}
 
-            {/* Footer */}
-            <Divider />
-            <VStack spacing="xs" align="center">
-              <Text variant="caption">Built at Spark Labs</Text>
-              <Text variant="caption" style={{ color: colors.textMuted }}>
-                Testing: theming, primitives, i18n, performance
-              </Text>
-            </VStack>
           </VStack>
         </Container>
       </ScrollView>
+
+      {/* App Footer */}
+      <AppFooter version="1.0.0" />
     </SafeAreaView>
   );
 }
@@ -639,14 +647,20 @@ function SpacingDemo({ label, size }: { label: string; size: number }) {
   );
 }
 
+type ThemeVariant = 'default' | 'sparklabs';
+
 function App() {
+  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('default');
+
+  const currentTheme = themeVariant === 'sparklabs' ? sparkLabsTheme : defaultTheme;
+
   return (
     <SafeAreaProvider>
       <PerformanceProvider adapter={perfAdapter} config={{ debug: true }}>
         <I18nProvider adapter={i18nAdapter}>
-          <ThemeProvider mode="auto">
+          <ThemeProvider mode="auto" theme={currentTheme}>
             <ThemedStatusBar />
-            <HomeScreen />
+            <HomeScreen themeVariant={themeVariant} onThemeVariantChange={setThemeVariant} />
           </ThemeProvider>
         </I18nProvider>
       </PerformanceProvider>
