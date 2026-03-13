@@ -85,3 +85,7 @@ export type { AppHeaderProps } from './AppHeader';
 // AppFooter
 export { AppFooter } from './AppFooter';
 export type { AppFooterProps, FooterLink } from './AppFooter';
+
+// Modal
+export { Modal } from './Modal';
+export type { ModalProps, ModalAction } from './Modal';

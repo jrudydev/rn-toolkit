@@ -62,6 +62,14 @@ export function Button({
           opacity: 1,
           transform: undefined,
         };
+      case 'danger':
+        return {
+          backgroundColor: colors.error,
+          borderWidth: 0,
+          textColor: colors.textInverse,
+          opacity,
+          transform: hovered && !pressed ? [{ scale: 1.02 }] : undefined,
+        };
     }
   };
 
