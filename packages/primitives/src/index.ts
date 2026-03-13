@@ -89,3 +89,15 @@ export type { AppFooterProps, FooterLink } from './AppFooter';
 // Modal
 export { Modal } from './Modal';
 export type { ModalProps, ModalAction } from './Modal';
+
+// ProBadge
+export { ProBadge } from './ProBadge';
+export type { ProBadgeProps, ProBadgeSize } from './ProBadge';
+
+// ProLockOverlay
+export { ProLockOverlay } from './ProLockOverlay';
+export type { ProLockOverlayProps } from './ProLockOverlay';
+
+// FloatingTierBadge
+export { FloatingTierBadge } from './FloatingTierBadge';
+export type { FloatingTierBadgeProps, TierBadgePosition } from './FloatingTierBadge';

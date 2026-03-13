@@ -35,6 +35,10 @@ export const sparkLabsLightColors: ColorTokens = {
   warning: '#FFD166',
   info: '#00D4FF',
 
+  // Pro tier
+  pro: '#FFD166',
+  proGlow: 'rgba(255, 209, 102, 0.15)',
+
   // Borders
   border: '#E2E8F0',
   borderLight: '#F1F5F9',
@@ -81,6 +85,10 @@ export const sparkLabsDarkColors: ColorTokens = {
   error: '#FF4757',
   warning: '#FFD166',
   info: '#00D4FF',
+
+  // Pro tier
+  pro: '#FFD166',
+  proGlow: 'rgba(255, 209, 102, 0.2)',
 
   // Borders - Subtle glows
   border: '#1A2535',

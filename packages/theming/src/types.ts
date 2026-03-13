@@ -36,6 +36,10 @@ export interface ColorTokens {
   warning: string;
   info: string;
 
+  // Pro tier
+  pro: string;
+  proGlow: string;
+
   // Borders
   border: string;
   borderLight: string;

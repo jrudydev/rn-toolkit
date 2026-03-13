@@ -28,6 +28,10 @@ export const lightColors: ColorTokens = {
   warning: '#F59E0B',
   info: '#3B82F6',
 
+  // Pro tier
+  pro: '#F59E0B',
+  proGlow: 'rgba(245, 158, 11, 0.15)',
+
   // Borders
   border: '#E5E5E5',
   borderLight: '#F0F0F0',
@@ -65,6 +69,10 @@ export const darkColors: ColorTokens = {
   error: '#F87171',
   warning: '#FBBF24',
   info: '#60A5FA',
+
+  // Pro tier
+  pro: '#FBBF24',
+  proGlow: 'rgba(251, 191, 36, 0.15)',
 
   // Borders
   border: '#404040',
