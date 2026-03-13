@@ -2,9 +2,10 @@
 
 ## Overview
 
-The toolkit follows a **two-repo model**:
-- **Free packages** are MIT licensed and publicly available on GitHub
-- **Premium packages** are available to [Patreon](https://patreon.com/SparkLabs343) supporters
+The toolkit follows a **three-repo model**:
+- **Free packages** are MIT licensed and publicly available on GitHub (`rn-sdui-toolkit`)
+- **Premium packages** are available to [Patreon](https://patreon.com/SparkLabs343) supporters (`rn-toolkit-pro`)
+- **Internal apps** live in a private repo (`rn-astacinco`)
 
 This allows developers to evaluate the toolkit with free packages while supporting development through premium features.
 
@@ -21,15 +22,12 @@ This allows developers to evaluate the toolkit with free packages while supporti
 | `@astacinco/rn-i18n` | Internationalization with adapter pattern |
 | `@astacinco/rn-performance` | Performance monitoring, render tracking |
 | `@astacinco/rn-testing` | Theme snapshots, mocks, test utilities |
-| `@astacinco/rn-auth` | Multi-provider authentication (Patreon OAuth, unlock codes) |
-
-> **Note**: Auth is free so apps can check Patreon membership status.
-> The premium value is the **content** unlocked by auth (company dossiers, interview questions), not the auth mechanism itself.
 
 ### Premium Tier (Patreon) - Private Repo
 
 | Package | Description |
 |---------|-------------|
+| `@astacinco/rn-auth` | Multi-provider authentication (Patreon OAuth, unlock codes) |
 | `@astacinco/rn-sdui` | Server-Driven UI engine |
 | `@astacinco/rn-analytics` | Event tracking with adapter pattern |
 | `@astacinco/rn-deeplink` | Type-safe navigation & deep linking |
@@ -42,22 +40,20 @@ This allows developers to evaluate the toolkit with free packages while supporti
 ## Repository Structure
 
 ```
-PUBLIC: github.com/jrudydev/rn-toolkit
+PUBLIC: github.com/jrudydev/rn-sdui-toolkit
 ├── packages/
 │   ├── theming/        ✅ Free
 │   ├── primitives/     ✅ Free
 │   ├── i18n/           ✅ Free
 │   ├── performance/    ✅ Free
-│   ├── testing/        ✅ Free (basic)
-│   └── auth/           ✅ Free (Patreon OAuth, unlock codes)
+│   └── testing/        ✅ Free (basic)
 ├── apps/
-│   ├── scaffold/       ✅ Free demo app
-│   ├── showcase/       ✅ Free component showcase
-│   └── challenge-hub/  ✅ Free + Pro content (auth-gated)
+│   └── showcase/       ✅ Free component demo
 └── README.md           → Links to Patreon
 
-PRIVATE: github.com/jrudydev/rn-toolkit-pro
+PRIVATE (Patreon): github.com/jrudydev/rn-toolkit-pro
 ├── packages/
+│   ├── auth/           💎 Premium (Patreon OAuth)
 │   ├── sdui/           💎 Premium
 │   ├── analytics/      💎 Premium
 │   ├── deeplink/       💎 Premium
@@ -67,6 +63,16 @@ PRIVATE: github.com/jrudydev/rn-toolkit-pro
 ├── apps/
 │   └── showcase-pro/   💎 Premium demo
 └── README.md           → Setup instructions
+
+PRIVATE (Internal): github.com/jrudydev/rn-astacinco
+├── packages/
+│   └── effects/        🔒 Internal (GPU effects, starfield)
+├── apps/
+│   ├── showcase/       🔒 Internal effects demo
+│   └── challenge-hub/  🔒 Main product app
+├── site/               🔒 Marketing site source
+├── dist/               🔒 Built output (Cloudflare serves)
+└── build.sh            → Build orchestration
 ```
 
 ---

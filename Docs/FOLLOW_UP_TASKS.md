@@ -4,14 +4,30 @@ Tracks pending work for the Challenge Hub Pro enhancement and related updates.
 
 ---
 
+## Repository Migration (In Progress)
+
+### Completed
+- [x] Rename `rn-effects-private` → `rn-astacinco` on GitHub
+- [x] Update plan with new architecture
+- [x] Delete duplicate auth package from free repo
+
+### Pending
+- [ ] Move `challenge-hub` from `rn-sdui-toolkit` → `rn-astacinco`
+- [ ] Copy marketing site from `astacinco` → `rn-astacinco/site/`
+- [ ] Set up build script in `rn-astacinco`
+- [ ] Update Cloudflare to point to `rn-astacinco`
+- [ ] Archive old `astacinco` repo
+
+---
+
 ## After Pro Hub Ships
 
 ### Sites to Update
-- [ ] astacinco.com - Update package list, add auth package
-- [ ] Patreon perks - Update tier descriptions to reflect auth moving to free
+- [ ] astacinco.com - Update package list on marketing site
+- [ ] Patreon perks - Update tier descriptions
 
 ### npm Publishing
-- [ ] Publish `@astacinco/rn-auth` to npm
+- [ ] Publish `@astacinco/rn-auth` to npm (from rn-toolkit-pro)
 - [ ] Update all package versions if needed
 - [ ] Run `npm run publish:free` for batch publish
 
@@ -57,7 +73,7 @@ Review which packages should be free vs pro:
 
 | Package | Current | Consider | Notes |
 |---------|---------|----------|-------|
-| `rn-auth` | Free | - | Needed for apps to check membership |
+| `rn-auth` | Pro | - | Stays in rn-toolkit-pro |
 | `rn-analytics` | Pro | Free? | Good candidate for free tier |
 | `rn-sdui` | Pro | Split? | Basic renderer free, advanced pro |
 | `rn-deeplink` | Pro | - | Keep pro |
@@ -65,10 +81,25 @@ Review which packages should be free vs pro:
 
 ---
 
-## Infrastructure
+## Architecture Summary
 
-- [ ] Cloudflare Access - Not needed for now (using in-app auth only)
-- [ ] Domain/SSL verification for OAuth redirect
+```
+Three Repos:
+=============
+rn-sdui-toolkit (public/free)
+├── packages/          # Free packages (primitives, theming, i18n, etc.)
+└── apps/showcase/     # Public demo app
+
+rn-toolkit-pro (paid/Patreon)
+├── packages/          # Pro packages (auth, analytics, sdui, etc.)
+└── apps/showcase-pro/ # Pro demo app
+
+rn-astacinco (private)
+├── apps/challenge-hub/  # Main product app
+├── site/                # Marketing site
+├── dist/                # Built output (Cloudflare serves this)
+└── build.sh             # Orchestrates builds
+```
 
 ---
 
