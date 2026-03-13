@@ -86,6 +86,69 @@ We use independent versioning (each package has its own version).
 
 ---
 
+## Updating App Dependencies
+
+After publishing new package versions, update the apps:
+
+### 1. Update Package Versions
+
+```bash
+# Update specific app
+cd apps/challenge-hub
+npm update @astacinco/rn-primitives @astacinco/rn-theming
+
+# Or update all apps at once (from root)
+npm update -w apps/challenge-hub -w apps/showcase
+```
+
+### 2. Reinstall Dependencies
+
+```bash
+# From root
+npm install
+```
+
+### 3. Test Locally
+
+```bash
+# Test each app
+cd apps/showcase && npx expo start
+cd apps/challenge-hub && npx expo start
+```
+
+### 4. Rebuild and Deploy
+
+```bash
+# From sites/astacinco directory
+bash build.sh
+
+# Commit dist folder and push
+git add dist
+git commit -m "Rebuild apps with updated packages"
+git push
+```
+
+Cloudflare Pages will automatically deploy from the `dist` folder.
+
+---
+
+## Full Release Checklist
+
+When releasing a new version:
+
+- [ ] Bump package versions
+- [ ] Run tests
+- [ ] Publish to npm: `npm run publish:free`
+- [ ] Update app dependencies
+- [ ] Test apps locally
+- [ ] Run build script
+- [ ] Commit and push
+- [ ] Verify Cloudflare deployment
+- [ ] Update astacinco.com if package list changed
+- [ ] Update Patreon perks if tiers changed
+
+---
+
 <div align="center">
 
 **Built at [Spark Labs](https://patreon.com/SparkLabs343)**

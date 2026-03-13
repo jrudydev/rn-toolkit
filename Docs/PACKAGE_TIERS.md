@@ -21,13 +21,16 @@ This allows developers to evaluate the toolkit with free packages while supporti
 | `@astacinco/rn-i18n` | Internationalization with adapter pattern |
 | `@astacinco/rn-performance` | Performance monitoring, render tracking |
 | `@astacinco/rn-testing` | Theme snapshots, mocks, test utilities |
+| `@astacinco/rn-auth` | Multi-provider authentication (Patreon OAuth, unlock codes) |
+
+> **Note**: Auth is free so apps can check Patreon membership status.
+> The premium value is the **content** unlocked by auth (company dossiers, interview questions), not the auth mechanism itself.
 
 ### Premium Tier (Patreon) - Private Repo
 
 | Package | Description |
 |---------|-------------|
 | `@astacinco/rn-sdui` | Server-Driven UI engine |
-| `@astacinco/rn-auth` | Multi-provider authentication |
 | `@astacinco/rn-analytics` | Event tracking with adapter pattern |
 | `@astacinco/rn-deeplink` | Type-safe navigation & deep linking |
 | `@astacinco/rn-notifications` | Push notifications |
@@ -45,15 +48,17 @@ PUBLIC: github.com/jrudydev/rn-toolkit
 │   ├── primitives/     ✅ Free
 │   ├── i18n/           ✅ Free
 │   ├── performance/    ✅ Free
-│   └── testing/        ✅ Free (basic)
+│   ├── testing/        ✅ Free (basic)
+│   └── auth/           ✅ Free (Patreon OAuth, unlock codes)
 ├── apps/
-│   └── scaffold/       ✅ Free demo app
+│   ├── scaffold/       ✅ Free demo app
+│   ├── showcase/       ✅ Free component showcase
+│   └── challenge-hub/  ✅ Free + Pro content (auth-gated)
 └── README.md           → Links to Patreon
 
 PRIVATE: github.com/jrudydev/rn-toolkit-pro
 ├── packages/
 │   ├── sdui/           💎 Premium
-│   ├── auth/           💎 Premium
 │   ├── analytics/      💎 Premium
 │   ├── deeplink/       💎 Premium
 │   ├── notifications/  💎 Premium
