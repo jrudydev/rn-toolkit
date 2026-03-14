@@ -3,7 +3,7 @@
 ## Overview
 
 The toolkit follows a **three-repo model**:
-- **Free packages** are MIT licensed and publicly available on GitHub (`rn-sdui-toolkit`)
+- **Free packages** are MIT licensed and publicly available on GitHub (`rn-toolkit`)
 - **Premium packages** are available to [Patreon](https://patreon.com/SparkLabs343) supporters (`rn-toolkit-pro`)
 - **Internal apps** live in a private repo (`rn-astacinco`)
 
@@ -40,7 +40,7 @@ This allows developers to evaluate the toolkit with free packages while supporti
 ## Repository Structure
 
 ```
-PUBLIC: github.com/jrudydev/rn-sdui-toolkit
+PUBLIC: github.com/jrudydev/rn-toolkit
 ├── packages/
 │   ├── theming/        ✅ Free
 │   ├── primitives/     ✅ Free
@@ -68,8 +68,8 @@ PRIVATE (Internal): github.com/jrudydev/rn-astacinco
 ├── packages/
 │   └── effects/        🔒 Internal (GPU effects, starfield)
 ├── apps/
-│   ├── showcase/       🔒 Internal effects demo
-│   └── challenge-hub/  🔒 Main product app
+│   ├── showcase-effects/  🔒 Internal effects demo
+│   └── challenge-hub/     🔒 Main product app
 ├── site/               🔒 Marketing site source
 ├── dist/               🔒 Built output (Cloudflare serves)
 └── build.sh            → Build orchestration

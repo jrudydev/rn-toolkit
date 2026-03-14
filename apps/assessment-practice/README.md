@@ -44,4 +44,4 @@ npm start
 ## Related
 
 - **[Challenge Hub](https://astacinco.com/hub)**: Browse all assessments and challenges
-- **[Astacinco Packages](https://github.com/jrudydev/rn-sdui-toolkit)**: Free React Native packages
+- **[Astacinco Packages](https://github.com/jrudydev/rn-toolkit)**: Free React Native packages

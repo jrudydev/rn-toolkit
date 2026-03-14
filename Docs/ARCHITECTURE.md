@@ -381,7 +381,7 @@ createThemeSnapshot(<ProfileCard user={mockUser} />);
 ## 📂 File Structure
 
 ```
-rn-sdui-toolkit/
+rn-toolkit/
 ├── 📄 package.json              # Workspace root
 ├── 📄 tsconfig.json             # Shared TypeScript config
 ├── 📄 jest.config.js            # Shared Jest config
