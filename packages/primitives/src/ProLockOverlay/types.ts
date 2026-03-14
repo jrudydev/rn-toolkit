@@ -9,6 +9,12 @@ export interface ProLockOverlayProps {
   onUnlockPress: () => void;
 
   /**
+   * Callback when close/cancel button is pressed
+   * If not provided, close button will not be shown
+   */
+  onClose?: () => void;
+
+  /**
    * Custom message to display
    * @default 'Unlock with Pro to access this content'
    */

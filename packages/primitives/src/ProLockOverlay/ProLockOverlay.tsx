@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Pressable } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
 import { Text } from '../Text';
 import { VStack } from '../Stack';
@@ -16,6 +16,7 @@ import type { ProLockOverlayProps } from './types';
 
 export function ProLockOverlay({
   onUnlockPress,
+  onClose,
   message = 'Unlock with Pro to access this content',
   buttonLabel = 'Unlock Pro Content',
 }: ProLockOverlayProps) {
@@ -30,6 +31,21 @@ export function ProLockOverlay({
           { backgroundColor: colors.background },
         ]}
       />
+
+      {/* Close button */}
+      {onClose && (
+        <Pressable
+          onPress={onClose}
+          style={[
+            styles.closeButton,
+            { backgroundColor: colors.surface, borderColor: colors.border },
+          ]}
+          accessibilityLabel="Close"
+          accessibilityRole="button"
+        >
+          <Text style={styles.closeIcon}>✕</Text>
+        </Pressable>
+      )}
 
       {/* Content */}
       <View style={styles.content}>
@@ -83,6 +99,21 @@ const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFillObject,
     opacity: 0.92,
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  closeIcon: {
+    fontSize: 16,
   },
   content: {
     padding: 24,
