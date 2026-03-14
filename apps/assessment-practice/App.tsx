@@ -9,14 +9,14 @@
  */
 
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Switch } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 // TODO 1: Import from @astacinco/rn-theming
 // import { ThemeProvider, useTheme } from '@astacinco/rn-theming';
 
 // TODO 2: Import from @astacinco/rn-primitives
-// import { Text, Button, Card, VStack, HStack, Container, Input, Divider } from '@astacinco/rn-primitives';
+// import { Text, Button, Card, VStack, HStack, Container, Input, Divider, Switch } from '@astacinco/rn-primitives';
 
 // TODO 3: Import from @astacinco/rn-i18n
 // import { I18nProvider, ConsoleAdapter, useTranslation } from '@astacinco/rn-i18n';
@@ -46,8 +46,7 @@ import { en, es } from './i18n/en';
 // }
 //
 // function LinkCard({ link, onToggle }: LinkCardProps) {
-//   // Use Card, HStack, VStack, Text from primitives
-//   // Use Switch from react-native for toggle
+//   // Use Card, HStack, VStack, Text, Switch from primitives
 //   return null;
 // }
 
