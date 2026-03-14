@@ -18,7 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
 
 // Source SVG path - update if favicon location changes
-// Path: workspace/react-native/rn-sdui-toolkit -> workspace/sites/astacinco
+// Path: workspace/react-native/rn-toolkit -> workspace/sites/astacinco
 const svgPath = join(rootDir, '..', '..', 'sites', 'astacinco', 'favicon.svg');
 
 // Tier-based color system
