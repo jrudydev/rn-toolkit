@@ -15,6 +15,7 @@ import {
   Tag,
   Timer,
   Tabs,
+  Modal,
   AppHeader,
   AppFooter,
   type TabOption,
@@ -336,6 +337,9 @@ function HomeScreen({ themeVariant, onThemeVariantChange }: HomeScreenProps) {
                   </Text>
                   <Timer durationMinutes={1} showProgress={true} />
                 </VStack>
+
+                {/* Modal Demo */}
+                <ModalDemo />
               </VStack>
             )}
 
@@ -599,6 +603,49 @@ function TabsDemo() {
           <Tabs options={variantOptions} selected={selectedVariant} onSelect={setSelectedVariant} size="md" />
           <Tabs options={variantOptions} selected={selectedVariant} onSelect={setSelectedVariant} size="lg" />
         </VStack>
+      </VStack>
+    </Card>
+  );
+}
+
+function ModalDemo() {
+  const [basicVisible, setBasicVisible] = useState(false);
+  const [actionsVisible, setActionsVisible] = useState(false);
+
+  return (
+    <Card variant="outlined">
+      <VStack spacing="sm">
+        <Text variant="label">Modal Component</Text>
+        <Text variant="caption">Basic confirmation modal:</Text>
+        <Button
+          label="Open Basic Modal"
+          variant="outline"
+          size="sm"
+          onPress={() => setBasicVisible(true)}
+        />
+        <Modal
+          visible={basicVisible}
+          onDismiss={() => setBasicVisible(false)}
+          title="Basic Modal"
+          message="This is a basic modal with a title and message."
+        />
+        <Text variant="caption">Modal with actions:</Text>
+        <Button
+          label="Open Actions Modal"
+          variant="outline"
+          size="sm"
+          onPress={() => setActionsVisible(true)}
+        />
+        <Modal
+          visible={actionsVisible}
+          onDismiss={() => setActionsVisible(false)}
+          title="Confirm Action"
+          message="Are you sure you want to proceed with this action?"
+          actions={[
+            { label: 'Cancel', onPress: () => setActionsVisible(false), variant: 'outline' },
+            { label: 'Confirm', onPress: () => setActionsVisible(false), variant: 'primary' },
+          ]}
+        />
       </VStack>
     </Card>
   );
