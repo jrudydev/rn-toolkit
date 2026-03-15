@@ -15,6 +15,10 @@ import {
   Tag,
   Timer,
   Tabs,
+  TabView,
+  TabPanel,
+  Accordion,
+  AccordionItem,
   Modal,
   AppHeader,
   AppFooter,
@@ -340,6 +344,12 @@ function HomeScreen({ themeVariant, onThemeVariantChange }: HomeScreenProps) {
 
                 {/* Modal Demo */}
                 <ModalDemo />
+
+                {/* TabView Demo */}
+                <TabViewDemo />
+
+                {/* Accordion Demo */}
+                <AccordionDemo />
               </VStack>
             )}
 
@@ -646,6 +656,62 @@ function ModalDemo() {
             { label: 'Confirm', onPress: () => setActionsVisible(false), variant: 'primary' },
           ]}
         />
+      </VStack>
+    </Card>
+  );
+}
+
+function TabViewDemo() {
+  return (
+    <Card variant="outlined">
+      <VStack spacing="sm">
+        <Text variant="label">TabView Component</Text>
+        <Text variant="caption">Tabs with content panels:</Text>
+        <TabView defaultTab="first" variant="pills">
+          <TabPanel id="first" label="First Tab">
+            <Card variant="filled">
+              <Text variant="body">Content for the first tab panel.</Text>
+            </Card>
+          </TabPanel>
+          <TabPanel id="second" label="Second Tab">
+            <Card variant="filled">
+              <Text variant="body">Content for the second tab panel.</Text>
+            </Card>
+          </TabPanel>
+          <TabPanel id="third" label="Third Tab">
+            <Card variant="filled">
+              <Text variant="body">Content for the third tab panel.</Text>
+            </Card>
+          </TabPanel>
+        </TabView>
+      </VStack>
+    </Card>
+  );
+}
+
+function AccordionDemo() {
+  return (
+    <Card variant="outlined">
+      <VStack spacing="sm">
+        <Text variant="label">Accordion Component</Text>
+        <Text variant="caption">Expandable sections (tap headers):</Text>
+        <Accordion defaultExpanded={['intro']} allowMultiple>
+          <AccordionItem id="intro" title="Introduction">
+            <Text variant="body">
+              This is the introduction section. It starts expanded by default.
+            </Text>
+          </AccordionItem>
+          <AccordionItem id="details" title="Details">
+            <Text variant="body">
+              Here are more details. Multiple sections can be open at once.
+            </Text>
+          </AccordionItem>
+          <AccordionItem id="summary" title="Summary">
+            <Text variant="body">
+              This is the summary section with concluding information.
+            </Text>
+          </AccordionItem>
+        </Accordion>
       </VStack>
     </Card>
   );

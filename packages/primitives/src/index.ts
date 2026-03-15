@@ -74,6 +74,14 @@ export type { TimerProps, TimerState } from './Timer';
 export { Tabs } from './Tabs';
 export type { TabsProps, TabOption, TabsSize, TabsVariant } from './Tabs';
 
+// TabView
+export { TabView, TabPanel } from './TabView';
+export type { TabViewProps, TabPanelProps, TabViewVariant, TabViewSize } from './TabView';
+
+// Accordion
+export { Accordion, AccordionItem } from './Accordion';
+export type { AccordionProps, AccordionItemProps } from './Accordion';
+
 // MarkdownViewer
 export { MarkdownViewer } from './MarkdownViewer';
 export type { MarkdownViewerProps } from './MarkdownViewer';
