@@ -37,6 +37,22 @@
 
 ---
 
+## Why Use This?
+
+| Metric | With Packages | Native Only |
+|--------|--------------|-------------|
+| **Lines of Code** | ~170 | ~300 |
+| **Time to Build** | 90 min | 120 min |
+| **Boilerplate** | ✅ Abstracted | ❌ Manual |
+| **Theme Support** | ✅ Built-in | ❌ Build yourself |
+| **Testing Utils** | ✅ Included | ❌ Write from scratch |
+
+**2× less code** — Focus on features, not boilerplate. Our packages handle theming, accessibility, and common patterns so you ship faster.
+
+> 💡 **Try it yourself:** [Challenge Hub](https://astacinco.com/hub) lets you build the same feature with and without packages to see the difference.
+
+---
+
 ## Architecture Overview
 
 ```
