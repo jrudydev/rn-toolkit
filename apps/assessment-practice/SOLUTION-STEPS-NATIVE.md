@@ -711,9 +711,11 @@ const [urlError, setUrlError] = useState('');
 
 Update inputs:
 ```tsx
-<Input value={title} onChangeText={setTitle} placeholder="Link Title" label="Title" error={titleError} />
-<Input value={url} onChangeText={setUrl} placeholder="Link URL" label="URL" error={urlError} />
+<Input value={title} onChangeText={setTitle} placeholder="Link Title" label="Title" error={titleError || undefined} />
+<Input value={url} onChangeText={setUrl} placeholder="Link URL" label="URL" error={urlError || undefined} />
 ```
+
+**Note:** Use `|| undefined` to avoid passing empty string, which causes "text node cannot be a child of View" error.
 
 **Test:** No visible change yet
 

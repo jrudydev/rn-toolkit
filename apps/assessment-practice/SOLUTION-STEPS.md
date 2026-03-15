@@ -482,16 +482,18 @@ const [urlError, setUrlError] = useState('');
   onChangeText={setTitle}
   placeholder={t('links.linkTitle')}
   label={t('links.linkTitle')}
-  error={titleError}
+  error={titleError || undefined}
 />
 <Input
   value={url}
   onChangeText={setUrl}
   placeholder={t('links.linkUrl')}
   label={t('links.linkUrl')}
-  error={urlError}
+  error={urlError || undefined}
 />
 ```
+
+**Note:** Use `|| undefined` to avoid passing empty string, which causes "text node cannot be a child of View" error.
 
 **Test:** No visible change yet (validation logic comes next)
 
