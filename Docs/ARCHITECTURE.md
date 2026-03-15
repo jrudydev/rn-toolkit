@@ -146,8 +146,54 @@ import { FirebaseAuthAdapter } from '@astacinco/rn-auth/firebase';
 
 | Package | Description | Status |
 |---------|-------------|--------|
-| `@astacinco/rn-orchestration` | Wizards, Coach Tips, Interstitials | 📋 Planned |
-| `@astacinco/rn-links` | URL shortening, QR codes | 📋 Planned |
+| `@astacinco/rn-orchestration` | Unified Route Model (screens, modals, flows, interstitials) | 📋 Planned |
+| `@astacinco/rn-links` | URL shortening (adapter pattern), QR codes, Clipboard | 📋 Planned |
+
+---
+
+### 9️⃣ Unified Route Model (PayPal-Inspired)
+
+**Key Insight:** Everything is a route! Screens, modals, wizards, interstitials - they're all just routes with different presentations.
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    UNIFIED ROUTE MODEL                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   myapp://home           → Route { presentation: 'screen' }     │
+│   myapp://profile/123    → Route { presentation: 'screen' }     │
+│   myapp://onboarding     → Route { presentation: 'wizard' }     │
+│   myapp://promo/upgrade  → Route { presentation: 'interstitial'}│
+│   myapp://tour/search    → Route { presentation: 'tooltip' }    │
+│                                                                 │
+│   ONE system. Routes are self-contained.                        │
+│   They know HOW to present, WHEN to show, and their PRIORITY.   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+```typescript
+const routes = [
+  { id: 'home', path: '/', presentation: 'screen', component: Home },
+  { id: 'onboarding', path: '/onboarding', presentation: 'wizard', priority: 5, steps: [...] },
+  { id: 'upgrade', path: '/promo/upgrade', presentation: 'interstitial', priority: 10 },
+];
+
+<RouteProvider routes={routes}>
+  <App />
+</RouteProvider>
+```
+
+**Presentation Types:**
+| Presentation | Description |
+|--------------|-------------|
+| `'screen'` | Full page navigation |
+| `'modal'` | Dismissable overlay |
+| `'tooltip'` | Floating bubble (CoachTip) |
+| `'wizard'` | Panel + markers (Linktree) |
+| `'spotlight'` | Dim + highlight |
+| `'interstitial'` | Blocking modal |
+| `'fullscreen'` | Critical takeover |
 
 ---
 
