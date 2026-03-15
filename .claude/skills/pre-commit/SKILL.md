@@ -138,6 +138,49 @@ git add $(git diff --name-only | grep -v 'package-lock.json')
 git reset HEAD -- node_modules/
 ```
 
+## 8. 📦 Component Packaging Check (CRITICAL)
+
+**PRINCIPLE**: All apps must be composed of packaged components only.
+
+```bash
+# Check if apps are importing from packages (good) vs creating local components (potential issue)
+grep -r "from '\.\./\.\./components" apps/*/src 2>/dev/null
+grep -r "from '\./components" apps/*/src/screens 2>/dev/null
+```
+
+**Rules:**
+- Apps in `apps/` should import UI from `@astacinco/rn-*` packages
+- Apps should NOT recreate components that exist in packages
+- If a new component is needed, add it to the appropriate package FIRST
+
+**Allowed local components in apps:**
+- App-specific business logic components
+- Screen-level compositions using packaged primitives
+- NOT: Generic UI components (buttons, cards, modals, inputs, etc.)
+
+- [ ] No duplicate UI components in apps that exist in packages
+- [ ] All generic UI imports from `@astacinco/rn-primitives`
+- [ ] All theming imports from `@astacinco/rn-theming`
+
+## 9. 🎨 Showcase Coverage Check
+
+When new components are added to packages, they must be demoed in showcase apps.
+
+```bash
+# List primitives exports
+grep "^export" packages/primitives/src/index.ts
+
+# Check what's demoed in showcase
+grep "import.*from '@astacinco/rn-primitives'" apps/showcase/App.tsx
+```
+
+**Rules:**
+- `packages/primitives/src/` components → demo in `apps/showcase/App.tsx`
+- Showcases must use the actual packaged components (validates they work)
+
+- [ ] New package components have showcase demos
+- [ ] Showcase demos use actual imports from packages
+
 ## Checklist Summary
 
 - [ ] No leftover changes from previous sessions
@@ -146,4 +189,6 @@ git reset HEAD -- node_modules/
 - [ ] Tests: PASS
 - [ ] No console.logs
 - [ ] Related files staged together
+- [ ] Apps use packaged components only
+- [ ] New components have showcase demos
 - [ ] Commit message follows format
