@@ -18,7 +18,78 @@ Creates a new themed UI component in `@astacinco/rn-primitives` with:
 /new-component <ComponentName>
 ```
 
-Example: `/new-component Avatar`
+Example: `/new-component Accordion`
+
+---
+
+## ⚠️ CRITICAL RULES
+
+### 1. Fully Themable
+- ALL colors must come from `useTheme()` → `colors.*`
+- ALL spacing must come from `useTheme()` → `spacing.*`
+- NO hardcoded color values (`#fff`, `rgb(...)`, etc.)
+- NO hardcoded spacing values (`16`, `24`, etc.)
+
+### 2. Composed of Packaged Primitives ONLY
+- ✅ Use `Text`, `Button`, `Card`, `VStack`, `HStack`, `Container`, etc.
+- ❌ NO raw React Native components (`View`, `Text`, `Pressable`)
+- **Exception:** Only use raw RN if absolutely necessary AND discussed first
+
+```tsx
+// ✅ CORRECT
+import { Text, Card, VStack, HStack, Button } from '@astacinco/rn-primitives';
+
+function NewComponent() {
+  return (
+    <Card variant="elevated">
+      <VStack spacing="md">
+        <Text variant="title">Title</Text>
+        <Button label="Action" onPress={handlePress} />
+      </VStack>
+    </Card>
+  );
+}
+
+// ❌ WRONG - uses raw React Native
+import { View, Text, TouchableOpacity } from 'react-native';
+
+function NewComponent() {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.title}>Title</Text>
+    </View>
+  );
+}
+```
+
+### 3. StyleSheet for Layout ONLY
+Use `StyleSheet` only for:
+- `flex`, `flexDirection`, `alignItems`, `justifyContent`
+- `position`, `top`, `left`, `right`, `bottom`
+- `width`, `height`, `minWidth`, `maxWidth` (percentage or flex-based)
+- `borderRadius` (using theme values when possible)
+
+```tsx
+// ✅ Layout-only styles
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+});
+
+// ❌ Theme values in StyleSheet
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',     // ❌ Should be colors.surface
+    padding: 16,                  // ❌ Should be spacing.md
+    color: '#333',                // ❌ Should be colors.text
+  },
+});
+```
+
+---
 
 ## Files Created
 
@@ -37,58 +108,57 @@ packages/primitives/__tests__/
 ```typescript
 // packages/primitives/src/<ComponentName>/<ComponentName>.tsx
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useTheme } from '@astacinco/rn-theming';
+import { Card, VStack, Text } from '../';  // Import from sibling primitives
 import type { <ComponentName>Props } from './types';
 
 export function <ComponentName>({
   children,
   variant = 'default',
-  style,
   testID,
   ...props
 }: <ComponentName>Props) {
   const { colors, spacing } = useTheme();
 
   return (
-    <View
+    <Card
       testID={testID}
-      style={[
-        styles.container,
-        {
-          backgroundColor: colors.surface,
-          padding: spacing.md,
-        },
-        style,
-      ]}
+      variant={variant === 'outlined' ? 'outlined' : 'elevated'}
       {...props}
     >
-      {children}
-    </View>
+      <VStack spacing="md">
+        {children}
+      </VStack>
+    </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 8,
-  },
-});
 ```
 
 ## Types Template
 
 ```typescript
 // packages/primitives/src/<ComponentName>/types.ts
-import type { ViewProps } from 'react-native';
+import type { ViewStyle, StyleProp } from 'react-native';
 
 export type <ComponentName>Variant = 'default' | 'outlined' | 'filled';
 
-export interface <ComponentName>Props extends ViewProps {
+export interface <ComponentName>Props {
+  /**
+   * Child content
+   */
+  children?: React.ReactNode;
+
   /**
    * Visual variant of the component
    * @default 'default'
    */
   variant?: <ComponentName>Variant;
+
+  /**
+   * Custom container style (layout only)
+   */
+  style?: StyleProp<ViewStyle>;
 
   /**
    * Test ID for testing
@@ -102,10 +172,10 @@ export interface <ComponentName>Props extends ViewProps {
 ```typescript
 // packages/primitives/__tests__/<ComponentName>.test.tsx
 import React from 'react';
-import { Text } from 'react-native';
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '@astacinco/rn-theming';
 import { <ComponentName> } from '../src/<ComponentName>';
+import { Text } from '../src/Text';
 
 const renderWithTheme = (component: React.ReactElement, mode: 'light' | 'dark' = 'light') => {
   return render(
@@ -116,7 +186,7 @@ const renderWithTheme = (component: React.ReactElement, mode: 'light' | 'dark' =
 };
 
 describe('<ComponentName>', () => {
-  it('renders_correctly_inLightMode', () => {
+  it('renders correctly in light mode', () => {
     const { getByTestId } = renderWithTheme(
       <<ComponentName> testID="component">
         <Text>Content</Text>
@@ -126,7 +196,7 @@ describe('<ComponentName>', () => {
     expect(getByTestId('component')).toBeTruthy();
   });
 
-  it('renders_correctly_inDarkMode', () => {
+  it('renders correctly in dark mode', () => {
     const { getByTestId } = renderWithTheme(
       <<ComponentName> testID="component">
         <Text>Content</Text>
@@ -137,7 +207,7 @@ describe('<ComponentName>', () => {
     expect(getByTestId('component')).toBeTruthy();
   });
 
-  it('matches_lightTheme_snapshot', () => {
+  it('matches light theme snapshot', () => {
     const { toJSON } = renderWithTheme(
       <<ComponentName>>
         <Text>Content</Text>
@@ -147,7 +217,7 @@ describe('<ComponentName>', () => {
     expect(toJSON()).toMatchSnapshot();
   });
 
-  it('matches_darkTheme_snapshot', () => {
+  it('matches dark theme snapshot', () => {
     const { toJSON } = renderWithTheme(
       <<ComponentName>>
         <Text>Content</Text>
@@ -168,6 +238,16 @@ export { <ComponentName> } from './<ComponentName>';
 export type { <ComponentName>Props, <ComponentName>Variant } from './types';
 ```
 
+## Don't Forget
+
+After creating the component, add export to `packages/primitives/src/index.ts`:
+
+```typescript
+// Add to index.ts
+export { <ComponentName> } from './<ComponentName>';
+export type { <ComponentName>Props, <ComponentName>Variant } from './<ComponentName>';
+```
+
 ## SDUI Registration (if @astacinco/rn-sdui exists)
 
 Add to `packages/sdui/src/ComponentRegistry.ts`:
@@ -178,13 +258,16 @@ import { <ComponentName> } from '@astacinco/rn-primitives';
 registry.register('<componentName>', <ComponentName>);
 ```
 
+---
+
 ## Checklist
 
 After creating the component:
 
-- [ ] Component uses `useTheme()` for colors/spacing
-- [ ] Types are properly exported
-- [ ] Tests cover light and dark modes
-- [ ] Snapshots generated for both themes
-- [ ] Component exported from primitives index
-- [ ] (Optional) Registered in SDUI ComponentRegistry
+- [ ] **Themable:** Uses `useTheme()` for ALL colors and spacing
+- [ ] **Composed:** Built with packaged primitives only (no raw RN)
+- [ ] **Types:** Properly exported with JSDoc comments
+- [ ] **Tests:** Cover light and dark modes
+- [ ] **Snapshots:** Generated for both themes
+- [ ] **Exported:** Added to primitives index.ts
+- [ ] **SDUI:** (Optional) Registered in SDUI ComponentRegistry
