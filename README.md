@@ -267,72 +267,6 @@ const routes = [
 
 ---
 
-## CHALLENGE HUB - ASSESSMENT PRACTICE
-
-```
-╔════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                ║
-║   🏆 PRACTICE FOR CODESIGNAL-STYLE ASSESSMENTS                                 ║
-║                                                                                ║
-║   ┌────────────────────────────────────────────────────────────────────────┐   ║
-║   │                                                                        │   ║
-║   │   📋 FULL ASSESSMENTS (60-90 min timed challenges)                     │   ║
-║   │   • Link Management Screen (Linktree-aligned)                     ✅   │   ║
-║   │                                                                        │   ║
-║   │   🧩 GENERIC CHALLENGES (10-60 min reusable features)                  │   ║
-║   │   ├── 🔍 Debounced Search (15 min, Easy)                          ✅   │   ║
-║   │   ├── 🌓 Dark Mode Toggle (10 min, Easy)                          ✅   │   ║
-║   │   ├── ✅ Form Validation (15 min, Easy)                           ✅   │   ║
-║   │   ├── ⏳ Loading States (10 min, Easy)                            ✅   │   ║
-║   │   ├── 📭 Empty States (10 min, Easy)                              ✅   │   ║
-║   │   ├── ⚙️ Settings Screen (45 min, Easy)                           ✅   │   ║
-║   │   ├── 🔐 Login Form (45 min, Medium)                              ✅   │   ║
-║   │   ├── 📊 Analytics Dashboard (60 min, Hard)                       ✅   │   ║
-║   │   ├── ✂️ Link Shortener (20 min, Medium)                          📋   │   ║
-║   │   └── 🧙 Onboarding Wizard (45 min, Hard)                         📋   │   ║
-║   │                                                                        │   ║
-║   └────────────────────────────────────────────────────────────────────────┘   ║
-║                                                                                ║
-║   💡 Try it: https://astacinco.com/hub                                         ║
-║                                                                                ║
-╚════════════════════════════════════════════════════════════════════════════════╝
-```
-
----
-
-## THE INTERVIEW ADVANTAGE
-
-```
-╔════════════════════════════════════════════════════════════════════════╗
-║                                                                        ║
-║   WITHOUT THIS TOOLKIT              WITH THIS TOOLKIT                  ║
-║   ══════════════════════            ═══════════════════                ║
-║                                                                        ║
-║   😰 "Let me set up theming..."     😎 import { ThemeProvider }        ║
-║   😰 "Dark mode? Um..."             😎 mode="auto" (done!)             ║
-║   😰 "Let me build a button..."     😎 <Button variant="primary" />    ║
-║   😰 "Tests for both themes?!"      😎 createThemeSnapshot(<Comp />)   ║
-║   😰 "Navigation from scratch..."   😎 <SmartTabBar routes={...} />    ║
-║   😰 "SDUI? What's that?"           😎 <SDUIRenderer schema={json} />  ║
-║   😰 "Secure storage? Uh..."        😎 SecureStorage.set('token', x)   ║
-║   😰 "Auth system?!"                😎 <AuthProvider adapter={...} />  ║
-║   😰 "Firebase lock-in?"            😎 adapter={new Auth0Adapter()}    ║
-║                                                                        ║
-║   ┌────────────────────────────────────────────────────────────────┐   ║
-║   │                                                                │   ║
-║   │   ⏱️  TIME SAVED:  ~60 minutes of boilerplate                  │   ║
-║   │   🎯  FOCUS ON:    Product logic & business requirements       │   ║
-║   │   💅  BONUS:       Professional architecture out of the box    │   ║
-║   │   🔐  SECURITY:    Enterprise-grade patterns built-in          │   ║
-║   │   🔄  ADAPTERS:    Zero vendor lock-in!                        │   ║
-║   │                                                                │   ║
-║   └────────────────────────────────────────────────────────────────┘   ║
-║                                                                        ║
-╚════════════════════════════════════════════════════════════════════════╝
-```
-
----
-
 ## CLAUDE SKILLS (AUTOMATION)
 
 ```
@@ -382,29 +316,7 @@ Premium packages available via [Patreon](https://patreon.com/SparkLabs343).
 
 <div align="center">
 
-## YOU'VE GOT THIS!
-
-```
-     ██╗   ██╗ ██████╗ ██╗   ██╗██████╗ ███████╗
-     ╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗██╔════╝
-      ╚████╔╝ ██║   ██║██║   ██║██████╔╝█████╗
-       ╚██╔╝  ██║   ██║██║   ██║██╔══██╗██╔══╝
-        ██║   ╚██████╔╝╚██████╔╝██║  ██║███████╗
-        ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚══════╝
-
-    ██████╗ ███████╗ █████╗ ██████╗ ██╗   ██╗██╗
-    ██╔══██╗██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝██║
-    ██████╔╝█████╗  ███████║██║  ██║ ╚████╔╝ ██║
-    ██╔══██╗██╔══╝  ██╔══██║██║  ██║  ╚██╔╝  ╚═╝
-    ██║  ██║███████╗██║  ██║██████╔╝   ██║   ██╗
-    ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝
-```
-
-### 500+ Tests | 19 Snapshots | 12 Packages Built | 6 With Adapters | ZERO Vendor Lock-In!
-
-**Go crush that interview!**
-
-*Built with love at [Spark Labs](https://patreon.com/SparkLabs343)*
+### 500+ Tests | 6 FREE Packages | Adapter Pattern | ZERO Vendor Lock-In
 
 [Patreon](https://patreon.com/SparkLabs343) | [GitHub](https://github.com/jrudydev)
 

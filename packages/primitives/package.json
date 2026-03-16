@@ -1,6 +1,6 @@
 {
   "name": "@astacinco/rn-primitives",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Theme-aware UI primitives for React Native",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@astacinco/rn-testing": "*",
-    "@testing-library/react-native": "^12.4.3",
+    "@testing-library/react-native": "^13.3.3",
     "@types/react": "~19.1.0",
     "react-test-renderer": "19.1.0",
     "typescript": "^5.3.3"

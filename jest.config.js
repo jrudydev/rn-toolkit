@@ -1,6 +1,5 @@
 module.exports = {
   preset: 'react-native',
-  testEnvironment: 'node',
   roots: ['<rootDir>/packages'],
   testMatch: ['**/__tests__/**/*.test.ts', '**/__tests__/**/*.test.tsx'],
   transform: {
@@ -8,15 +7,11 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@rn-toolkit/theming$': '<rootDir>/packages/theming/src',
-    '^@rn-toolkit/sdui$': '<rootDir>/packages/sdui/src',
-    '^@rn-toolkit/deeplink$': '<rootDir>/packages/deeplink/src',
-    '^@rn-toolkit/testing$': '<rootDir>/packages/testing/src',
-    '^@rn-toolkit/primitives$': '<rootDir>/packages/primitives/src',
-    '^@rn-toolkit/auth$': '<rootDir>/packages/auth/src',
-    '^@rn-toolkit/notifications$': '<rootDir>/packages/notifications/src',
-    '^@rn-toolkit/analytics$': '<rootDir>/packages/analytics/src',
-    '^@rn-toolkit/i18n$': '<rootDir>/packages/i18n/src',
+    '^@astacinco/rn-theming$': '<rootDir>/packages/theming/src',
+    '^@astacinco/rn-primitives$': '<rootDir>/packages/primitives/src',
+    '^@astacinco/rn-testing$': '<rootDir>/packages/testing/src',
+    '^@astacinco/rn-i18n$': '<rootDir>/packages/i18n/src',
+    '^@astacinco/rn-performance$': '<rootDir>/packages/performance/src',
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.{ts,tsx}',
