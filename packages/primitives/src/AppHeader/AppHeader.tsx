@@ -17,6 +17,8 @@ import type { AppHeaderProps } from './types';
  * - Optional custom actions
  */
 export function AppHeader({
+  showBack = false,
+  onBack,
   title = 'SparkLabs',
   subtitle,
   showThemeToggle = true,
@@ -65,24 +67,43 @@ export function AppHeader({
       ]}
     >
       <HStack justify="space-between" align="center">
-        {/* Left: Title */}
-        <View style={styles.titleContainer}>
-          <Text
-            variant="subtitle"
-            style={[
-              styles.title,
-              glowStyle,
-              { color: glow && mode === 'dark' ? colors.primary : colors.text },
-            ]}
-          >
-            {title}
-          </Text>
-          {subtitle && (
-            <Text variant="caption" color={colors.textMuted}>
-              {subtitle}
-            </Text>
+        {/* Left: Back button + Title */}
+        <HStack spacing="sm" align="center">
+          {showBack && (
+            <Pressable
+              onPress={onBack}
+              style={({ pressed }) => [
+                styles.backButton,
+                {
+                  backgroundColor: pressed ? colors.backgroundSecondary : 'transparent',
+                },
+              ]}
+              accessibilityLabel="Go back"
+              accessibilityRole="button"
+            >
+              <Text variant="body" style={{ color: colors.primary }}>
+                ← Back
+              </Text>
+            </Pressable>
           )}
-        </View>
+          <View style={styles.titleContainer}>
+            <Text
+              variant="subtitle"
+              style={[
+                styles.title,
+                glowStyle,
+                { color: glow && mode === 'dark' ? colors.primary : colors.text },
+              ]}
+            >
+              {title}
+            </Text>
+            {subtitle && (
+              <Text variant="caption" color={colors.textMuted}>
+                {subtitle}
+              </Text>
+            )}
+          </View>
+        </HStack>
 
         {/* Right: Actions */}
         <HStack spacing="sm" align="center">
@@ -155,6 +176,11 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '700',
     letterSpacing: 1,
+  },
+  backButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderRadius: 6,
   },
   iconButton: {
     paddingHorizontal: 12,

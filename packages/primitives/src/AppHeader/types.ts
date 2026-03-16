@@ -5,6 +5,17 @@ export type ThemeVariant = 'default' | 'sparklabs';
 
 export interface AppHeaderProps {
   /**
+   * Show back button on the left
+   * @default false
+   */
+  showBack?: boolean;
+
+  /**
+   * Callback when back button is pressed
+   */
+  onBack?: () => void;
+
+  /**
    * App title displayed in the header
    * @default 'SparkLabs'
    */
